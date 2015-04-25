@@ -1,0 +1,97 @@
+@require '../wings.import.styl'
+tile-space = 0
+tile-size = 115px
+
+tile-group-space = 0
+tile-caption-padding = 5px
+tile-double-size = tile-size * 2 + tile-space
+
+.tile
+  cursor pointer
+  position relative; float left
+  height tile-size; width tile-size
+  margin 0 tile-space tile-space 0
+  background-color #eee
+
+  &.double
+    width tile-double-size
+  &.double-height
+    height tile-double-size
+  &.quatro
+    width  tile-double-size
+    height tile-double-size
+
+for size in (1..6)
+  .tile-group-{size}
+    float left
+    width (tile-size * size) + (tile-space * size)
+
+//tile-colors-----------------------------------------
+tile-background(color)
+  background-color color
+  &:hover
+    background-color darken(color, 5)
+
+.tile
+  for color in colors
+    &.{color[0]}
+      tile-background(color[1])
+      .tile-icon:before
+        color color[1]
+      if lightness(color[1]) > 80
+        color #333
+      else
+        color #fff
+//canvas------------------------------------------------
+.tile .canvas-wrapper
+  absolute right 0 bottom 0
+  width tile-size; height (tile-size / 2)
+  &.overlay
+    background-color rgba(255, 255, 255, 0.2)
+  &.dark-overlay
+    background-color rgba(0, 0, 0, 0.2)
+  &.small
+    height (tile-size / 4)
+    .canvas .caption
+      line-height (tile-size / 4)
+  &.full
+    height tile-size
+    .canvas .caption
+      line-height tile-size
+  .canvas
+    position relative
+    width 100%; height 100%
+    .caption
+      text-align center
+      font-weight bolder
+      line-height (tile-size / 2)
+    .quote
+      padding 0 8px
+      /*font-weight bolder*/
+      text-align right
+
+.tile.double .canvas-wrapper, .tile.quatro .canvas-wrapper
+  width tile-double-size !important
+
+//tile-icon------------------------------------------------
+
+.tile, .canvas
+  .tile-icon
+    absolute top 10px right 0
+    background-color #fff
+    padding 4px
+    border-radius  left 2px
+
+//tile-contents-----------------------------------------------------
+.tile
+  .tile-simple-icon
+    margin-top 10px
+    font-size 60px
+    text-align center
+  .tile-simple-caption
+    text-align center
+    font-size 20px
+  .tile-simple-description
+    text-align center
+    font-weight lighter
+    margin-top 5px

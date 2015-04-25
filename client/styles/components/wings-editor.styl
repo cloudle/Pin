@@ -1,0 +1,32 @@
+@require '../wings.import.styl'
+
+.wings-editor-wrapper
+  padding-bottom 37px
+  .wings-editor
+    cursor pointer
+  .commands
+    display none
+  &.active, &.save-remaining
+    padding-bottom 0
+    .commands
+      display inherit
+
+  .commands
+    margin-top 5px
+    border-top solid 1px #E4E4E4
+  &.save-remaining .button
+    background-color lime
+
+.wings-editor-pane
+  /*display none*/
+  line-height 38px
+  user-select none
+  font-size 14px
+  &.active
+    display inherit
+  .button
+    transition background-color 150ms
+    &.active, &:hover
+      background-color rgba(0, 0, 0, 0.1)
+  .button, span
+    user-select none

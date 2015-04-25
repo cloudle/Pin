@@ -1,0 +1,5 @@
+template(name="wingsEditor")
+  .wings-editor-wrapper(class="{{saveRemainingClass}} {{activeClass}}")
+    .wings-editor(class="{{class}}" placeholder="{{placeholder}}" contenteditable="true" name="editor") {{{fieldValue}}}
+    .commands.clearfix
+      .button.save lưu

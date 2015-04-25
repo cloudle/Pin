@@ -1,0 +1,5 @@
+template(name="wingsEditable")
+  .wings-editable(class="{{saveRemainingClass}} {{activeClass}}")
+    input(class="{{size}}" value="{{fieldValue}}" field="{{field}}")
+    if label
+      span.label {{label}}

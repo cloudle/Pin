@@ -1,0 +1,1 @@
+Template.registerHelper 'me', -> Meteor.user()
