@@ -1,4 +1,4 @@
-Wings.Api.Leaf =
+Model.Api.Leaf =
   insertParamType: (source, type) ->
     if !source.type then source.type = [type] else source.type.push type unless _(source.type).findWhere({name: type.name}) > 0
 
@@ -14,7 +14,7 @@ Wings.Api.Leaf =
 
   insertMembers: (leafId, methods) ->
     members = @splitTypes(methods) if typeof methods is 'string'
-    _(members).map (obj) -> obj.parent = leafId; obj.leafType = Wings.Enum.nodeTypes.property
+    _(members).map (obj) -> obj.parent = leafId; obj.leafType = Model.Api.nodeTypes.property
     Wings.IRUS.insert(Schema.ApiMachineLeaf, member, Wings.Validators.leafCreate) for member in members
 
   remove: (leafId) -> Schema.ApiMachineLeaf.remove(leafId)
@@ -35,22 +35,22 @@ Wings.Api.Leaf =
 
     results
 
-#Wings.Api.isValidMachineLeaf = (leafOjb) ->
+#Model.Api.isValidMachineLeaf = (leafOjb) ->
 #  if Match.test(leafOjb.name, String) and leafOjb.name.length < 1
 #    return { valid: false, message: "invalid leaf name!" }
 #  if Match.test(leafOjb.parentId, String) and leafOjb.parentId.length < 1
 #    return { valid: false, message: "invalid leaf parent!" }
 #  return { valid: true }
 #
-#Wings.Api.insertMachineLeaf = (name, nodeType, returnType, parentId) ->
+#Model.Api.insertMachineLeaf = (name, nodeType, returnType, parentId) ->
 #  newLeaf = {name: name}
 #  newLeaf.nodeType = nodeType if nodeType
 #  newLeaf.returnType = returnType if returnType
 #  newLeaf.parentId = parentId if parentId
 #
-#  validation = Wings.Api.isValidMachineLeaf(newLeaf)
+#  validation = Model.Api.isValidMachineLeaf(newLeaf)
 #  (console.log validation.message; return ) if !validation.valid
 #
 #  Schema.ApiMachineLeaf.insert(newLeaf)
 #
-#Wings.Api.insertLeafParam = (param) ->
+#Model.Api.insertLeafParam = (param) ->

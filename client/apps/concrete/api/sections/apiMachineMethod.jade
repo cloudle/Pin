@@ -4,7 +4,7 @@ template(name="apiMachineMethod")
       span.signature ({{paramCommas}})
       span.return-icon.icon-right-circle
       span.return-signature {void}
-      span.remove-command.icon-cancel-circled-4
+      span.remove-command.icon-cancel-circled
     .leaf-doc
       +wingsEditor(model=this collection=currentCollection field="content" placeholder="Ghi chú.." class="doc-editor")
     if params
@@ -17,7 +17,7 @@ template(name="apiMachineMethod")
           tr.param-row
             td.param-name
               span {{name}}
-              .remove-command.icon-cancel-circled-4
+              .remove-command.icon-cancel-circled
             td
               if type
                 each type

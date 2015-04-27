@@ -6,12 +6,12 @@ Wings.defineApp 'api',
     currentCollection: -> Schema.ApiNode
   #  insertingMember: -> scope.insertingMember.get()
   #  insertingMethod: -> scope.insertingMethod.get()
-  #  machineMethods: -> Schema.ApiMachineLeaf.find {parent: Session.get('currentApiNode')?._id, leafType: Wings.Enum.nodeTypes.method}
-  #  machineMembers: -> Schema.ApiMachineLeaf.find {parent: Session.get('currentApiNode')?._id, leafType: Wings.Enum.nodeTypes.property}
+  #  machineMethods: -> Schema.ApiMachineLeaf.find {parent: Session.get('currentApiNode')?._id, leafType: Model.Api.nodeTypes.method}
+  #  machineMembers: -> Schema.ApiMachineLeaf.find {parent: Session.get('currentApiNode')?._id, leafType: Model.Api.nodeTypes.property}
   events:
     "keyup [name='insertMemberInput']": (event, template) ->
       if event.which is 13
-        insertResults = Wings.Api.Leaf.insertMembers Session.get('currentApiNode')._id, template.ui.$insertMemberInput.val()
+        insertResults = Model.Api.Leaf.insertMembers Session.get('currentApiNode')._id, template.ui.$insertMemberInput.val()
         for result in insertResults
           if result.valid
             template.ui.$insertMemberInput.val('')
@@ -25,7 +25,7 @@ Wings.defineApp 'api',
         model =
           name: template.ui.$insertMethodInput.val()
           parent: Session.get('currentApiNode')._id
-          leafType: Wings.Enum.nodeTypes.method
+          leafType: Model.Api.nodeTypes.method
         insertResult = Wings.IRUS.insert(Schema.ApiMachineLeaf, model, Wings.Validators.leafCreate)
         if insertResult.valid
           template.ui.$insertMethodInput.val('')
@@ -34,7 +34,7 @@ Wings.defineApp 'api',
       else if event.which is 27
         template.ui.$insertMethodInput.blur()
 
-    "click .leaf-detail .remove-command": -> Wings.Api.Leaf.remove(@_id)
+    "click .leaf-detail .remove-command": -> Model.Api.Leaf.remove(@_id)
     "click .wings-insert.member": (event, template)->
       template.ui.$insertMemberWrapper.removeClass('hide')
       template.ui.$insertMemberCommand.addClass('hide')

@@ -1,3 +1,9 @@
 template(name="home")
   .dual-layout#home
-    h1 this is home!
+    .detail-wrapper: .dual-detail
+      .kernel-addon(style="position: relative; z-index: 2")
+        +sidebar
+      .kernel-wrapper(style="position: relative; z-index: 1"): .kernel-detail
+        +kernel
+    .dual-addon
+      +channel

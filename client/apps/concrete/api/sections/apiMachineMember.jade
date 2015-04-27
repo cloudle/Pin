@@ -7,7 +7,7 @@ template(name="apiMachineMember")
           span {{brackets type.name}}
         else
           span {void}
-      span.remove-command.icon-cancel-circled-4
+      span.remove-command.icon-cancel-circled
     .leaf-doc
       //.doc-editor.wings-editor(field="description" contenteditable="true" placeholder="Ghi chú...")
       +wingsEditor(model=this collection=currentCollection field="description" placeholder="Ghi chú.." class="doc-editor")

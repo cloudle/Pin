@@ -7,14 +7,16 @@
     color #ab9ba9
     .channel-wrapper
       margin-top 20px
-      font-size 16px
+      font-size 15px
+      font-family open-sans
+      word-spacing -1px
       ul
         padding-left 0
         list-style none
         .channel-item
           cursor pointer
           padding-left 15px; line-height 25px
-          width (left-pane-size - 20)
+          width (left-pane-size - 15)
           border-radius right 4px
           &:hover
             color #fff
@@ -22,8 +24,21 @@
           &.active
             background-color #4c9689
             color #fff
+          &:before
+            font-size 12px
+            vertical-align middle
+            line-height 13px
+
         .header
+          position relative
           padding 5px 0 0 15px
+          font-weight 600
+          .create-channel
+            absolute top 2px right 12px
+            font-size 18px
+            cursor pointer
+            &:hover {color: #fff;}
+
         .channel-item.direct
           .online-status
             display inline-block

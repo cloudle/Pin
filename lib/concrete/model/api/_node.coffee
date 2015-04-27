@@ -1,11 +1,11 @@
-Wings.Api = {}
+Model.Api = {}
 
-Wings.Enum.nodeTypes =
+Model.Api.nodeTypes =
   property: 1
   method  : 2
   example : 3
 
-Wings.Api.isValidNode = (nodeObj) ->
+Model.Api.isValidNode = (nodeObj) ->
   if Match.test(nodeObj.name, String) and nodeObj.name.length < 1
     return { valid: false, message: "invalid node name!" }
 
@@ -14,11 +14,11 @@ Wings.Api.isValidNode = (nodeObj) ->
 
   return { valid: true }
 
-Wings.Api.insertNode = (name, parentId) ->
+Model.Api.insertNode = (name, parentId) ->
   newChild = {name: name}
   newChild.parent = parentId if parentId
 
-  validation = Wings.Api.isValidNode(newChild)
+  validation = Model.Api.isValidNode(newChild)
   if !validation.valid
     console.log validation.message
     return
@@ -26,4 +26,4 @@ Wings.Api.insertNode = (name, parentId) ->
   childId = Schema.ApiNode.insert(newChild)
   Schema.ApiNode.update(parentId, {$push: {childNodes: childId}}) if parentId
 
-Wings.Api.removeNode = (nodeId) -> Schema.ApiNode.remove(nodeId)
+Model.Api.removeNode = (nodeId) -> Schema.ApiNode.remove(nodeId)

@@ -1,0 +1,30 @@
+template(name="channel")
+  .channel-wrapper
+    ul.starred
+      li.header.icon-star-1
+        span QUAN TRỌNG
+    ul.channels
+      li.header
+        span KÊNH TRÒ CHUYỆN
+        .create-channel.icon-plus
+      each channels
+        li.channel-item.public.icon-hash(class="{{isActiveChannel}}") {{name}}
+    ul.direct-message
+      li.header
+        span TRỰC TIẾP
+        .create-channel.icon-plus
+      li.channel-item.direct
+        span.online-status
+        span cloudle
+      li.channel-item.direct
+        span.online-status
+        span locnguyen
+      li.channel-item.direct
+        span.online-status
+        span kynguyen
+    ul.private-group
+      li.header
+        span NHÓM TRÒ CHUYỆN
+        .create-channel.icon-plus
+      each groups
+        li.channel-item.private.icon-hash(class="{{isActiveChannel}}") {{name}}

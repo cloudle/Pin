@@ -12,16 +12,16 @@ Wings.defineWidget 'apiNodeTree',
       event.stopPropagation()
     "click .remove-node": (event, template) ->
       smartEmptyCurrentSelection(@) if Session.get("currentApiNode")
-      Wings.Api.removeNode(@_id)
+      Model.Api.removeNode(@_id)
 
     "keyup input[name='apiFilter']": (event, template) ->
       if event.which is 13
         $target = $(event.currentTarget)
         if (!Session.get("currentApiNode") || event.shiftKey)
-          Wings.Api.insertNode($target.val())
+          Model.Api.insertNode($target.val())
           $target.val('')
         else
-          Wings.Api.insertNode($target.val(), Session.get("currentApiNode")._id)
+          Model.Api.insertNode($target.val(), Session.get("currentApiNode")._id)
           $target.val('')
 
 #----------------------------------------------

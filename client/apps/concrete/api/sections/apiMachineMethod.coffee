@@ -10,7 +10,7 @@ Wings.defineHyper 'apiMachineMethod',
         paramString = template.ui.$insertParamInput.val()
         return if paramString.trim() is ''
 
-        Wings.Api.Leaf.insertParams(@_id, paramString)
+        Model.Api.Leaf.insertParams(@_id, paramString)
         template.ui.$insertParamInput.val('')
       else if event.which is 27
         template.ui.$insertParamInput.blur()
@@ -25,4 +25,4 @@ Wings.defineHyper 'apiMachineMethod',
       template.ui.$insertParamCommand.removeClass('hide')
 
     "click .remove-command": ->
-      Wings.Api.Leaf.removeParam(Template.parentData()._id, @name)
+      Model.Api.Leaf.removeParam(Template.parentData()._id, @name)
