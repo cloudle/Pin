@@ -1,18 +1,15 @@
-currentMessages = Schema.Message.find({parent: Session.get("currentChannel")?._id}, {sort: {createAt: 1}})
-
 Wings.defineWidget 'kernel',
   helpers:
-    messages: currentMessages
     messageCreator: -> Meteor.users.findOne(@creator)
 
-  created: ->
-    timeStamp = new Date()
-    @incomingObserver = currentMessages.observeChanges
-      added: (id, instance) ->
-        createjs.Sound.play("incomeMessage") if instance.createAt > timeStamp
-        console.log 'ping..'
-  destroyed: ->
-    @incomingObserver.stop()
+#  created: ->
+#    timeStamp = new Date()
+#    @incomingObserver = currentMessages.observeChanges
+#      added: (id, instance) ->
+#        createjs.Sound.play("incomeMessage") if instance.createAt > timeStamp
+#        console.log 'ping..'
+#  destroyed: ->
+#    @incomingObserver.stop()
 
   events:
     "keyup .messenger-input": (event, template) ->

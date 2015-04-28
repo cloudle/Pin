@@ -1,6 +1,6 @@
 template(name="home")
   .dual-layout#home
-    .detail-wrapper: .dual-detail
+    .detail-wrapper: .dual-detail(class="{{kernelCollapseClass}}")
       .kernel-addon(style="position: relative; z-index: 2")
         +sidebar
       .kernel-wrapper(style="position: relative; z-index: 1"): .kernel-detail

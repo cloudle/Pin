@@ -1,0 +1,12 @@
+template(name="message")
+	if separator
+		.message.separator
+			.avatar(style="background-image:url('{{avatarImg}}')")
+			.message-meta
+				span.owner-alias {{messageCreator.profile.name}}
+				span.time-stamp {{normalHour createAt}}
+			.content {{message}}
+	else
+		.message.attached
+			.time-stamp {{shortHour createAt}}
+			.content {{message}}

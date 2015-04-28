@@ -10,3 +10,6 @@ Template.registerHelper 'renderNodeChilds', -> @parent != undefined or (!Session
 Template.registerHelper 'machineMethods', -> Schema.ApiMachineLeaf.find {parent: Session.get('currentApiNode')?._id, leafType: Model.Api.nodeTypes.method}
 Template.registerHelper 'machineMembers', -> Schema.ApiMachineLeaf.find {parent: Session.get('currentApiNode')?._id, leafType: Model.Api.nodeTypes.property}
 Template.registerHelper 'brackets', (source) -> "{#{source}}"
+
+Template.registerHelper 'normalHour', (source) -> moment(source).format('h:mm a')
+Template.registerHelper 'shortHour', (source) -> moment(source).format('h:mm')

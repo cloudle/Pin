@@ -8,11 +8,11 @@
     .channel-wrapper
       margin-top 20px
       font-size 15px
-      font-family open-sans
       word-spacing -1px
       ul
         padding-left 0
         list-style none
+        user-select none
         .channel-item
           cursor pointer
           padding-left 15px; line-height 25px
@@ -46,6 +46,7 @@
             border-radius 50%
             background-color teal
             margin 0 2px 0 6px
+
   .dual-detail
     .kernel-addon
       position relative; z-index 2
@@ -77,6 +78,7 @@
   .channel-messages .message
     position relative
     padding 0 40px 0 50px
+    font-weight 600
     .avatar
       absolute left 0 top 0
       width 40px; height 40px
@@ -89,8 +91,25 @@
         color #999; font-size 12px
     .content
       line-height 22px
-      padding-top 4px
+      padding-top 2px
+    &.attached
+      position relative
+      .time-stamp
+        display none
+        absolute left -2px top 5px
+        font-size 12px; color #999
+        width 44px; text-align right
+      &:hover .time-stamp
+        display block
     &.separator
       margin-top 10px
       .content
         padding-top 0
+
+.dual-layout#home .dual-detail.expand
+  .kernel-detail
+    margin-right 0
+  .kernel-addon
+    margin-right -(sidebar-size)
+  .kernel-footer
+    right 0
