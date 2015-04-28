@@ -9,7 +9,8 @@ Router.route '/messages/:slug?/:side?',
   data: ->
     channel = findChannel(@params)
     Session.set "currentChannel", channel.instance
-    Session.set "kernelAddonVisible", !!@params.side
+#    Session.set "kernelAddonVisible", !!@params.side
+    Session.set "kernelAddonVisible", channel.isDirect
 
     predicate = if channel.isDirect then {} else {parent: channel.instance?._id}
     messages: Schema.Message.find(predicate, {sort: {createAt: 1}})
