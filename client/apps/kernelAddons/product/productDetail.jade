@@ -1,0 +1,28 @@
+template(name="productDetail")
+  input.hide.product-image-input(type="file")
+  .section.avatar
+    .avatar-wrapper: .avatar-image.product-image(class="{{missingImageClass instance.image}}" style="background-image:url('{{productImageSrc instance.image}}')"
+      wings-tip="ảnh đại diện sản phẩm") {{avatarLetter instance.name}}
+      .clear.icon-close-circle
+    .headers
+      +wingsEditable(model=instance field="name" style="heading" label="tên sản phẩm" placeholder="Nhập tên sản phẩm")
+
+  .section
+    +wingsEditor(style="s5" placeholder="Mô tả sản phẩm...")
+
+  .section
+    .region
+      .title
+        span Mua bán
+        span.sub-title (giá bán và chính sách giá)
+      .dual-field
+        +regionInput(wrapperClass="salePrice" prefix="VNĐ" type="number" label="giá bán" value=instance.price)
+        +regionInput(wrapperClass="importPrice" prefix="VNĐ" type="number" label="giá nhập tham khảo" value=instance.importPrice)
+      .commands-wrapper
+        .commands
+          .command.save-price.icon-ok-circled2 lưu
+
+    .region
+      .title
+        .main Chủng loại <br/>
+        .sub-title sản phẩm này có nhiều dạng khác nhau, như là kích cỡ hay màu sắc?

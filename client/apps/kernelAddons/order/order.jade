@@ -1,0 +1,11 @@
+template(name="order")
+  if zeroState
+    +orderEmpty
+  else
+    .header This is order manager {{this}}
+
+template(name="orderEmpty")
+  .zero-state
+    .header Đơn hàng được thể hiện tại đây
+    img.cover-icon(src="/images/svg/orders-empty-state.svg")
+    a.peter-river.button.create-command Tạo đơn hàng

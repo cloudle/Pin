@@ -12,6 +12,7 @@ Package.onUse(function(api) {
     //'font/wings.svg',
     //'font/wings.ttf',
     //'font/wings.woff',
+    'css/animation.css',
     'css/wings-embedded.css'
     //'wings.overrides.css'
     ], 'client');

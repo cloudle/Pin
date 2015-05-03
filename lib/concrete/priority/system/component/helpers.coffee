@@ -12,9 +12,9 @@ Module 'Wings.Component',
 
   autoBinding: (context) ->
     context.ui = context.ui ? {}
-    @bindingElements(context)
+    @bindingJQuery(context)
 
-  bindingElements: (context) ->
+  bindingJQuery: (context) ->
     for item in context.findAll("[name]:not([binding])")
       name = $(item).attr('name')
       context.ui[name] = item

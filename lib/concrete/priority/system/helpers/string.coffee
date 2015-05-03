@@ -1,5 +1,5 @@
-Module 'Wings.Helper',
-  RemoveVnSigns: (source) ->
+Module 'Wings.Helpers',
+  Slugify: (source) ->
     str = source
 
     str = str.toLowerCase();
@@ -15,11 +15,3 @@ Module 'Wings.Helper',
     str = str.replace /-+-/g, "-" #thay thế 2- thành 1-
     str = str.replace /^\-+|\-+$/g, "" #cắt bỏ ký tự - ở đầu và cuối chuỗi
     str
-
-  Slugify: (source) ->
-    source.toString().toLowerCase()
-      .replace(/\s+/g, '-')           # Replace spaces with -
-      .replace(/[^\w\-]+/g, '')       # Remove all non-word chars
-      .replace(/\-\-+/g, '-')         # Replace multiple - with single -
-      .replace(/^-+/, '')             # Trim - from start of text
-      .replace(/-+$/, '');            # Trim - from end of text

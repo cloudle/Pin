@@ -1,0 +1,35 @@
+@require '../../wings.import.styl'
+
+.dual-layout#home .kernel-addon .insert-wrapper
+  margin 5px
+  .wings-field
+    width 100%
+
+.dual-layout#home .kernel-addon .list
+  margin-top 5px
+  border-top 1px solid #e0e0e0
+  border-bottom 1px solid #e0e0e0
+  .doc-item
+    position relative; cursor pointer
+    background-color #ffffff
+    border-bottom 1px solid #ededed
+    &:hover { background-color: #FAFAFA }
+    &:last-child { border-bottom: none }
+    .avatar-image
+      left 6px; top 3px
+    .doc-info
+      margin-left 50px
+      padding 4px 10px 4px 0
+      min-height 46px
+      .title
+        font-weight 600
+        overflow ellipsis
+      .sub-title
+        color #BABABA
+        overflow ellipsis
+    .time-stamp
+      absolute top 3px right 5px
+      font-size 12px; color #B2B2B2
+      font-weight 600
+    .price-stamp
+      absolute top 20px right 5px

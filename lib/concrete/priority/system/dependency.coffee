@@ -10,7 +10,6 @@ recursiveResolve = (nextDependency, currentDependencies = []) ->
 
   currentDependencies
 
-
 Module 'Wings.Dependency',
   add: (name, deps) -> Wings.dependencies[name] = deps
 

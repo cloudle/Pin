@@ -1,0 +1,10 @@
+template(name="home")
+  .dual-layout#home
+    .detail-wrapper: .dual-detail
+      .kernel-addon(style="position: relative; z-index: 2")
+        +yield region='kernelAddon'
+        //+UI.dynamic(template=sub data=subslug)
+      .kernel-wrapper(style="position: relative; z-index: 1"): .kernel-detail
+        +kernel
+    .dual-addon
+      +channel

@@ -1,0 +1,27 @@
+template(name="staff")
+  if zeroState
+    +staffEmpty
+  else
+    +staffList
+
+template(name="staffEmpty")
+  .zero-state
+    input.wings-field.insert(name="insertInput")
+    .insert-arrow-icon.icon-back
+    .icon-config.animate-spin
+    .header Tạo mới để bắt đầu
+    .sub-header Quản lý tài khoản nội bộ
+    img.cover-icon(src="/images/svg/orders-empty-state.svg")
+    a.peter-river.button.create-command Tải danh sách nhân viên
+
+template(name="staffList")
+  .insert-wrapper: input.wings-field.insert(name="insertInput" placeholder="tên nhân viên..")
+  .list
+    each documents
+      .doc-item
+        .avatar-wrapper: .avatar-image(class="{{missingImageClass image}}"
+        style="background-image:url('{{userImageSrc image}}')") {{avatarLetter name}}
+        .doc-info
+          .title {{name}} <br/>
+          .sub-title {{description}}
+        .time-stamp.icon-clock {{standardDate version.createdAt}}

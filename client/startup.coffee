@@ -1,3 +1,3 @@
 Meteor.startup ->
   moment.locale('vi')
-  createjs.Sound.registerSound({src:"/sounds/incoming.mp3", id: "incomeMessage"})
+  Sounds.setup ["incoming.mp3", "tieungao.mp3"]

@@ -1,5 +1,8 @@
 template(name="ApplicationLayout")
-  .application
+  +wingsTip
+  .application-spinner.icon-config(wings-tip="{{Session 'applicationStatus'}}" direction="right")
+
+  .application(class="{{applicationCollapseClass}}")
     +navigation
     #container
       +yield

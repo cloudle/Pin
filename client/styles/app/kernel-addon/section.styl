@@ -1,0 +1,99 @@
+@require '../../wings.import.styl'
+
+.dual-layout#home .section
+  clearfix()
+  margin 10px 0; overflow hidden
+  background-color #ffffff
+  border-top 1px solid #e5e6e9
+  border-bottom 1px solid #e5e6e9
+
+  &.avatar
+    background transparent; border none
+    position relative
+    .avatar-image
+      cursor pointer
+      top 0; left 5px
+      width 80px; height @width
+      &.missing
+        font-size 40px
+        line-height 80px
+
+    .headers
+      margin 0 0 0 90px
+      min-height 80px
+
+  .region
+    padding 15px 5px 5px 5px
+    &:not(:last-child) { border-bottom: 1px solid #d3dbe2 }
+    .title
+      font-size 17px
+      margin-bottom 20px
+      .sub-title
+        font-size 14px; line-height 17px
+        color #B0B0B0
+
+    .commands-wrapper
+      clearfix()
+      border-top 1px solid #ddd
+      .commands
+        float right
+        margin-right 5px
+        .command
+          cursor pointer
+          padding 8.5px 15px
+          border 1px solid #d3dbe2
+          border-top none; color #9d9d9d
+          &:hover
+            color #fff; background-color #479ccf
+          &:before
+            margin-left -2px
+            margin-right 5px
+            font-size 13px
+          &:first-child
+            border-radius bottom left 3px
+          &:last-child
+            border-radius bottom right 3px
+
+    .dual-field
+      clearfix()
+      margin-bottom 5px
+
+      .field-wrapper
+        border 1px solid #d3dbe2
+        padding 5px 10px
+        position relative
+        &.prefix
+          padding-right 38px
+        .prefix-text
+          absolute right 5px top 7px
+          color #c2c2c2
+        .ilabel
+          border-radius top 3px
+          absolute top -13px
+          font-size 12px; line-height 12px
+          background-color #479ccf; color #fff
+          padding 0 5px;
+        &.active
+          border-color #479ccf
+          .prefix-text
+            color #479ccf
+
+        &.number input { text-align: right }
+        &:nth-child(odd)
+          border-radius left 3px
+          .ilabel {right: 10px}
+          &.active
+            border-right-color lighten(#479ccf, 15)
+        &:nth-child(even)
+          .ilabel {left: 10px}
+          border-radius right 3px
+          border-left-color transparent
+          &.active
+            border-left-color lighten(#479ccf, 15)
+
+        input
+          width 100%; border none
+          font-size 15px
+
+    .single-field
+      border-radius 3px

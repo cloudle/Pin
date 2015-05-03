@@ -1,0 +1,15 @@
+template(name="customer")
+  if zeroState
+    +customerEmpty
+  else
+    .header This is order manager {{this}}
+
+template(name="customerEmpty")
+  .zero-state
+    input.wings-field.insert(name="insertInput")
+    .insert-arrow-icon.icon-back
+    .icon-config.animate-spin
+    .header Tạo mới để bắt đầu
+    .sub-header Quy trình dựa trên bộ bồ sơ Mackay 66.
+    img.cover-icon(src="/images/svg/orders-empty-state.svg")
+    a.peter-river.button.create-command Tải danh sách khách hàng

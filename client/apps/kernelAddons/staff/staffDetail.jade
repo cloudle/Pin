@@ -1,0 +1,27 @@
+template(name="staffDetail")
+  input.hide.user-image-input(type="file")
+  .section.avatar
+    .avatar-wrapper: .avatar-image.user-image(class="{{missingImageClass instance.image}}" style="background-image:url('{{userImageSrc instance.image}}')"
+      wings-tip="ảnh đại diện") {{avatarLetter instance.name}}
+    .headers
+      +wingsEditable(model=instance field="name" style="heading" label="họ tên")
+
+  .section
+    +wingsEditor(style="s5" placeholder="Giới thiệu...")
+
+  .section
+    .region
+      .title
+        span Tài khoản
+        span.sub-title (cấp phát truy cập hệ thống)
+        .sub-title *cẩn thận: không thể chỉnh sửa sau khi khởi tạo tài khoản
+      .dual-field
+        +regionInput(label="tài khoản đăng nhập")
+        +regionInput(label="mật khẩu tạm thời")
+      .commands-wrapper
+        .commands
+          .command.icon-ok-circled2 khởi tạo
+    .region
+      .title
+        .main Phân quyền
+        .sub-title Quyền hạn truy cập của thành viên này đối với hệ thống

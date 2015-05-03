@@ -1,0 +1,80 @@
+@require '../wings.import.styl'
+
+nav .branding
+  width root-addon-size
+  background-color darken(root-addon-bg, 4)
+  color #fff
+  height 50px
+  .logo-img
+    border-radius 50%
+    width 40px; height @width
+    absolute top 5px left 10px
+    background-size cover
+  .logo-text
+    float left
+    padding-left 55px
+    font-size 30px
+    font-weight 800; font-style italic
+    .sub-text
+      font-weight 400
+      font-size 12px
+      margin-left -8px
+.application.expand #kernel-addon
+  margin-right -(kernel-addon-size)
+
+#kernel-addon
+  position relative
+  width kernel-addon-size; height nav-height
+  transition margin-right ease 0.15s
+  background-color darken(kernel-addon-bg, 10)
+  padding-left 7px
+  border-left kernel-addon-border
+
+  .app-descriptions
+    cursor pointer; min-width 30px
+    absolute right kernel-addon-size top 10px
+    padding 0 10px 0 10px
+    white-space nowrap
+    background-color lime
+    height 30px; line-height @height
+    color #fff; font-weight 600
+    border-radius left 5px
+    for color in colors
+      &.{color[0]}
+        background-color color[1]
+  .addon-launcher
+    display inline
+    margin-left 5px
+    padding 2px; border-radius 3px
+    color #fff; font-size 22px
+    cursor pointer
+    position relative
+    &.active:after
+      content: " "
+      width 0; height @width
+      absolute bottom -20px left 9px
+      border-left solid 10px transparent
+      border-right solid 10px transparent
+      border-top solid 10px darken(kernel-addon-bg, 10)
+    for color in colors
+      &.{color[0]}
+        background-color lighten(color[1], 15)
+        &.active
+          background-color color[1]
+          padding-bottom 0
+          box-shadow inset 0px 1px 0px color[1], 0px 3px 0px 0px darken(color[1], 7), 0px 4px 4px #999;
+  .history-navigators
+    float left;  font-size 0; margin-right 15px
+    .navigator
+      display inline; cursor pointer
+      border-left 1px solid #EAEAEA
+      background-color #fff
+      font-size 16px
+      padding 6px 3px
+      &:hover { color: #479ccf }
+      &.home  { padding: 6px }
+      &:first-child
+        border-radius left 3px
+        border-left none
+      &:last-child
+        border-radius right 3px

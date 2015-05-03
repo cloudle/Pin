@@ -2,6 +2,15 @@
   <dictionary name="lehaoson">
     <words>
       <w>addon</w>
+      <w>addons</w>
+      <w>gera</w>
+      <w>keyup</w>
+      <w>onready</w>
+      <w>ontimeout</w>
+      <w>slugify</w>
+      <w>subslug</w>
+      <w>subsslug</w>
+      <w>tieungao</w>
     </words>
   </dictionary>
 </component>

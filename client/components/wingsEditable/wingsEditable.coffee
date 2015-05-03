@@ -12,9 +12,13 @@ Wings.defineWidget 'wingsEditable',
     "keyup input": (event, template) ->
       if event.which is 13
         newValue = $(template.find("[field='#{@field}']")).val()
-        updateResult = Wings.IRUS.setField(Schema.ApiNode, @model, @field, newValue)
-        updateResult.error unless updateResult.valid
-        Template.instance().saveRemaining.set(!updateResult.valid)
+        updatePredicate = {$set: {}}; updatePredicate.$set[@field] = newValue
+        templateInstance = Template.instance()
+        Document[@model.Document].update @model._id, updatePredicate, (error, result) ->
+          if error
+            console.log error
+          else
+            templateInstance.saveRemaining.set(error)
       else if event.which is 27
         $(event.currentTarget).val(@model[@field])
         Template.instance().saveRemaining.set(false)
