@@ -1,4 +1,4 @@
-Wings.Document.register 'products', class Product
+Wings.Document.register 'products', 'Product', class Product
   @insert: (doc, callback) -> @document.insert doc, callback
 
 Document.Product.attachSchema new SimpleSchema

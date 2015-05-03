@@ -15,23 +15,23 @@
   "setupNode": false,
 
   // WARNING: If nodeVersion omitted will setup 0.10.31 by default. Do not use v, only version number.
-  "nodeVersion": "0.12.0",
+  "nodeVersion": "0.10.36",
 
   // Install PhantomJS in the server
   "setupPhantom": false,
 
   // Application name (No spaces)
-  "appName": "gspa",
+  "appName": "pinEx",
 
   // Location of app (local directory)
-  "app": "~/Projects/gspa",
+  "app": "~/Projects/Pin",
 
   // Configure environment
   "env": {
-    "PORT": 3004,
+    "PORT": 3005,
     "UPSTART_UID": "meteoruser",
     "ROOT_URL": "http://thienban.vn",
-    "MONGO_URL": "mongodb://localhost:27017/gspa",
+    "MONGO_URL": "mongodb://localhost:27017/pinEx",
     "MAIL_URL": "smtp://thienbantech@gmail.com:thienban2014@stmp.gmail.com:465/"
   },
 

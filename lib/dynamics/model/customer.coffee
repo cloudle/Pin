@@ -1,4 +1,4 @@
-Wings.Document.register 'customers', class Customer
+Wings.Document.register 'customers', 'Customer', class Customer
   name: ""
 
 Document.Customer.attachSchema new SimpleSchema

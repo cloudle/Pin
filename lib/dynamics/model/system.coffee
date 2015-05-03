@@ -1,4 +1,4 @@
-Wings.Document.register 'systems', class System
+Wings.Document.register 'systems', 'System', class System
   @Initialize: ->
     @document.remove({})
     @document.insert

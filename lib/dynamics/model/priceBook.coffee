@@ -1,4 +1,4 @@
-Wings.Document.register 'priceBooks', class PriceBook
+Wings.Document.register 'priceBooks', 'PriceBook', class PriceBook
   name: ""
 
 Document.PriceBook.attachSchema new SimpleSchema
