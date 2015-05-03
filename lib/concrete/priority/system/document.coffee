@@ -1,6 +1,6 @@
 Module "Wings.Document",
   register: (pluralName, singularName, defination = {}) ->
-    Document[defination.name] = document = new Meteor.Collection pluralName,
+    Document[singularName] = document = new Meteor.Collection pluralName,
       transform: (doc) ->
         doc.Document = singularName
         defination.transform?(doc)

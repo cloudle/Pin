@@ -1,4 +1,4 @@
-Wings.Document.register 'channels', class Channel
+Wings.Document.register 'channels', 'Channel', class Channel
   @ChannelTypes:
     public   : 1
     private  : 2

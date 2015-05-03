@@ -1,4 +1,4 @@
-Wings.Document.register 'messages', class Message
+Wings.Document.register 'messages', 'Message', class Message
   @MessageTypes:
     direct  : 1
     channel : 2
