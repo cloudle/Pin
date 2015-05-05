@@ -4,7 +4,9 @@ Wings.Document.register 'customers', 'Customer', class Customer
 Document.Customer.attachSchema new SimpleSchema
   name:
     type: String
+    index: 1
+    unique: true
 
-  creator   : Wings.Schema.creator
-  slug      : Wings.Schema.slugify('Customer')
-  version   : { type: Wings.Schema.version }
+  creator   : Schema.creator
+  slug      : Schema.slugify('Customer')
+  version   : { type: Schema.version }

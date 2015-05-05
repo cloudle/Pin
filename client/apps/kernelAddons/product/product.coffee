@@ -1,7 +1,6 @@
 Wings.defineHyper 'product',
   helpers:
     products: -> Document.Product.find()
-    zeroState: -> !Document.Product.findOne()
   events:
     "click .doc-item": -> Wings.go('product', @slug)
     "keyup input.insert": (event, template) ->

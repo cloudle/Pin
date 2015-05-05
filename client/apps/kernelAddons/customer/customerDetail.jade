@@ -1,24 +1,25 @@
 template(name="customerDetail")
-  .section.avatar
-    .avatar-image(style="background-image:url('/avatars/{{me._id}}.jpg')" wings-tip="ảnh khách hàng")
-    .headers
-      +wingsEditable(model=instance field="name" style="heading" label="họ tên" placeholder="Tên khách hàng")
+  .nano.animated.bounceInDown: .nano-content
+    .section.avatar
+      .avatar-image(style="background-image:url('/avatars/{{me._id}}.jpg')" wings-tip="ảnh khách hàng")
+      .headers
+        +wingsEditable(model=instance field="name" style="heading" label="họ tên" placeholder="Tên khách hàng")
 
-  .section
-    +wingsEditor(style="s5" placeholder="Ghi chú chung...")
+    .section
+      +wingsEditor(style="s5" placeholder="Ghi chú chung...")
 
-  .section
-    .region
-      .title
-        span Mua bán
-        span.sub-title (giá bán và chính sách giá)
-      .dual-field
-        +regionInput(prefix="VNĐ" type="number" label="giá bán")
-        +regionInput(prefix="VNĐ" type="number" label="giá nhập tham khảo")
-      .commands-wrapper
-        .commands
-          .command.icon-ok-circled2 lưu
-    .region
-      .title
-        .main Chủng loại <br/>
-        .sub-title sản phẩm này có nhiều dạng khác nhau, như là kích cỡ hay màu sắc?
+    .section
+      .region
+        .title
+          span Mua bán
+          span.sub-title (giá bán và chính sách giá)
+        .dual-field
+          +regionInput(prefix="VNĐ" type="number" label="giá bán")
+          +regionInput(prefix="VNĐ" type="number" label="giá nhập tham khảo")
+        .commands-wrapper
+          .commands
+            .command.icon-ok-circled2 lưu
+      .region
+        .title
+          .main Chủng loại <br/>
+          .sub-title sản phẩm này có nhiều dạng khác nhau, như là kích cỡ hay màu sắc?

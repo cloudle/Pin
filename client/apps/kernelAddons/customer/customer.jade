@@ -1,8 +1,9 @@
 template(name="customer")
-  if zeroState
-    +customerEmpty
-  else
-    .header This is order manager {{this}}
+  .nano.animated.bounceInDown: .nano-content
+    unless getPublishedCount 'customer'
+      +customerEmpty
+    else
+      .header This is order manager {{this}}
 
 template(name="customerEmpty")
   .zero-state

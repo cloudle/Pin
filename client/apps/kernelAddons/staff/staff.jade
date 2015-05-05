@@ -1,8 +1,9 @@
 template(name="staff")
-  if zeroState
-    +staffEmpty
-  else
-    +staffList
+  .nano.animated.bounceInDown: .nano-content
+    unless getPublishedCount 'staff'
+      +staffEmpty
+    else
+      +staffList
 
 template(name="staffEmpty")
   .zero-state

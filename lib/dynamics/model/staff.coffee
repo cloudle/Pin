@@ -4,12 +4,13 @@ Wings.Document.register 'staffs', 'Staff', class Staff
 Document.Staff.attachSchema new SimpleSchema
   name:
     type: String
+    index: 1
     unique: true
 
   image:
     type: String
     optional: true
 
-  creator   : Wings.Schema.creator
-  slug      : Wings.Schema.slugify('Staff')
-  version   : { type: Wings.Schema.version }
+  creator   : Schema.creator
+  slug      : Schema.slugify('Staff')
+  version   : { type: Schema.version }

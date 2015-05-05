@@ -1,7 +1,6 @@
 Wings.defineHyper 'staff',
   helpers:
     products: -> Document.Staff.find()
-    zeroState: -> !Document.Staff.findOne()
 
   events:
     "click .doc-item": -> Wings.go('staff', @slug)

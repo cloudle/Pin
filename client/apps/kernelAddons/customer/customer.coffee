@@ -1,7 +1,6 @@
 Wings.defineWidget 'customer',
   helpers:
     products: -> Document.Customer.find()
-    zeroState: -> !Document.Customer.findOne()
 
 Wings.defineHyper 'customerEmpty',
   events:

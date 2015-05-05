@@ -1,8 +1,9 @@
 template(name="product")
-  if zeroState
-    +productEmpty
-  else
-    +productList
+  .nano.animated.bounceInDown: .nano-content
+    unless getPublishedCount 'product'
+      +productEmpty
+    else
+      +productList
 
 template(name="productEmpty")
   .zero-state

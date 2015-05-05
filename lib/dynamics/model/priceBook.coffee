@@ -4,8 +4,9 @@ Wings.Document.register 'priceBooks', 'PriceBook', class PriceBook
 Document.PriceBook.attachSchema new SimpleSchema
   name:
     type: String
+    index: 1
     unique: true
 
-  creator   : Wings.Schema.creator
-  slug      : Wings.Schema.slugify('PriceBook')
-  version   : { type: Wings.Schema.version }
+  creator   : Schema.creator
+  slug      : Schema.slugify('PriceBook')
+  version   : { type: Schema.version }

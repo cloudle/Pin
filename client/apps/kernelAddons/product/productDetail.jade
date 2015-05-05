@@ -1,34 +1,49 @@
 template(name="productDetail")
-  input.hide.product-image-input(type="file")
-  .section.avatar
-    .avatar-wrapper: .avatar-image.product-image(class="{{missingImageClass instance.image}}" style="background-image:url('{{productImageSrc instance.image}}')"
-      wings-tip="ảnh đại diện sản phẩm") {{avatarLetter instance.name}}
-      .clear.icon-close-circle
-    .headers
-      +wingsEditable(model=instance field="name" style="heading" label="tên sản phẩm" placeholder="Nhập tên sản phẩm")
+  .nano.animated.bounceInDown: .nano-content
+    input.hide.product-image-input(type="file")
+    .section.avatar
+      .avatar-wrapper: .avatar-image.product-image(class="{{missingImageClass instance.image}}" style="background-image:url('{{productImageSrc instance.image}}')"
+        wings-tip="ảnh đại diện sản phẩm") {{avatarLetter instance.name}}
+        .clear.icon-close-circle
+      .headers
+        +wingsEditable(model=instance field="name" style="heading" label="tên sản phẩm" placeholder="Nhập tên sản phẩm")
 
-  .section
-    +wingsEditor(style="s5" placeholder="Mô tả sản phẩm...")
+    .section
+      +wingsEditor(style="s5" placeholder="Mô tả sản phẩm...")
 
+    +productPriceBasic
+
+
+template(name="productPriceBasic")
   .section
     .region
       .title
-        span Mua bán
-        span.sub-title (giá bán và chính sách giá)
-      .dual-field
-        +regionInput(wrapperClass="salePrice" prefix="VNĐ" type="number" label="giá bán" value=instance.price)
-        +regionInput(wrapperClass="importPrice" prefix="VNĐ" type="number" label="giá nhập tham khảo" value=instance.importPrice)
+        span Mua bán,
+        span.sub-title giá bán và chính sách giá.
+      .region-row
+        +regionInput(wrapperClass="col-3" label="đơn vị")
+        +regionInput(wrapperClass="importPrice col-4" prefix="VNĐ" type="number" label="giá nhập" value=instance.importPrice)
+        +regionInput(wrapperClass="salePrice col-5" prefix="VNĐ" type="number" label="giá bán" value=instance.price)
+      .region-row
+        +regionInput(wrapperClass="col-3")
+        +regionInput(wrapperClass="col-4")
+        +regionInput(wrapperClass="col-5")
       .commands-wrapper
         .commands
+          .command.add-unit thêm đơn vị tính
           .command.save-price.icon-ok-circled2 lưu
 
-    .region
-      .title
-        .main Chủng loại <br/>
-        .sub-title sản phẩm này có nhiều dạng khác nhau, như là kích cỡ hay màu sắc?
-
+template(name="productPriceAdvanced")
+  .section
     .region
       .title
         .main
-          span Đơn vị tính
-          span.sub-title (cách tính khác nhau cho cùng một sản phẩm, ví dụ như thùng và chai)
+          span Đơn vị tính,
+          span.sub-title cách tính khác nhau cho cùng một sản phẩm, ví dụ như thùng và chai.
+      .dual-field
+        +regionInput(wrapperClass="salePrice" prefix="VNĐ" type="number" label="đơn vị tính" value=instance.price)
+        +regionInput(wrapperClass="importPrice" prefix="VNĐ" type="number" label="giá trị quy đổi" value=instance.importPrice)
+    .region
+      .title
+        span Chủng loại,
+        span.sub-title sản phẩm này có nhiều dạng khác nhau, như là kích cỡ hay màu sắc?

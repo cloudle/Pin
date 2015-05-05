@@ -1,11 +1,27 @@
-Module "Wings.Schema",
+randomBarcode = (prefix="0", length=10)->
+  prefix += Math.floor(Math.random() * 10) for i in [0...length]
+  prefix
+
+Module "Schema",
 #  Essential: new SimpleSchema
-#    creator: { type: Wings.Schema.creator }
-#    version: { type: Wings.Schema.version }
+#    creator: { type: Schema.creator }
+#    version: { type: Schema.version }
 
   creator:
     type: String
     autoValue: -> Meteor.userId() if @isInsert and not @isSet
+
+  uniqueId:
+    type: String
+    autoValue: ->
+      Meteor.uuid() unless @isSet
+      return
+
+  barcode:
+    type: String
+    autoValue: ->
+      randomBarcode() unless @isSet
+      return
 
   version: new SimpleSchema
     createdAt:
@@ -15,11 +31,14 @@ Module "Wings.Schema",
           return new Date
         else if @isUpsert
           return { $setOnInsert: new Date }
+        return
 
     updateAt:
       type: Date
       autoValue: ->
         return new Date() if @isUpdate
+        return
+
       denyInsert: true
       optional: true
 

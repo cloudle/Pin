@@ -7,16 +7,20 @@ kernelAddonRegion = {to: "kernelAddon"}
 Router.route '/:slug?/:sub?/:subslug?/:action?',
   name: 'home'
   template: 'home'
-  waitOn: ->
+#  waitOn: ->
+#    if Wings.Router.isValid(@)
+#      if @params.subslug
+#        Meteor.subscribe("sluggedDocument", @params.sub.toCapitalize(), @params.subslug)
+#      else
+#        Meteor.subscribe("topDocuments", @params.sub.toCapitalize())
+  onBeforeAction: ->
     if Wings.Router.isValid(@)
       if @params.subslug
         Meteor.subscribe("sluggedDocument", @params.sub.toCapitalize(), @params.subslug)
       else
         Meteor.subscribe("topDocuments", @params.sub.toCapitalize())
-  onBeforeAction: ->
-    if @ready()
-      Wings.Router.renderAddon(@)
-      @next()
+    Wings.Router.renderAddon(@)
+    @next()
 
   data: ->
     channel = findChannel(@params)
