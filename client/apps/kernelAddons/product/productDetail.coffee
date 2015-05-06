@@ -24,3 +24,9 @@ Wings.defineWidget 'productDetail',
       salePrice   = accounting.parse $(template.find(".salePrice input")).val()
       importPrice = accounting.parse $(template.find(".importPrice input")).val()
       Document.Product.update @instance._id, $set: {price: salePrice, importPrice: importPrice}
+
+    "click .add-unit": (event, template) ->
+      $baseUnit = $(template.find(".baseUnit"))
+      $baseUnitInput = $(template.find(".baseUnit input"))
+      $baseUnitInput.focus()
+      Wings.SiderAlert.show $baseUnit, "Bạn phải <b>xác định đơn vị tính cơ bản</b> để thêm mới đơn vị tính <b>mở rộng</b>!", $baseUnitInput

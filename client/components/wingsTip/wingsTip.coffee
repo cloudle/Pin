@@ -1,9 +1,4 @@
-Wings.defineWidget 'wingsTip',
-  helpers:
-    meta: -> wingsTipMeta.get()
-
-  rendered: ->
-    Wings.Tip.Instance = $(@find(".wings-tip-wrapper"))
+Template.wingsTip.rendered = -> Wings.Tip.Instance = $(@find(".wings-tip-wrapper"))
 
 arrowSize = 6
 Module "Wings.Tip",

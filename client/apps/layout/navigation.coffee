@@ -45,7 +45,7 @@ Template.navigation.helpers
   currentColor: -> Session.get("temporaryAppColor") ? Session.get("currentAppColor")
   addonMenus: -> navigationMenus
   activeClass: -> if Session.get("currentAddon") is @app then 'active' else ''
-
+  connectionStatus: -> Meteor.status().status
 Template.navigation.events
   "click .addon-launcher": (event, template) -> Wings.go @app
   "click .app-descriptions": -> Session.set "kernelAddonVisible", !Session.get("kernelAddonVisible")

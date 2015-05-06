@@ -1,0 +1,30 @@
+@require '../../styles/wings.import.styl'
+
+.sider-alert-wrapper
+  position fixed
+  right kernel-addon-size; top -1000px
+  margin-right 8px
+  z-index 9002
+  #sider-alert
+    position relative
+    border-radius 4px
+    padding 5px
+    border 1px solid #dedede
+    max-width 300px
+    background-color #FCFCFC
+    user-select none
+    cursor default
+    &:hover
+      background-color #F2F9FF
+      border-color #479ccf
+      &:after
+        border-left-color rgba(55, 137, 229, 0.7)
+    &:after
+      content: " "
+      width 0; height @width
+      border 8px solid rgba(0,0,0, 0.3)
+      border-top-color transparent
+      border-bottom-color transparent
+      border-right none
+      absolute right -8px top 50%
+      margin-top -8px

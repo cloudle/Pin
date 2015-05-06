@@ -13,21 +13,28 @@ template(name="productDetail")
 
     +productPriceBasic
 
-
 template(name="productPriceBasic")
   .section
     .region
       .title
         span Mua bán,
         span.sub-title giá bán và chính sách giá.
-      .region-row
-        +regionInput(wrapperClass="col-3" label="đơn vị")
-        +regionInput(wrapperClass="importPrice col-4" prefix="VNĐ" type="number" label="giá nhập" value=instance.importPrice)
-        +regionInput(wrapperClass="salePrice col-5" prefix="VNĐ" type="number" label="giá bán" value=instance.price)
-      .region-row
-        +regionInput(wrapperClass="col-3")
-        +regionInput(wrapperClass="col-4")
-        +regionInput(wrapperClass="col-5")
+
+      if instance.useAdvancePrice
+        .region-row
+          +regionInput(wrapperClass="baseUnit col-3" label="đơn vị")
+          +regionInput(wrapperClass="importPrice col-4" prefix="VNĐ" type="number" label="giá nhập" value=instance.importPrice)
+          +regionInput(wrapperClass="salePrice col-5" prefix="VNĐ" type="number" label="giá bán" value=instance.price)
+        .region-row
+          +regionInput(wrapperClass="col-3")
+          +regionInput(wrapperClass="col-4")
+          +regionInput(wrapperClass="col-5")
+      else
+        .region-row
+          +regionInput(wrapperClass="baseUnit col-3" label="đơn vị")
+          +regionInput(wrapperClass="importPrice col-4" prefix="VNĐ" type="number" label="giá nhập" value=instance.importPrice)
+          +regionInput(wrapperClass="salePrice col-5" prefix="VNĐ" type="number" label="giá bán" value=instance.price)
+
       .commands-wrapper
         .commands
           .command.add-unit thêm đơn vị tính

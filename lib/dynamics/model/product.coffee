@@ -48,6 +48,8 @@ Module "Schema",
       defaultValue: 0
 
 Document.Product.attachSchema new SimpleSchema
+  barcode: Schema.barcode
+
   name:
     type: String
     index: 1
