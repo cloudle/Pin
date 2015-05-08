@@ -10,6 +10,8 @@ Wings.defineHyper 'regionInput',
       else
         @ui.$source.val @data.value
 
+    $(@find("input")).attr('side-explain', @data.explain) if @data.explain
+
   events:
     "focus input": -> Template.instance().hasFocus.set(true)
     "blur input": -> Template.instance().hasFocus.set(false)

@@ -7,13 +7,18 @@ Wings.defineHyper 'wingsEditor',
   created: ->
     Template.instance().saveRemaining = new ReactiveVar(false)
     Template.instance().hasFocus = new ReactiveVar(false)
+  rendered: -> @ui.$editor.html(@data?.model[@data?.field])
 
   events:
     "click .button.save": (event, template) ->
       newValue = $(template.find(".wings-editor")).html()
-      updateResult = Wings.IRUS.setField(@collection, @model, @field, newValue)
-      updateResult.error unless updateResult.valid
-      Template.instance().saveRemaining.set(!updateResult.valid)
+      updatePredicate = {$set: {}}; updatePredicate.$set[@field] = newValue
+      templateInstance = Template.instance()
+      Document[@model.Document].update @model._id, updatePredicate, (error, result) ->
+        if error
+          console.log error
+        else
+          templateInstance.saveRemaining.set(error)
 
     "input .wings-editor": -> Template.instance().saveRemaining.set(true)
     "focus .wings-editor": -> Template.instance().hasFocus.set(true)

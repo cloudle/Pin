@@ -55,7 +55,15 @@ Document.Product.attachSchema new SimpleSchema
     index: 1
     unique: true
 
+  description:
+    type: String
+    optional: true
+
   image:
+    type: String
+    optional: true
+
+  baseUnit:
     type: String
     optional: true
 

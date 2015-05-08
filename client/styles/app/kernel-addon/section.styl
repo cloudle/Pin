@@ -57,7 +57,7 @@
             border-radius bottom left 3px
           &:last-child
             border-radius bottom right 3px
-            border-left none
+            &:not(:first-child) {border-left: none}
 
     .dual-field
       clearfix()

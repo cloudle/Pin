@@ -2,11 +2,11 @@
 
 hideSiderAlert = ->
   window.siderAlertFadeTimeout = Meteor.setTimeout ->
-    Wings.SiderAlert.Instance.children("#sider-alert").attr 'class', 'animated fadeOutLeft'
+    Wings.SiderAlert.Instance.children("#sider-alert").removeClass().addClass 'animated fadeOutLeft'
   , 5000
 
 hideSiderAlertPromise = ->
-  Wings.SiderAlert.Instance.children("#sider-alert").attr 'class', 'animated fadeOutLeft'
+  Wings.SiderAlert.Instance.children("#sider-alert").removeClass().addClass 'animated fadeOutLeft'
   $(@).off event.type, hideSiderAlertPromise
 
 Template.siderAlert.rendered = -> Wings.SiderAlert.Instance = $(@find(".sider-alert-wrapper"))
@@ -24,10 +24,9 @@ Module "Wings.SiderAlert",
       newTop = targetOffset.top + (targetHeight / 2) - (Wings.SiderAlert.Instance.outerHeight() / 2)
       Wings.SiderAlert.Instance.attr('style', "top: #{newTop}px")
       Wings.SiderAlert.Instance.children("#sider-alert")
-        .removeClass().addClass('animated bounceIn').one 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', -> $(@).removeClass()
+      .removeClass().addClass('animated bounceIn')
 
       if $hideOn
         $hideOn.on(hideEvent, hideSiderAlertPromise)
       else
         hideSiderAlert()
-

@@ -14,13 +14,13 @@ Module "Schema",
   uniqueId:
     type: String
     autoValue: ->
-      Meteor.uuid() unless @isSet
+      return Meteor.uuid() unless @isSet
       return
 
   barcode:
     type: String
     autoValue: ->
-      randomBarcode() unless @isSet
+      return randomBarcode() unless @isSet
       return
 
   version: new SimpleSchema
