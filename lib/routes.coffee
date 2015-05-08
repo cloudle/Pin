@@ -1,7 +1,17 @@
 Router.configure
   layoutTemplate: 'ApplicationLayout'
+  onBeforeAction: ->
+    Router.go 'welcome' unless Meteor.userId()
+    @next()
 
 currentDocInstance = {}
+
+Router.route '/welcome',
+  name: 'welcome'
+  layoutTemplate: 'WelcomeLayout'
+  onBeforeAction: ->
+    Router.go 'home', {slug: 'important', sub: 'product'} if Meteor.userId()
+    @next()
 
 kernelAddonRegion = {to: "kernelAddon"}
 Router.route '/:slug?/:sub?/:subslug?/:action?',

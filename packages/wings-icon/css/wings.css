@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'wings';
-  src: url('../font/wings.eot?37157714');
-  src: url('../font/wings.eot?37157714#iefix') format('embedded-opentype'),
-       url('../font/wings.woff?37157714') format('woff'),
-       url('../font/wings.ttf?37157714') format('truetype'),
-       url('../font/wings.svg?37157714#wings') format('svg');
+  src: url('../font/wings.eot?63235806');
+  src: url('../font/wings.eot?63235806#iefix') format('embedded-opentype'),
+       url('../font/wings.woff?63235806') format('woff'),
+       url('../font/wings.ttf?63235806') format('truetype'),
+       url('../font/wings.svg?63235806#wings') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -14,7 +14,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'wings';
-    src: url('../font/wings.svg?37157714#wings') format('svg');
+    src: url('../font/wings.svg?63235806#wings') format('svg');
   }
 }
 */
@@ -319,3 +319,6 @@
 .icon-hash:before { content: '\e906'; } /* '' */
 .icon-at:before { content: '\e907'; } /* '' */
 .icon-star-1:before { content: '\e908'; } /* '' */
+.icon-facebook-rect:before { content: '\e909'; } /* '' */
+.icon-googleplus-rect:before { content: '\e90a'; } /* '' */
+.icon-twitter-bird:before { content: '\e90b'; } /* '' */

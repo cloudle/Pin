@@ -264,3 +264,6 @@
 .icon-hash:before { content: '\e906'; } /* '' */
 .icon-at:before { content: '\e907'; } /* '' */
 .icon-star-1:before { content: '\e908'; } /* '' */
+.icon-facebook-rect:before { content: '\e909'; } /* '' */
+.icon-googleplus-rect:before { content: '\e90a'; } /* '' */
+.icon-twitter-bird:before { content: '\e90b'; } /* '' */

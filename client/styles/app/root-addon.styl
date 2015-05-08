@@ -1,6 +1,8 @@
 @require '../wings.import.styl'
+user-config-size = 65px
 
-.dual-layout#home .dual-addon
+#root-addon
+  padding-bottom user-config-size
   background-color root-addon-bg
   color #ab9ba9
 
@@ -50,7 +52,7 @@
         &:hover, &.active
           .online-status {background-color: #fff}
 
-.dual-layout#home .dual-addon .create-link
+#root-addon .create-link
   display inline-block
   position relative
   margin 6px 0 0 15px
@@ -74,3 +76,19 @@
       background-color #fff
       transform rotate(45deg)
       absolute right -6px bottom -6px
+
+#root-addon .user-configs
+  height user-config-size
+  background-color darken(root-addon-bg, 4)
+  position relative; cursor pointer
+  .avatar
+    width 50px; height @width
+    border-radius 2px
+    background-size cover
+    absolute left 5px top 8px
+  .info
+    padding 10px 0 0 60px
+    .name
+      font-weight 600
+      overflow ellipsis
+      color #ffffff

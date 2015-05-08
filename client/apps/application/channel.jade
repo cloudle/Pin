@@ -1,0 +1,36 @@
+template(name="channel")
+  .nano.animated.bounceInDown: .nano-content
+    .channel-wrapper
+      ul.starred
+        li.header.icon-star-1
+          span QUAN TRỌNG
+
+      ul.channels
+        li.header
+          span KÊNH TRÒ CHUYỆN
+          .create-channel.icon-plus(wings-tip="tạo kênh" direction="right")
+        each channels
+          li.channel-item.public.icon-hash(class="{{isActiveChannel}}") {{name}}
+        a.create-link Tạo kênh mới
+
+      ul.direct-message
+        li.header
+          span TRỰC TIẾP
+          .create-channel.icon-plus(wings-tip="tìm danh bạ" direction="right")
+        each friends
+          li.channel-item.direct(class="{{isActiveChannel}}")
+            span.online-status
+            span {{username}}
+
+      ul.private-group
+        li.header
+          span NHÓM TRÒ CHUYỆN
+          .create-channel.icon-plus(wings-tip="tạo nhóm" direction="right")
+        each groups
+          li.channel-item.private.icon-hash(class="{{isActiveChannel}}") {{name}}
+        a.create-link Tạo nhóm mới
+
+  .user-configs
+    .avatar(style="background-image:url('/avatars/hyoGcCcN65jfu7CxP.jpg')")
+    .info
+      .name {{me.username}}
