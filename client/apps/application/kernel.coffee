@@ -8,7 +8,9 @@ Wings.defineWidget 'kernel',
     @incomingObserver = Document.Message.find().observeChanges
       added: (id, instance) ->
         if instance.version?.createdAt > timeStamp
-          Sounds.incoming.start()
+#          Sounds.incoming.start()
+          senderName = Meteor.users.findOne(instance.creator)?.profile.name
+          Wings.notify instance.message,senderName
           console.log 'ping..'
 
 #    @incomingObserver = currentMessages.observeChanges
