@@ -1,5 +1,5 @@
 template(name="channel")
-  .nano.animated.bounceInDown: .nano-content
+  .nano: .nano-content
     .channel-wrapper
       ul.starred
         li.header.icon-star-1
@@ -36,7 +36,7 @@ template(name="channel")
     .menu-icon.icon-exapnd2
     .avatar.change-avatar(style="background-image:url({{avatarImgSrc}})")
     .info
-      .name {{me.username}}
+      .name {{me.profile.name}}
       .online-status(class="{{myOnlineClass}}") {{myOnlineStatus}}
 
 template(name="userConfigMenu")
