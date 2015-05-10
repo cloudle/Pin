@@ -2,11 +2,7 @@ componentHelper = Wings.Component
 
 Module 'Wings',
   defineApp: (source, destination) ->
-    if typeof source is 'string'
-      console.log "You're trying defines a not exists template" if !Template[source]
-      source = Template[source]
-
-    componentHelper.cloneTemplateEssential(source, destination)
+    source = componentHelper.generateTemplateEssential(source, destination)
 
     source.rendered = ->
       componentHelper.customBinding(destination.ui, @) if destination.ui
@@ -15,22 +11,14 @@ Module 'Wings',
       componentHelper.initializeApp()
 
   defineWidget: (source, destination) ->
-    if typeof source is 'string'
-      console.log "You're trying defines a not exists template" if !Template[source]
-      source = Template[source]
-
-    componentHelper.cloneTemplateEssential(source, destination)
+    source = componentHelper.generateTemplateEssential(source, destination)
 
     source.rendered = ->
       componentHelper.customBinding(destination.ui, @) if destination.ui
       componentHelper.invokeIfNecessary(destination.rendered, @)
 
   defineHyper: (source, destination) ->
-    if typeof source is 'string'
-      console.log "You're trying defines a not exists template" if !Template[source]
-      source = Template[source]
-
-    componentHelper.cloneTemplateEssential(source, destination)
+    source = componentHelper.generateTemplateEssential(source, destination)
 
     source.rendered = ->
       componentHelper.customBinding(destination.ui, @) if destination.ui

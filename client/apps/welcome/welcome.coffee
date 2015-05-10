@@ -44,13 +44,13 @@ showAlert = (error, template) ->
     template.ui.$alert.removeClass().addClass('animated fadeOutLeft')
   , 5000
 
-
 Wings.defineHyper 'welcome',
   helpers:
     showError: -> Session.get("showLoginError")
 
   rendered: ->
     welcomeScope = @
+    @ui.$user.focus()
     Meteor.setTimeout ->
       animateBackgroundColor()
       welcomeScope.bgInterval = Meteor.setInterval(animateBackgroundColor, 15000)

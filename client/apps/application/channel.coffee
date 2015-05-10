@@ -1,4 +1,4 @@
-Wings.defineWidget 'channel',
+Wings.defineHyper 'channel',
   helpers:
     isActiveChannel: -> if Session.get('currentChannel')?._id is @_id then 'active' else ''
     channels: -> Document.Channel.find({channelType: Model.Channel.ChannelTypes.public})
@@ -22,3 +22,10 @@ Wings.defineWidget 'channel',
         Router.go homePath
       else
         Router.go 'home', {slug: @slug, sub:data.sub, subslug:data.subslug}
+    "click .user-configs": (event, template) ->
+      Wings.showPopup template.ui.$userConfigMenu, event
+
+Wings.defineWidget 'userConfigMenu',
+  events:
+    "click #logout": (event, template) -> Meteor.logout()
+    "click #config": (event, template) -> Wings.showModal 'modalUserOptions'

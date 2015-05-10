@@ -5,6 +5,7 @@ Wings.defineWidget "ApplicationLayout",
 
   destroyed: ->
     $(window).off("resize")
+    Session.set("currentActiveModal")
 
   events:
     "mouseover [wings-tip]": (event, tempate) ->

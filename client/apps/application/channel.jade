@@ -31,6 +31,15 @@ template(name="channel")
         a.create-link Tạo nhóm mới
 
   .user-configs
+    +userConfigMenu
+    .menu-icon.icon-exapnd2
     .avatar(style="background-image:url('/avatars/hyoGcCcN65jfu7CxP.jpg')")
     .info
       .name {{me.username}}
+
+template(name="userConfigMenu")
+  #userConfigMenu.hide(name='userConfigMenu'): .config-menu
+    #config.menu-item.icon-tools Tùy chỉnh
+    #profile.menu-item.icon-config Hồ sơ cá nhân
+    .menu-item.icon-alarm menu 3
+    #logout.menu-item.icon-power.separator Đăng xuất

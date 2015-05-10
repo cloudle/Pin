@@ -16,3 +16,6 @@ Template.registerHelper 'brackets', (source) -> "{#{source}}"
 
 Template.registerHelper 'normalHour', (source) -> moment(source).format('h:mm a')
 Template.registerHelper 'shortHour', (source) -> moment(source).format('h:mm')
+
+Template.registerHelper 'registeredModals', -> Wings.Component.modals
+Template.registerHelper 'currentActiveModal', -> Session.get("currentActiveModal")

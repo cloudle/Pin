@@ -2,9 +2,15 @@ mappingExceptions = ['ui', 'rendered', 'helpers']
 
 Module 'Wings.Component',
   invokeIfNecessary: (method, context) -> method.apply(context, arguments) if method
+
   cloneTemplateEssential: (source, destination) ->
     source[name] = value for name, value of destination when !_(mappingExceptions).contains(name)
     source.helpers(destination.helpers)
+
+  generateTemplateEssential: (source, destination) ->
+    console.log "You're trying defines a not exists template" if typeof source is 'string' and !safeSource = Template[source]
+    @cloneTemplateEssential(safeSource, destination)
+    safeSource
 
   customBinding: (uiOptions, context) ->
     context.ui = {}
