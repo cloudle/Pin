@@ -8,7 +8,8 @@ template(name="navigation")
     .navigation
       //+wingsEditorPane
     #kernel-addon.navigation.right
-      .app-descriptions(class="{{currentColor}}") {{currentDescription}}
+      if currentDescription
+        .app-descriptions(class="{{currentColor}}") {{currentDescription}}
       .history-navigators
         .navigator.home.icon-home(description="Trang tổng quan hiện tại")
         .navigator.backward.icon-left-arrow(description="Trở lại")

@@ -1,12 +1,12 @@
 template(name="message")
 	if separator
 		.message.separator
-			.avatar(style="background-image:url('{{avatarImg}}')")
+			.avatar(style="background-image:url('{{avatarImgSrc}}')")
 			.message-meta
 				span.owner-alias {{messageCreator.profile.name}}
-				span.time-stamp {{normalHour createAt}}
+				span.time-stamp {{normalHour version.createdAt}}
 			.content {{message}}
 	else
 		.message.attached
-			.time-stamp {{shortHour createAt}}
+			.time-stamp {{shortHour version.createdAt}}
 			.content {{message}}

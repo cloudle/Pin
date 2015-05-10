@@ -1,9 +1,5 @@
 @require '../wings.import.styl'
 
-nav.fixed-top
-  background-color #f9f9f9
-  border-bottom 1px solid #EFEFEF
-
 nav .branding
   width root-addon-size
   background-color darken(root-addon-bg, 4)
@@ -30,9 +26,11 @@ nav .branding
   position relative
   width kernel-addon-size; height nav-height
   transition margin-right ease 0.15s
-  background-color darken(kernel-addon-bg, 10)
+  background-color kernel-addon-bg
+  /*background-color lighten(kernel-addon-bg, 2)*/
   padding-left 7px
   border-left kernel-addon-border
+  border-bottom kernel-addon-border
 
   .app-descriptions
     cursor pointer; min-width 30px

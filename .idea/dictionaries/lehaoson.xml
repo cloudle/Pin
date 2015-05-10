@@ -8,6 +8,7 @@
       <w>keyup</w>
       <w>onready</w>
       <w>ontimeout</w>
+      <w>scroller</w>
       <w>sider</w>
       <w>slugify</w>
       <w>subslug</w>

@@ -4,6 +4,10 @@ Wings.defineHyper 'channel',
     channels: -> Document.Channel.find({channelType: Model.Channel.ChannelTypes.public})
     groups: -> Document.Channel.find({channelType: Model.Channel.ChannelTypes.private})
     friends: -> Meteor.users.find()
+    avatarImgSrc: -> Storage.UserImage.findOne(Meteor.user()?.profile.image)?.url()
+    onlineClass: -> if @status?.online then 'active' else ''
+    myOnlineClass: -> if Meteor.user()?.status?.online then 'active' else ''
+    myOnlineStatus: -> if Meteor.user()?.status?.online then 'Online' else 'Offline'
 
   created: ->
     Meteor.subscribe("friends")
@@ -22,8 +26,19 @@ Wings.defineHyper 'channel',
         Router.go homePath
       else
         Router.go 'home', {slug: @slug, sub:data.sub, subslug:data.subslug}
+
     "click .user-configs": (event, template) ->
       Wings.showPopup template.ui.$userConfigMenu, event
+
+    "click .change-avatar": (event, template) -> template.find(".avatar-image-input").click()
+    "change .avatar-image-input": (event, template) ->
+      files = event.target.files
+      if files.length > 0
+        Storage.UserImage.insert files[0], (error, fileObj) ->
+          if error then console.log 'avatar image upload error', error
+          else
+            Storage.UserImage.findOne(Meteor.user().profile.image)?.remove()
+            Meteor.users.update Meteor.userId(), {$set: {'profile.image': fileObj._id}}
 
 Wings.defineWidget 'userConfigMenu',
   events:
