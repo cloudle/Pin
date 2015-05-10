@@ -19,6 +19,18 @@ Wings.defineWidget 'productDetail',
       Storage.ProductImage.findOne(@instance.image)?.remove()
       Document.Product.update @instance._id, $unset: {image: ""}
       event.stopPropagation()
+#-------------------------------------------------------------------------
+    "click .extract-unit": (event, template) ->
+      $baseUnit = $(template.find(".baseUnitName"))
+      $baseUnitInput = $(template.find(".baseUnitName input"))
+      baseUnit = $baseUnitInput.val()
+      if !template.data.instance.useAdvancePrice and !baseUnit
+        $baseUnitInput.focus()
+        Wings.SiderAlert.show $baseUnit, "Bạn phải <b>xác định đơn vị tính cơ bản</b> để thêm mới đơn vị tính <b>mở rộng</b>!", $baseUnitInput
+      else if !template.data.instance.useAdvancePrice
+  #        Document.Product.update(@instance._id, {$set: {useAdvancePrice: true, baseUnit: baseUnit}})
+      else
+        Session.set("showProductUnitCreatePane", true)
 
     "click .save-price": (event, template) ->
       baseUnitName = $(template.find(".baseUnitName input")).val()
@@ -29,45 +41,69 @@ Wings.defineWidget 'productDetail',
       updateOption.name        = baseUnitName if @instance.baseUnitName isnt baseUnitName
       updateOption.salePrice   = salePrice if @instance.salePrice isnt salePrice
       updateOption.importPrice = importPrice if @instance.importPrice isnt importPrice
-      if @instance.baseUnit then @instance.updateBaseUnit updateOption else @instance.insertBaseUnit updateOption
 
-
-    "click .extract-unit": (event, template) ->
-      $baseUnit = $(template.find(".baseUnitName"))
-      $baseUnitInput = $(template.find(".baseUnitName input"))
-      baseUnit = $baseUnitInput.val()
-      if !@instance.useAdvancePrice and !baseUnit
-        $baseUnitInput.focus()
-        Wings.SiderAlert.show $baseUnit, "Bạn phải <b>xác định đơn vị tính cơ bản</b> để thêm mới đơn vị tính <b>mở rộng</b>!", $baseUnitInput
-      else if !@instance.useAdvancePrice
-#        Document.Product.update(@instance._id, {$set: {useAdvancePrice: true, baseUnit: baseUnit}})
+      if @instance.baseUnit
+        @instance.updateBaseUnit updateOption
       else
-        Session.set("showProductUnitCreatePane", true)
+        @instance.insertBaseUnit updateOption
+
+#-------------------------------------------------------------------------
+    "click .cancel-add-unit": (event, template) -> Session.set("showProductUnitCreatePane")
+    "wings-change .insertConversion": (event, template, value) ->
+      $salePrice = $(template.find(".insertSalePrice input"))
+      $salePrice.val(accounting.format(template.data.instance.salePrice * value))
 
     "click .add-unit": (event, template) ->
-      $unitName   = $(template.find(".insertUnitName input"))
-      $conversion = $(template.find(".insertConversion input"))
-      $salePrice  = $(template.find(".insertSalePrice input"))
+      $unitName        = $(template.find(".insertUnitName"))
+      $unitNameInput   = $(template.find(".insertUnitName input"))
+      $conversionInput = $(template.find(".insertConversion input"))
+      $salePriceInput  = $(template.find(".insertSalePrice input"))
 
       newUnit = {}
-      newUnit.name       = $unitName.val()
-      newUnit.conversion = accounting.parse $conversion.val()
-      newUnit.salePrice  = accounting.parse $salePrice.val()
+      newUnit.name       = $unitNameInput.val()
+      newUnit.conversion = accounting.parse $conversionInput.val()
+      newUnit.salePrice  = accounting.parse $salePriceInput.val()
 
-      @instance.insertUnit newUnit
+      if !_.contains(_.pluck(template.data.instance.units, 'name'), newUnit.name)
+        template.data.instance.insertUnit(newUnit)
+        Session.set('showProductUnitCreatePane')
+      else
+        $unitNameInput.focus()
+        Wings.SiderAlert.show $unitName, "Tên của <b>đơn vị tính</b> bị trùng lắp!", $unitNameInput
+
+#-------------------------------------------------------------------------
+    "click .remove-unit": (event, template) -> template.data.instance.removeUnit @_id
+    "click .update-unit": (event, template) ->
+      $unitName        = $(template.find(".unitName"))
+      $unitNameInput   = $(template.find(".unitName input"))
+      $salePriceInput  = $(template.find(".salePrice input"))
+
+      updateUnit = {id: @_id}
+      updateUnit.name       = $unitNameInput.val()
+      updateUnit.salePrice  = accounting.parse $salePriceInput.val()
+
+      delete updateUnit.name if @name is updateUnit.name
+      delete updateUnit.salePrice if @salePrice is updateUnit.salePrice
+
+      return if _.keys(updateUnit).length < 2
+
+      if unitFound = _.findWhere(template.data.instance.productUnits, {_id: updateUnit.id})
+        nameLists = _.pluck(template.data.instance.units, 'name')
+        nameLists = _.without(nameLists, unitFound.name)
+
+        if !$unitNameInput.val()
+          $unitNameInput.focus()
+          Wings.SiderAlert.show $unitName, "Tên của <b>đơn vị tính</b> không thể để trống!", $unitNameInput
+        else if _.contains(nameLists, updateUnit.name)
+          $unitNameInput.focus()
+          Wings.SiderAlert.show $unitName, "Tên của <b>đơn vị tính</b> bị trùng lắp!", $unitNameInput
+        else
+          template.data.instance.updateUnit(updateUnit)
 
 
-#      if !@instance.useAdvancePrice and !@instance.baseUnit
-#        $baseUnitInput.focus()
-#        Wings.SiderAlert.show $baseUnitName, "Bạn phải <b>xác định đơn vị tính cơ bản</b> để thêm mới đơn vị tính <b>mở rộng</b>!", $unitNameInput
-#      else if !@instance.useAdvancePrice
-#
-#
-#        if _.contains(_.pluck(@instance.units, 'name'), insertUnit.name)
-#          $unitNameInput.focus()
-#          Wings.SiderAlert.show $baseUnitName, "<b>Đơn vị tính mới</b> đã trùng bị trùng tên!", $unitNameInput
-#        else
-#          @instance.insertUnit insertUnit
-#
-#      else
-#        Session.set("showProductUnitCreatePane", true)
+Wings.defineHyper 'productPriceBasic',
+  helpers:
+    unitLists: ->
+      return [] unless @instance or @instance.baseUnit
+      product = @instance
+      _.reject(product.productUnits, (num)-> num._id is product.baseUnit)

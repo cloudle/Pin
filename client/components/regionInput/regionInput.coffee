@@ -16,4 +16,9 @@ Wings.defineHyper 'regionInput',
     "focus input": -> Template.instance().hasFocus.set(true)
     "blur input": -> Template.instance().hasFocus.set(false)
     "input input": (event, template) ->
-      template.ui.$source.val accounting.formatNumber(template.ui.$source.val()) if template.data.type is 'number'
+      value = template.ui.$source.val()
+      if template.data.type is 'number'
+        template.ui.$source.val(accounting.formatNumber(value))
+        value = accounting.parse(value)
+
+      template.ui.$wrapper.trigger("wings-change", value)

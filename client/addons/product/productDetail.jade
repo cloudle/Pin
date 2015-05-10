@@ -42,12 +42,38 @@ template(name="productPriceBasic")
 
         .region-row
           +regionInput(wrapperClass="insertUnitName col-3" label="đơn vị")
-          +regionInput(wrapperClass="insertConversion col-4" label="quy đổi" type="number" explain="Giá trị quy đổi so với <b>đơn vị tính cơ bản</b>.")
+          +regionInput(wrapperClass="insertConversion col-4" label="quy đổi" type="number"
+          explain="Giá trị quy đổi so với <b>đơn vị tính cơ bản</b>.")
           +regionInput(wrapperClass="insertSalePrice col-5" label="giá bán" type="number" prefix="VNĐ")
 
         .commands-wrapper
           .commands
+            .command.cancel-add-unit hủy
             .command.add-unit.icon-ok-circled2 thêm mới
+
+  each unitLists
+    .section
+      .region
+        .title
+          span Đơn vị tín,
+          span.sub-title không thể thay đổi đơn vị quy đổi.
+
+        .region-row
+          +regionInput(wrapperClass="unitName col-3" label="đơn vị" value=name)
+          //+regionInput(wrapperClass="conversion col-4" type="number" label="quy đổi" value=conversion)
+          .field-wrapper.col-4.number(name="wrapper" style="height: 34px; text-align: right")
+            .ilabel quy đổi
+            span.number {{conversion}} {{baseUnitName}}
+          +regionInput(wrapperClass="salePrice col-5" prefix="VNĐ" type="number" label="giá bán" value=salePrice)
+
+
+        .commands-wrapper
+          .commands
+            if allowDelete
+              .command.remove-unit.icon-ok-circled2 xóa
+            .command.update-unit.icon-ok-circled2 lưu
+
+
 
 template(name="productPriceAdvanced")
   .section

@@ -7,16 +7,22 @@ Module "Schema",
 #    creator: { type: Schema.creator }
 #    version: { type: Schema.version }
 
-  booleanDefaultFalse:
-    type: Boolean
+  defaultCreatedAt:
+    type: Date
     autoValue: ->
-      return false unless @isSet
+      return new Date unless @isSet
       return
 
-  numberDefaultZero:
+  defaultBoolean: (value = false) ->
+    type: Boolean
+    autoValue: ->
+      return value unless @isSet
+      return
+
+  defaultNumber: (num = 0)->
     type: Number
     autoValue: ->
-      return 0 unless @isSet
+      return num unless @isSet
       return
 
 
