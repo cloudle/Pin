@@ -11,6 +11,10 @@ Document.Staff.attachSchema new SimpleSchema
     type: String
     optional: true
 
+  branch:
+    type: String
+    optional: true
+
   creator   : Schema.creator
   slug      : Schema.slugify('Staff')
   version   : { type: Schema.version }

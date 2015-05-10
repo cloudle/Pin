@@ -1,6 +1,11 @@
-Document.Product.allow
+Document.Branch.allow
   insert: (userId, doc) -> userId is doc.creator
   update: (userId, doc, fields, modifier) -> userId is doc.creator
+  remove: (userId, doc) -> userId is doc.creator
+
+Document.Product.allow
+  insert: (userId, doc) -> userId is doc.creator
+  update: (userId, doc, fields, modifier) -> true
   remove: (userId, doc) -> userId is doc.creator
 
 Document.Customer.allow

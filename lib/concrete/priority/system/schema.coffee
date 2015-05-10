@@ -7,6 +7,20 @@ Module "Schema",
 #    creator: { type: Schema.creator }
 #    version: { type: Schema.version }
 
+  booleanDefaultFalse:
+    type: Boolean
+    autoValue: ->
+      return false unless @isSet
+      return
+
+  numberDefaultZero:
+    type: Number
+    autoValue: ->
+      return 0 unless @isSet
+      return
+
+
+
   creator:
     type: String
     autoValue: -> Meteor.userId() if @isInsert and not @isSet
@@ -14,7 +28,7 @@ Module "Schema",
   uniqueId:
     type: String
     autoValue: ->
-      return Meteor.uuid() unless @isSet
+      return Random.id() unless @isSet
       return
 
   barcode:
