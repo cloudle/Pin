@@ -13,7 +13,7 @@ Router.route '/welcome',
     Router.go 'home', {slug: 'important', sub: 'product'} if Meteor.userId()
     @next()
 
-kernelAddonRegion = {to: "kernelAddon"}
+globalSub = new SubsManager()
 Router.route '/:slug?/:sub?/:subslug?/:action?',
   name: 'home'
   template: 'home'
@@ -33,36 +33,33 @@ Router.route '/:slug?/:sub?/:subslug?/:action?',
     @next()
 
   data: ->
-    channel = findChannel(@params)
+    channel = Wings.Router.findChannel(@params.slug)
+    globalSub.subscribe("channelMessages", channel.instance._id, 0, channel.isDirect) if channel.instance
     Session.set "currentChannel", channel.instance
     Session.set "kernelAddonVisible", !!@params.sub
     Session.set "currentAddon", @params.sub
     Session.set "currentAppColor", _(navigationMenus).findWhere({app: @params.sub})?.color
 
-    predicate = if channel.isDirect then {} else {parent: channel.instance?._id}
+    predicate = if channel.isDirect
+      {$or: [{ parent: channel.instance?._id, creator: Meteor.userId() }, { parent: Meteor.userId(), creator: channel.instance?._id }]}
+    else {parent: channel.instance?._id}
 
     result =
-      messages: Document.Message.find(predicate, {sort: {createAt: 1}})
+      messages: Document.Message.find(predicate, {sort: {'version.createdAt': 1}})
+      slug    : @params.slug
       sub     : @params.sub
       subslug : @params.subslug
+
+    filter = {}
+    filter = {creator: {$exists: true}} if @params.sub is 'user'
 
     if Wings.Router.isValid(@)
       if @params.subslug
         result.instance = Document[@params.sub.toCapitalize()].findOne({slug: @params.subslug})
       else
-        result.documents = Document[@params.sub.toCapitalize()].find({})
+        result.documents = Document[@params.sub.toCapitalize()].find(filter)
 
     result
-
-findChannel = (params) ->
-  chanelResult = {}
-  if params.slug?.substr(0, 1) is "@"
-    chanelResult.instance = Meteor.users.findOne({'profile.slug': params.slug.substr(1)})
-    chanelResult.isDirect = true
-  else
-    chanelResult.instance = Document.Channel.findOne({slug: params.slug})
-
-  chanelResult
 
 Module "Wings",
   go: (sub, subslug, action) ->

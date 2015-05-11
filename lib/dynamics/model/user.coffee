@@ -7,7 +7,6 @@ cloneName =
 userProfile = new SimpleSchema
   name:
     type: String
-    optional: true
 
   gender:
     type: String
@@ -18,10 +17,15 @@ userProfile = new SimpleSchema
     type: String
     optional: true
 
+  description:
+    type: String
+    optional: true
+
 Meteor.users.attachSchema new SimpleSchema
   username:
     type: String
     regEx: /^[a-z0-9A-Z_]{3,15}$/
+    optional: true
 
   emails:
     type: [Object]
@@ -48,10 +52,12 @@ Meteor.users.attachSchema new SimpleSchema
     type: userProfile
     optional: true
 
-  "profile.slug": cloneName
   "profile.name": cloneName
 
   creator   : Schema.creator
+  slug      : Schema.slugify('User', 'username')
 
   createdAt:
     type: Date
+
+Document.User = Meteor.users

@@ -1,9 +1,11 @@
 messengerScrollTopHandler = ->
-  console.log 'scroll top'
+  channel = Wings.Router.findChannel(Router.current().params.slug)
+  subscribedCount = Document.Message.find({parent: channel.instance._id}).count()
+  Meteor.subscribe("channelMessages", channel.instance._id, subscribedCount, channel.isDirect)
+  window.$kernelMessenger.nanoScroller({scrollTop: 10})
 
 Wings.defineWidget 'kernel',
   created: ->
-    Meteor.subscribe("messages")
     timeStamp = new Date()
     @incomingObserver = Document.Message.find().observeChanges
       added: (id, instance) ->
@@ -30,7 +32,8 @@ Wings.defineWidget 'kernel',
       if event.which is 13 and currentChannel = Session.get("currentChannel")
         $message = $(event.currentTarget)
 #        result = Model.Message.insert(currentChannel._id, $message.val(), currentChannel.channelType)
-        Meteor.call 'sendMessage', currentChannel._id, $message.val(), currentChannel.channelType, (error, result) ->
+        channelType = currentChannel.channelType ? Model.Channel.ChannelTypes.direct
+        Meteor.call 'sendMessage', currentChannel._id, $message.val(), channelType, (error, result) ->
           if error
             console.log error
           else
@@ -39,4 +42,3 @@ Wings.defineWidget 'kernel',
 
     "update .messenger-scroller": (event, template, vals) ->
       window.manualScrollMessenger = vals.maximum - vals.position > 40
-      console.log window.manualScrollMessenger

@@ -5,4 +5,4 @@ Wings.defineWidget 'message',
 
   rendered: ->
     window.$kernelMessenger.nanoScroller()
-    window.$kernelMessenger.nanoScroller({ scroll: 'bottom' }) unless window.autoScrollMessenger
+    window.$kernelMessenger.nanoScroller({ scroll: 'bottom' }) unless window.manualScrollMessenger

@@ -2,6 +2,7 @@ Wings.Document.register 'channels', 'Channel', class Channel
   @ChannelTypes:
     public   : 1
     private  : 2
+    direct   : 3
 
   @insert: (name, description = null, channelType = @ChannelTypes.public) ->
     newChannel = { creator: Meteor.userId(), channelType: channelType, name: name }

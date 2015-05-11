@@ -21,11 +21,9 @@ Meteor.publish "topDocuments", (collectionName) ->
 Meteor.publish "sluggedDocument", (collectionName, slug) ->
   Document[collectionName].find({slug: slug}, {limit: 1})
 
-Meteor.publish "friendMessages", (friendId) ->
-  Document.Message.find $or: [
-    {parent: friendId, creator: @userId}
-    {creator: @userId, parent: friendId }
-  ]
+Meteor.publish "channelMessages", (channelId, currentCount = 0, isDirect = false) ->
+  predicate = if isDirect
+    {$or: [{ parent: channelId, creator: @userId }, { parent: @userId, creator: channelId }]}
+  else { parent: channelId }
 
-
-
+  Document.Message.find predicate, {sort: {'version.createdAt': -1}, skip: currentCount,  limit: 100}

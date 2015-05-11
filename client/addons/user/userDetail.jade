@@ -1,14 +1,11 @@
-template(name="staffDetail")
+template(name="userDetail")
   .nano.animated.bounceInDown: .nano-content
     input.hide.user-image-input(type="file")
     .section.avatar
-      .avatar-wrapper: .avatar-image.user-image(class="{{missingImageClass instance.image}}" style="background-image:url('{{userImageSrc instance.image}}')"
-        wings-tip="ảnh đại diện") {{avatarLetter instance.name}}
+      .avatar-wrapper: .avatar-image.user-image(class="{{missingImageClass instance.profile.image}}" style="background-image:url('{{userImageSrc instance.profile.image}}')"
+        wings-tip="ảnh đại diện") {{avatarLetter instance.profile.name}}
       .headers
-        +wingsEditable(model=instance field="name" style="heading" label="họ tên")
-
-    .section
-      +wingsEditor(style="s5" placeholder="Giới thiệu...")
+        +wingsEditable(model=instance field="username" style="heading" label="họ tên")
 
     .section
       .region

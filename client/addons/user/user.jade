@@ -1,11 +1,11 @@
-template(name="staff")
+template(name="user")
   .nano.animated.bounceInDown: .nano-content
-    unless getPublishedCount 'staff'
-      +staffEmpty
+    unless getPublishedCount 'user'
+      +userEmpty
     else
-      +staffList
+      +userList
 
-template(name="staffEmpty")
+template(name="userEmpty")
   .zero-state
     input.wings-field.insert(name="insertInput")
     .insert-arrow-icon.icon-back
@@ -15,14 +15,14 @@ template(name="staffEmpty")
     img.cover-icon(src="/images/svg/orders-empty-state.svg")
     a.peter-river.button.create-command Tải danh sách nhân viên
 
-template(name="staffList")
+template(name="userList")
   .insert-wrapper: input.wings-field.insert(name="insertInput" placeholder="tên nhân viên..")
   .list
     each documents
       .doc-item
-        .avatar-wrapper: .avatar-image(class="{{missingImageClass image}}"
-        style="background-image:url('{{userImageSrc image}}')") {{avatarLetter name}}
+        .avatar-wrapper: .avatar-image(class="{{missingImageClass profile.image}}"
+        style="background-image:url('{{userImageSrc profile.image}}')") {{avatarLetter profile.name}}
         .doc-info
-          .title {{name}} <br/>
+          .title {{profile.name}} <br/>
           .sub-title {{description}}
         .time-stamp.icon-clock {{standardDate version.createdAt}}

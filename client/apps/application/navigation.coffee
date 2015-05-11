@@ -12,7 +12,7 @@
   description: 'Nội bộ'
   color: 'purple'
   icon: 'icon-battery'
-  app: "staff"
+  app: "user"
 ,
   description: 'Sản phẩm'
   color: 'carrot'

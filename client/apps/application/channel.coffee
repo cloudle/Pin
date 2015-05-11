@@ -10,8 +10,8 @@ Wings.defineHyper 'channel',
     myOnlineStatus: -> if Meteor.user()?.status?.online then 'Online' else 'Offline'
 
   created: ->
-    Meteor.subscribe("friends")
-    Meteor.subscribe("channels")
+    Meteor.subscribe "friends"
+    Meteor.subscribe "channels"
 
   events:
     "click .channel-item": (event, template) ->
@@ -19,7 +19,7 @@ Wings.defineHyper 'channel',
 
       if @profile
         homePath = Router.routes['home'].path()
-        homePath += "@#{@profile.slug}"
+        homePath += "@#{@slug}"
         homePath += "/#{data.sub}" if data.sub
         homePath += "/#{data.subslug}" if data.sub and data.subslug
 

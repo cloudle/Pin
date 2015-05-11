@@ -1,8 +1,17 @@
-addons = ['news', 'product', 'customer', 'staff', 'order']
+addons = ['news', 'product', 'customer', 'user', 'order']
 actions = ['detail', 'edit']
 kernelAddonRegion = { to: "kernelAddon" }
 
 Module "Wings.Router",
+  findChannel: (slug) ->
+    chanelResult = {}
+    if slug?.substr(0, 1) is "@"
+      chanelResult.instance = Meteor.users.findOne({'slug': slug.substr(1)})
+      chanelResult.isDirect = true
+    else
+      chanelResult.instance = Document.Channel.findOne({slug: slug})
+    chanelResult
+
   isValid: (scope) -> return _(addons).contains(scope.params.sub)
   renderAddonNotFound: (scope) -> scope.render 'addonNotFound', kernelAddonRegion
   renderAddonDocumentNotFound: (scope) -> scope.render 'addonDocumentNotFound', kernelAddonRegion
