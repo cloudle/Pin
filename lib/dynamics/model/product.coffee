@@ -176,7 +176,7 @@ Document.Product.attachSchema new SimpleSchema
 
 
   qualities                        : type: [Object], defaultValue: []
-  'qualities.$.branch'             : type: String
+  'qualities.$.branch'             : type: String  , optional: true
   'qualities.$.availableQuality'   : Schema.defaultNumber()
   'qualities.$.inOderQuality'      : Schema.defaultNumber()
   'qualities.$.inStockQuality'     : Schema.defaultNumber()
