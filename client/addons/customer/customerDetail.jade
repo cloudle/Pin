@@ -1,9 +1,9 @@
 template(name="customerDetail")
   .nano.animated.fadeIn: .nano-content
-    input.hide.product-image-input(type="file")
+    input.hide.customer-image-input(type="file")
     .section.avatar
-      .avatar-wrapper: .avatar-image.editable.product-image(class="{{missingImageClass instance.image}}" style="background-image:url('{{productImageSrc instance.image}}')"
-      wings-tip="cập nhật ảnh đại diện") {{avatarLetter instance.companyName}}
+      .avatar-wrapper: .avatar-image.editable.customer-image(class="{{missingImageClass instance.image}}" style="background-image:url('{{customerImageSrc instance.image}}')"
+        wings-tip="ảnh đại diện sản phẩm") {{avatarLetter instance.companyName}}
         .clear.icon-close-circle
       .headers
         +wingsEditable(model=instance field="companyName" style="heading" label="tên công ty" placeholder="Tên công ty")
@@ -15,18 +15,18 @@ template(name="customerDetail")
       .region
         .title
           span Thông tin cơ bản.
-          span.sub-title (giá bán và chính sách giá)
-        .dual-field
-          .field: +regionInput(label="chủ doanh nghiệp")
+        .region-row
+          +regionInput(wrapperClass="col-6 businessOwner" label="chủ doanh nghiệp")
+          +regionInput(wrapperClass="col-6 companyPhone" label="số điện thoại")
 
-        .dual-field
-          .field: +regionInput(label="số điện thoại")
-          .field: +regionInput(label="địa chỉ")
-
+        .region-row
+          +regionInput(wrapperClass="col-12 companyAddress" label="địa chỉ")
         .commands-wrapper
           .commands
-            .command.icon-ok-circled2 lưu
+            .command.extract-event thêm sự kiện
+            .command.update-customer.icon-ok-circled2 lưu
+
       .region
         .title
-          .main Chủng loại <br/>
-          .sub-title sản phẩm này có nhiều dạng khác nhau, như là kích cỡ hay màu sắc?
+          span Danh sách nhân viên chăm sóc,
+          span.sub-title  một khách hàng có thể được chăm sóc bởi nhiều nhân viên.

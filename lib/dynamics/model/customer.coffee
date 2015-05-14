@@ -23,6 +23,9 @@ Document.Customer.attachSchema new SimpleSchema
     type: String
     optional: true
 
+  image:
+    type: String
+    optional: true
 
   plans              : type: [Object], defaultValue: []
   'plans.$._id'      : type: String

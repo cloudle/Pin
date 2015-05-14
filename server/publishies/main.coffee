@@ -6,6 +6,7 @@
 
 Meteor.publish null, -> Storage.ProductImage.find({})
 Meteor.publish null, -> Storage.UserImage.find({})
+Meteor.publish null, -> Storage.CustomerImage.find({})
 
 Meteor.publish "channels", -> Document.Channel.find({})
 Meteor.publish "friends",  -> Meteor.users.find({})

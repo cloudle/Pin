@@ -2,6 +2,7 @@ Template.registerHelper 'applicationCollapseClass', -> if Session.get("kernelAdd
 
 Template.registerHelper 'productImageSrc', (imageId) -> Storage.ProductImage.findOne(imageId)?.url()
 Template.registerHelper 'userImageSrc', (imageId) -> Storage.UserImage.findOne(imageId)?.url()
+Template.registerHelper 'customerImageSrc', (imageId) -> Storage.CustomerImage.findOne(imageId)?.url()
 
 Template.registerHelper 'missingImageClass', (imageId) -> if !imageId then 'missing' else ''
 Template.registerHelper 'avatarLetter', (source) -> source.substr(0, 1).toUpperCase()

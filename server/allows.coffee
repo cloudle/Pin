@@ -59,3 +59,9 @@ Storage.UserImage.allow
   update: (userId, doc, fieldNames, modifier) -> true
   remove: (userId, doc) -> true
   download: (userId)-> true
+
+Storage.CustomerImage.allow
+  insert: (userId, doc) -> true
+  update: (userId, doc, fieldNames, modifier) -> true
+  remove: (userId, doc) -> true
+  download: (userId)-> true
