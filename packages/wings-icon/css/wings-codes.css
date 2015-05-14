@@ -326,3 +326,6 @@
 .icon-appbar-calendar-week:before { content: '\e944'; } /* '' */
 .icon-appbar-forklift:before { content: '\e945'; } /* '' */
 .icon-appbar-forklift-load:before { content: '\e946'; } /* '' */
+.icon-appbar-truck:before { content: '\e947'; } /* '' */
+.icon-appbar-stock-up:before { content: '\e948'; } /* '' */
+.icon-appbar-money:before { content: '\e949'; } /* '' */

@@ -326,3 +326,6 @@
 .icon-appbar-calendar-week { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe944;&nbsp;'); }
 .icon-appbar-forklift { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe945;&nbsp;'); }
 .icon-appbar-forklift-load { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe946;&nbsp;'); }
+.icon-appbar-truck { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe947;&nbsp;'); }
+.icon-appbar-stock-up { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe948;&nbsp;'); }
+.icon-appbar-money { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe949;&nbsp;'); }

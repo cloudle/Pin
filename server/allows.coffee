@@ -23,6 +23,11 @@ Document.Order.allow
   update: (userId, doc, fields, modifier) -> userId is doc.creator
   remove: (userId, doc) -> userId is doc.creator
 
+Document.Delivery.allow
+  insert: (userId, doc) -> userId is doc.creator
+  update: (userId, doc, fields, modifier) -> userId is doc.creator
+  remove: (userId, doc) -> userId is doc.creator
+
 Document.Staff.allow
   insert: (userId, doc) -> userId is doc.creator
   update: (userId, doc, fields, modifier) -> userId is doc.creator

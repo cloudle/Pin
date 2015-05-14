@@ -1,4 +1,4 @@
-addons = ['news', 'product', 'customer', 'user', 'order', 'import']
+addons = ['news', 'plan', 'product', 'customer', 'user', 'order', 'import', 'delivery']
 actions = ['detail', 'edit']
 kernelAddonRegion = { to: "kernelAddon" }
 

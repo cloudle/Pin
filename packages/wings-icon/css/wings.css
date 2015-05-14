@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'wings';
-  src: url('../font/wings.eot?55509243');
-  src: url('../font/wings.eot?55509243#iefix') format('embedded-opentype'),
-       url('../font/wings.woff?55509243') format('woff'),
-       url('../font/wings.ttf?55509243') format('truetype'),
-       url('../font/wings.svg?55509243#wings') format('svg');
+  src: url('../font/wings.eot?61739180');
+  src: url('../font/wings.eot?61739180#iefix') format('embedded-opentype'),
+       url('../font/wings.woff?61739180') format('woff'),
+       url('../font/wings.ttf?61739180') format('truetype'),
+       url('../font/wings.svg?61739180#wings') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -14,7 +14,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'wings';
-    src: url('../font/wings.svg?55509243#wings') format('svg');
+    src: url('../font/wings.svg?61739180#wings') format('svg');
   }
 }
 */
@@ -381,3 +381,6 @@
 .icon-appbar-calendar-week:before { content: '\e944'; } /* '' */
 .icon-appbar-forklift:before { content: '\e945'; } /* '' */
 .icon-appbar-forklift-load:before { content: '\e946'; } /* '' */
+.icon-appbar-truck:before { content: '\e947'; } /* '' */
+.icon-appbar-stock-up:before { content: '\e948'; } /* '' */
+.icon-appbar-money:before { content: '\e949'; } /* '' */

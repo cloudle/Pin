@@ -1,12 +1,12 @@
-template(name="import")
+template(name="delivery")
   .insert-wrapper: input.wings-field.insert(name="insertInput" placeholder="ghi chú nhập kho..")
   .nano.animated.fadeIn: .nano-content
-    unless getPublishedCount 'import'
-      +importEmpty
+    unless getPublishedCount 'delivery'
+      +deliveryEmpty
     else
-      +importList
+      +deliveryList
 
-template(name="importEmpty")
+template(name="deliveryEmpty")
   .zero-state
     .cog-icon.icon-appbar-cog.animate-spin
     .header.insert
@@ -16,7 +16,7 @@ template(name="importEmpty")
     img.cover-icon(src="/images/svg/stock.svg")
     a.peter-river.button.create-command Tải nhập kho từ file
 
-template(name="importList")
+template(name="deliveryList")
   .list
     each documents
       .doc-item

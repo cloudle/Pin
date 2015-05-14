@@ -1,6 +1,6 @@
 template(name="product")
   .insert-wrapper: input.wings-field.insert(name="insertInput" placeholder="tên sản phẩm..")
-  .nano.animated.bounceInDown: .nano-content
+  .nano.animated.fadeIn: .nano-content
     unless getPublishedCount 'product'
       +productEmpty
     else
