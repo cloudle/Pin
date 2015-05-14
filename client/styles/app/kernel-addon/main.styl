@@ -9,6 +9,7 @@
       margin-left -100%
       background-color kernel-addon-bg
       border-left kernel-addon-border
+      box-shadow kernel-addon-shadow
 
 .dual-layout#home .kernel-addon
   .zero-state
@@ -20,10 +21,17 @@
       width 100%
     .header
       font-size 25px; font-weight 300
-      margin-top 20px
+      margin-top 10px
       &.insert
         padding-right 50px
         text-align right
+        position relative
+        .insert-arrow-icon
+          absolute top -35px right 10px
+          transform rotate(56deg)
+          font-size 45px
+          color #C5C5C5
+
     .sub-header
       font-size 18px; font-weight 300
       margin-top 10px
@@ -33,13 +41,10 @@
       display block
       width 170px; height 212px
       margin 20px auto 30px auto
-    .insert-arrow-icon
-      absolute top 46px right 7px
-      transform rotate(56deg)
-      font-size 45px
-    .icon-config
+    .cog-icon
       absolute top 60px left 10px
       font-size 30px
+      color #B8B8B8
 
 .dual-layout#home .wings-editable
   input
@@ -49,4 +54,3 @@
     &.heading
       background-color transparent
       font-size 20px
-

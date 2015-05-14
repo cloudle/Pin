@@ -4,38 +4,44 @@ user-config-size = 65px
 #root-addon
   padding-bottom user-config-size
   background-color root-addon-bg
-  color #ab9ba9
+  color #7A7B86
+  box-shadow root-addon-shadow
 
   .channel-wrapper
     margin-top 20px
-    font-size 15px
+    font-size 14px
     word-spacing -1px
 
     ul
-      padding-left 0
+      padding 5px 0
       list-style none
       user-select none
 
       .channel-item
         cursor pointer
-        padding-left 15px; line-height 25px
+        padding-left 10px; line-height 25px
         width (root-addon-size - 15)
         border-radius right 4px
+        font-weight 600
+        position relative
         &:hover
-          color #fff
           background-color darken(root-addon-bg, 4)
         &.active
           background-color #479ccf
+        &.active, &:hover
           color #fff
+          &:before {color:#C8C8C8}
         &:before
           font-size 12px
           vertical-align middle
           line-height 13px
+          color #47474D
 
       .header
         position relative
-        padding 5px 0 0 15px
+        padding 5px 0 3px 15px
         font-weight 600
+        letter-spacing -1px
         .create-channel
           absolute top 2px right 12px
           font-size 18px
@@ -51,7 +57,7 @@ user-config-size = 65px
           margin 0 2px 1px 6px
           &.active { background-color: #479ccf }
         &:hover, &.active
-          .online-status {background-color: #fff}
+          .online-status { background-color: #fff }
 
 #root-addon .create-link
   display inline-block
@@ -115,7 +121,7 @@ user-config-size = 65px
     absolute left (root-addon-size - 50) bottom (user-config-size - 4)
     background-color #ffffff; z-index 1
     box-shadow 0 2px 10px rgba(64,54,63,.5)
-    width 100%; overflow hidden
+    width 160px; overflow hidden
     border-radius 3px
     font-size 15px
     user-select none

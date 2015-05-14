@@ -102,7 +102,7 @@ Document.Import.attachSchema new SimpleSchema
 
   description:
     type: String
-    optional: true
+    unique: true
 
   importType:
     type: Number

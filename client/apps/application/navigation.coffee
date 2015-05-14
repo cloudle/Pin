@@ -1,7 +1,7 @@
 @navigationMenus = [
   description: 'Tin tức tự động'
   color: 'lime'
-  icon: 'icon-world'
+  icon: 'icon-appbar-home-gps'
   app: "news"
 ,
 #  description: 'Notification'
@@ -11,32 +11,37 @@
 #,
   description: 'Nội bộ'
   color: 'purple'
-  icon: 'icon-battery'
+  icon: 'icon-appbar-group'
   app: "user"
 ,
   description: 'Sản phẩm'
   color: 'carrot'
-  icon: 'icon-ticket'
+  icon: 'icon-appbar-resource-group'
   app: "product"
 ,
   description: 'Lịch làm việc'
   color: 'nephritis'
-  icon: 'icon-date'
+  icon: 'icon-appbar-calendar-range'
   app: "calendar"
 ,
   description: 'Khách hàng'
   color: 'magenta'
-  icon: 'icon-id'
+  icon: 'icon-appbar-people-multiple'
   app: "customer"
 ,
-  description: 'Đơn hàng'
+  description: 'Bán hàng'
   color: 'sun-flower'
-  icon: 'icon-mail-open-file'
+  icon: 'icon-appbar-tag-label'
   app: "order"
 ,
+  description: 'Nhập kho'
+  color: 'teal'
+  icon: 'icon-appbar-forklift-load'
+  app: "import"
+,
   description: 'Tùy chỉnh hệ thống'
-  color: 'orange'
-  icon: 'icon-tools'
+  color: 'blue'
+  icon: 'icon-appbar-cogs'
   app: "system"
 ]
 

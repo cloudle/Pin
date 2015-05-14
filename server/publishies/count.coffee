@@ -3,3 +3,4 @@ Meteor.publish null, -> Counts.publish @, 'product', Document.Product.find(); re
 Meteor.publish null, -> Counts.publish @, 'customer', Document.Customer.find(); return
 Meteor.publish null, -> Counts.publish @, 'user', Meteor.users.find({creator: {$exists: true}}); return
 Meteor.publish null, -> Counts.publish @, 'order', Document.Product.find(); return
+Meteor.publish null, -> Counts.publish @, 'import', Document.Import.find(); return

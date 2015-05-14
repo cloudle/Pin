@@ -1,36 +1,56 @@
 @require '../../wings.import.styl'
 
+
+list-border-radius = 3px
 .dual-layout#home .kernel-addon .insert-wrapper
-  margin 25px 5px 5px 5px
+  margin 15px 5px 5px 5px
   .wings-field
     width 100%
+    box-shadow inset 0 0 1px 1px rgba(0,0,0,0.02)
 
 .dual-layout#home .kernel-addon .list
-  margin-top 5px
-  border-top 1px solid #e0e0e0
-  border-bottom 1px solid #e0e0e0
+  margin 5px 5px 5px 0
+  border 1px solid #e0e0e0
+  border-left none
+  border-radius right list-border-radius
   .doc-item
     position relative; cursor pointer
     background-color #ffffff
-    border-bottom 1px dashed #ededed
+    border-bottom 1px dashed #DFDFDF
     &:hover { background-color: #FAFAFA }
-    &:last-child { border-bottom: none }
-    .avatar-image
-      border-radius 2px
-      left 6px; top 3px
-    .doc-info
-      margin-left 50px
-      padding 4px 10px 4px 0
-      min-height 46px
-      .title
-        font-weight 600
-        overflow ellipsis
-      .sub-title
-        color #BABABA
-        overflow ellipsis
-    .time-stamp
-      absolute top 3px right 5px
-      font-size 12px; color #B2B2B2
+    &:first-child
+      border-radius top right list-border-radius
+    &:last-child
+      border-radius bottom right list-border-radius
+      border-bottom none
+
+.kernel-addon .doc-item
+  .description
+    font-weight 600
+    padding 5px 10px
+  .import-info
+    .value
+      color #333
+
+.kernel-addon .doc-item
+  .avatar-image
+    border-radius 2px
+    left 6px; top 3px
+    width 30px; height @width
+
+  .doc-info
+    margin-left 50px
+    padding 4px 10px 4px 0
+    min-height 36px
+    .title
       font-weight 600
-    .price-stamp
-      absolute top 20px right 5px
+      overflow ellipsis
+    .sub-title
+      color #BABABA
+      overflow ellipsis
+  .time-stamp
+    absolute top 3px right 5px
+    font-size 12px; color #B2B2B2
+    font-weight 600
+  .price-stamp
+    absolute top 20px right 5px

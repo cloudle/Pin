@@ -10,9 +10,9 @@ template(name="navigation")
     #kernel-addon.navigation.right
       if currentDescription
         .app-descriptions(class="{{currentColor}}") {{currentDescription}}
-      .history-navigators
-        .navigator.home.icon-home(description="Trang tổng quan hiện tại")
-        .navigator.backward.icon-left-arrow(description="Trở lại")
-        .navigator.forward.icon-right-arrow(description="Trang trước")
+      //.history-navigators
+      //  .navigator.home.icon-home(description="Trang tổng quan hiện tại")
+      //  .navigator.backward.icon-left-arrow(description="Trở lại")
+      //  .navigator.forward.icon-right-arrow(description="Trang trước")
       each addonMenus
         a.addon-launcher(class="{{color}} {{icon}} {{activeClass}}" description="{{description}}")
