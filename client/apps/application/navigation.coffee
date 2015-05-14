@@ -14,7 +14,7 @@
   icon: 'icon-appbar-projector-screen'
   app: "plan"
 ,
-  description: 'Nội bộ'
+  description: 'Nhân sự'
   color: 'purple'
   icon: 'icon-appbar-group'
   app: "user"

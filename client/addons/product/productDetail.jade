@@ -2,8 +2,8 @@ template(name="productDetail")
   .nano.animated.fadeIn: .nano-content
     input.hide.product-image-input(type="file")
     .section.avatar
-      .avatar-wrapper: .avatar-image.product-image(class="{{missingImageClass instance.image}}" style="background-image:url('{{productImageSrc instance.image}}')"
-      wings-tip="ảnh đại diện sản phẩm") {{avatarLetter instance.name}}
+      .avatar-wrapper: .avatar-image.editable.product-image(class="{{missingImageClass instance.image}}" style="background-image:url('{{productImageSrc instance.image}}')"
+      wings-tip="cập nhật ảnh sản phẩm") {{avatarLetter instance.name}}
         .clear.icon-close-circle
       .headers
         +wingsEditable(model=instance field="name" style="heading" label="tên sản phẩm" placeholder="Nhập tên sản phẩm")

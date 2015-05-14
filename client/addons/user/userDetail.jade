@@ -1,9 +1,8 @@
 template(name="userDetail")
   .nano.animated.fadeIn: .nano-content
-    input.hide.user-image-input(type="file")
     .section.avatar
-      .avatar-wrapper: .avatar-image.user-image(class="{{missingImageClass instance.profile.image}}" style="background-image:url('{{userImageSrc instance.profile.image}}')"
-        wings-tip="ảnh đại diện") {{avatarLetter instance.profile.name}}
+      .avatar-wrapper: .avatar-image.user-image(class="{{missingImageClass instance.profile.image}}"
+        style="background-image:url('{{userImageSrc instance.profile.image}}')") {{avatarLetter instance.profile.name}}
       .headers
         +wingsEditable(model=instance field="username" style="heading" label="họ tên")
 
