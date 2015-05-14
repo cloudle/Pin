@@ -1,4 +1,5 @@
 template(name="user")
+  .insert-wrapper: input.wings-field.insert(name="insertInput" placeholder="tên nhân viên..")
   .nano.animated.fadeIn: .nano-content
     unless getPublishedCount 'user'
       +userEmpty
@@ -7,7 +8,6 @@ template(name="user")
 
 template(name="userEmpty")
   .zero-state
-    input.wings-field.insert(name="insertInput")
     .insert-arrow-icon.icon-back
     .cog-icon.icon-appbar-cog.animate-spin
     .header Tạo mới để bắt đầu
@@ -16,7 +16,6 @@ template(name="userEmpty")
     a.peter-river.button.create-command Tải danh sách nhân viên
 
 template(name="userList")
-  .insert-wrapper: input.wings-field.insert(name="insertInput" placeholder="tên nhân viên..")
   .list
     each documents
       .doc-item

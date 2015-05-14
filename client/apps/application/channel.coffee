@@ -42,5 +42,11 @@ Wings.defineHyper 'channel',
 
 Wings.defineWidget 'userConfigMenu',
   events:
-    "click #logout": (event, template) -> Meteor.logout()
-    "click #config": (event, template) -> Wings.showModal 'modalUserOptions'
+    "click #logout": (event, template)  -> Meteor.logout()
+    "click #config": (event, template)  -> openOptionsAt('notificationOptions')
+    "click #profile": (event, template) -> openOptionsAt('profileOptions')
+    "click #display": (event, template) -> openOptionsAt('displayOptions')
+
+openOptionsAt = (menu) ->
+  Session.set("userOptionActiveMenu", menu)
+  Wings.showModal 'modalUserOptions'
