@@ -1,21 +1,28 @@
 template(name="customerDetail")
   .nano.animated.bounceInDown: .nano-content
+    input.hide.product-image-input(type="file")
     .section.avatar
-      .avatar-image(style="background-image:url('/avatars/{{me._id}}.jpg')" wings-tip="ảnh khách hàng")
+      .avatar-wrapper: .avatar-image.product-image(class="{{missingImageClass instance.image}}" style="background-image:url('{{productImageSrc instance.image}}')"
+      wings-tip="ảnh đại diện sản phẩm") {{avatarLetter instance.companyName}}
+        .clear.icon-close-circle
       .headers
-        +wingsEditable(model=instance field="name" style="heading" label="họ tên" placeholder="Tên khách hàng")
+        +wingsEditable(model=instance field="companyName" style="heading" label="tên công ty" placeholder="Tên công ty")
 
     .section
-      +wingsEditor(style="s5" placeholder="Ghi chú chung...")
+      +wingsEditor(model=instance field="description" style="s5" placeholder="Ghi chú chung...")
 
     .section
       .region
         .title
-          span Mua bán
+          span Thông tin cơ bản.
           span.sub-title (giá bán và chính sách giá)
         .dual-field
-          +regionInput(prefix="VNĐ" type="number" label="giá bán")
-          +regionInput(prefix="VNĐ" type="number" label="giá nhập tham khảo")
+          .field: +regionInput(label="chủ doanh nghiệp")
+
+        .dual-field
+          .field: +regionInput(label="số điện thoại")
+          .field: +regionInput(label="địa chỉ")
+
         .commands-wrapper
           .commands
             .command.icon-ok-circled2 lưu

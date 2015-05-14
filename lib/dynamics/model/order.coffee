@@ -1,12 +1,33 @@
 Wings.Document.register 'orders', 'Order', class Order
   @transform: (doc) ->
+    doc.updateOrder = (option, callback) ->
+      return unless typeof option is "object"
+
+      updateOrder = {}
+      if option.buyer and option.buyer isnt doc.buyer
+        updateOrder.$set = {buyer: option.buyer}
+
+      if option.description and option.description isnt doc.description
+        updateOrder.$set = {description: option.description}
+
+      if option.orderType and option.orderType isnt doc.orderType
+        updateOrder.$set = {orderType: option.orderType}
+
+      if option.discountCash and option.discountCash isnt doc.discountCash
+        updateOrder.$set = {discountCash: option.discountCash}
+
+      if option.depositCash and option.depositCash isnt doc.depositCash
+        updateOrder.$set = {depositCash: option.depositCash}
+
+      Document.Import.update doc._id, updateOrder, callback
+    doc.addDetail = () ->
+    doc.editDetail = () ->
+    doc.removeDetail = () ->
+
+
 
 Document.Order.attachSchema new SimpleSchema
   branch:
-    type: String
-    optional: true
-
-  seller:
     type: String
     optional: true
 
@@ -30,12 +51,13 @@ Document.Order.attachSchema new SimpleSchema
     type: [String]
     optional: true
 
-  discountCash: Schema.defaultNumber()
-  depositCash : Schema.defaultNumber()
-  totalPrice  : Schema.defaultNumber()
-  finalPrice  : Schema.defaultNumber()
+  discountCash: type: Number , defaultValue: 0
+  depositCash : type: Number , defaultValue: 0
+  totalPrice  : type: Number , defaultValue: 0
+  finalPrice  : type: Number , defaultValue: 0
+  allowDelete : type: Boolean, defaultValue: true
   creator     : Schema.creator
-  version     : { type: Schema.version }
+  version     : type: Schema.version
 
 
   details: type: [Object], defaultValue: []

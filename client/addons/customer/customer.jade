@@ -3,7 +3,7 @@ template(name="customer")
     unless getPublishedCount 'customer'
       +customerEmpty
     else
-      .header This is order manager {{this}}
+      +customerList
 
 template(name="customerEmpty")
   .zero-state
@@ -14,3 +14,14 @@ template(name="customerEmpty")
     .sub-header Quy trình dựa trên bộ hồ sơ Mackay 66.
     img.cover-icon(src="/images/svg/orders-empty-state.svg")
     a.peter-river.button.create-command Tải danh sách khách hàng
+
+template(name="customerList")
+  .list
+    each documents
+      .doc-item
+        .avatar-wrapper: .avatar-image(class="{{missingImageClass image}}"
+        style="background-image:url('{{productImageSrc image}}')") {{avatarLetter companyName}}
+        .doc-info
+          .title {{companyName}} <br/>
+          .sub-title {{companyAddress}}
+        .time-stamp.icon-clock {{standardDate version.createdAt}}
