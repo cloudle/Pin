@@ -1,12 +1,28 @@
 template(name="order")
+  .insert-wrapper: input.wings-field.insert(name="insertInput" placeholder="tên khách hàng..")
   .nano.animated.fadeIn: .nano-content
     unless getPublishedCount 'order'
       +orderEmpty
     else
-      .header This is order manager {{this}}
+      +orderList
 
 template(name="orderEmpty")
   .zero-state
-    .header Đơn hàng được thể hiện tại đây
+    .cog-icon.icon-appbar-cog.animate-spin
+    .header.insert
+      span Đơn hàng được thể hiện tại đây
+      .insert-arrow-icon.icon-back
     img.cover-icon(src="/images/svg/orders-empty-state.svg")
     a.peter-river.button.create-command Tạo đơn hàng
+
+template(name="orderList")
+  .list
+     each documents
+      .doc-item
+        .avatar-wrapper: .avatar-image(class="{{missingImageClass image}}"
+        style="background-image:url('{{productImageSrc image}}')") {{avatarLetter buyerName}}
+        .doc-info
+          .title {{buyerName}} <br/>
+          .sub-title {{description}}
+        .time-stamp.icon-clock {{standardDate version.createdAt}}
+        .price-stamp.icon-ticket {{formatNumber finalPrice}} VNĐ

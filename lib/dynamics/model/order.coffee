@@ -7,6 +7,7 @@ recalculationOrder = (orderId) ->
 
 Wings.Document.register 'orders', 'Order', class Order
   @transform: (doc) ->
+    doc.customer = Document.Customer.findOne({})
     doc.updateOrder = (option, callback) ->
       return unless typeof option is "object"
 
@@ -134,6 +135,12 @@ Module "Enum",
 
 
 Document.Order.attachSchema new SimpleSchema
+  saleCode:
+    type: String
+    defaultValue: Random.id()
+    index: 1
+    unique: true
+
   branch:
     type: String
     optional: true
@@ -142,9 +149,9 @@ Document.Order.attachSchema new SimpleSchema
     type: String
     optional: true
 
-  saleCode:
+  buyerName:
     type: String
-    optional: true
+    defaultValue: 'Phiếu bán hàng'
 
   description:
     type: String
@@ -153,6 +160,10 @@ Document.Order.attachSchema new SimpleSchema
   orderType:
     type: Number
     defaultValue: Enum.orderType.created
+
+  creator   : Schema.creator
+  slug      : Schema.slugify('Order', 'saleCode')
+  version   : { type: Schema.version }
 
   returns     : type: [String],  optional: true
   discountCash: type: Number , defaultValue: 0
