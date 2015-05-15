@@ -1,0 +1,29 @@
+template(name="orderDetail")
+  .nano.animated.fadeIn: .nano-content
+    .section
+      .region
+        .title
+          span Thêm sản phẩm
+          span.sub-title cho khách hàng AAAAAA
+        .region-row
+          +regionInput(wrapperClass="baseUnitName col-4" value=instance.baseUnitName label="sản phẩm")
+
+
+        .region-row
+          table(style="width:100%")
+            tr
+              th(style="width:auto; text-align: left") SẢN PHẨM
+              th(style="width:80px; text-align: right") SỐ LƯỢNG
+              th(style="width:150px; text-align: right") GIÁ BÁN
+
+            each instance.details
+              tr
+                td {{productName}}
+                td {{quality}}
+                td {{price}}
+
+
+        .commands-wrapper
+          .commands
+            .command.remove-order hủy
+            .command.submit-order.icon-ok-circled2 lưu
