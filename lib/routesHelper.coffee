@@ -1,6 +1,7 @@
 addons = ['news', 'plan', 'product', 'customer', 'user', 'order', 'import', 'delivery']
 actions = ['detail', 'edit']
 kernelAddonRegion = { to: "kernelAddon" }
+kernelAppRegion   = { to: 'kernelApp' }
 
 Module "Wings.Router",
   findChannel: (slug) ->
@@ -13,18 +14,21 @@ Module "Wings.Router",
     chanelResult
 
   isValid: (scope) -> return _(addons).contains(scope.params.sub)
-  renderAddonNotFound: (scope) -> scope.render 'addonNotFound', kernelAddonRegion
-  renderAddonDocumentNotFound: (scope) -> scope.render 'addonDocumentNotFound', kernelAddonRegion
+  renderAddonNotFound: (scope) -> scope.render 'addonNotFound', kernelAppRegion
+  renderAddonDocumentNotFound: (scope) -> scope.render 'addonDocumentNotFound', kernelAppRegion
   renderAddonDefault: (scope) -> scope.render scope.params.sub, kernelAddonRegion
+  renderKernelMessenger: (scope) -> scope.render 'kernel', kernelAppRegion
 
-  renderAddon: (scope) ->
+  renderApplication: (scope) ->
     if @isValid(scope)
+      @renderAddonDefault(scope)
+
       if documentWantedAndExist(scope)
         @renderAddonDetail(scope)
       else if documentWanted(scope)
         @renderAddonDocumentNotFound(scope)
       else
-        @renderAddonDefault(scope)
+        @renderKernelMessenger(scope)
     else
       @renderAddonNotFound(scope)
 
@@ -33,11 +37,11 @@ Module "Wings.Router",
     if scope.params.action
       childTemplate = "#{scope.params.sub}#{scope.params.action.toCapitalize()}"
       if Template[childTemplate]
-        scope.render childTemplate, kernelAddonRegion
+        scope.render childTemplate, kernelAppRegion
       else
         @renderAddonNotFound(scope)
     else
-      scope.render "#{scope.params.sub}Detail", kernelAddonRegion
+      scope.render "#{scope.params.sub}Detail", kernelAppRegion
 
 documentWantedAndExist = (scope) -> scope.params.subslug and Document[scope.params.sub.toCapitalize()]?.findOne({slug: scope.params.subslug})
 documentWanted = (scope) -> !!scope.params.subslug

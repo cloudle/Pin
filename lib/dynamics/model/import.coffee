@@ -121,6 +121,7 @@ Document.Import.attachSchema new SimpleSchema
   totalPrice  : Schema.defaultNumber()
   finalPrice  : Schema.defaultNumber()
   creator     : Schema.creator
+  slug        : Schema.slugify('Import', 'description')
   version     : { type: Schema.version }
 
 

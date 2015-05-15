@@ -12,9 +12,9 @@ template(name="userDetail")
           span Tài khoản
           span.sub-title (cấp phát truy cập hệ thống)
           .sub-title *cẩn thận: không thể chỉnh sửa sau khi khởi tạo tài khoản
-        .dual-field
-          +regionInput(label="tài khoản đăng nhập")
-          +regionInput(label="mật khẩu tạm thời")
+        .region-row
+          +regionInput(wrapperClass="col-6" label="tài khoản đăng nhập")
+          +regionInput(wrapperClass="col-6" label="mật khẩu tạm thời")
         .commands-wrapper
           .commands
             .command.icon-ok-circled2 khởi tạo
@@ -22,3 +22,10 @@ template(name="userDetail")
         .title
           .main Phân quyền
           .sub-title Quyền hạn truy cập của thành viên này đối với hệ thống
+
+    .section
+      .region
+        .title
+          .main
+            .main Danh sách khách hàng chăm sóc
+            .sub-title những khách hàng mà nhân viên chịu trách nhiệm

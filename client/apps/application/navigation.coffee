@@ -34,10 +34,10 @@
   icon: 'icon-appbar-resource-group'
   app: "product"
 ,
-  description: 'Giao hàng'
+  description: 'Nhập kho'
   color: 'teal'
   icon: 'icon-appbar-social-dropbox'
-  app: "delivery"
+  app: "import"
 ,
   description: 'Kế toán'
   color: 'blue'

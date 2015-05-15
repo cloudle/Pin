@@ -25,11 +25,10 @@ Router.route '/:slug?/:sub?/:subslug?/:action?',
 #        Meteor.subscribe("topDocuments", @params.sub.toCapitalize())
   onBeforeAction: ->
     if Wings.Router.isValid(@)
-      if @params.subslug
-        Meteor.subscribe("sluggedDocument", @params.sub.toCapitalize(), @params.subslug)
-      else
-        Meteor.subscribe("topDocuments", @params.sub.toCapitalize())
-    Wings.Router.renderAddon(@)
+      Meteor.subscribe("topDocuments", @params.sub.toCapitalize())
+      Meteor.subscribe("sluggedDocument", @params.sub.toCapitalize(), @params.subslug) if @params.subslug
+
+    Wings.Router.renderApplication(@)
     @next()
 
   data: ->
@@ -54,10 +53,10 @@ Router.route '/:slug?/:sub?/:subslug?/:action?',
     filter = {creator: {$exists: true}} if @params.sub is 'user'
 
     if Wings.Router.isValid(@)
-      if @params.subslug
-        result.instance = Document[@params.sub.toCapitalize()].findOne({slug: @params.subslug})
-      else
-        result.documents = Document[@params.sub.toCapitalize()].find(filter)
+      result.documents = Document[@params.sub.toCapitalize()].find(filter)
+      result.instance = Document[@params.sub.toCapitalize()].findOne({slug: @params.subslug}) if @params.subslug
+
+
 
     result
 
