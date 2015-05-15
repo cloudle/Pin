@@ -26,4 +26,4 @@ Wings.defineWidget 'customerDetail',
       updateCustomer.companyPhone   = companyPhone if @instance.companyPhone isnt companyPhone
       updateCustomer.companyAddress = companyAddress if @instance.companyAddress isnt companyAddress
 
-      console.log updateCustomer
+      @instance.update(updateCustomer)

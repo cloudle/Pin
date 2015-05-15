@@ -16,17 +16,27 @@ template(name="customerDetail")
         .title
           span Thông tin cơ bản.
         .region-row
-          +regionInput(wrapperClass="col-6 businessOwner" label="chủ doanh nghiệp")
-          +regionInput(wrapperClass="col-6 companyPhone" label="số điện thoại")
-
+          +regionInput(wrapperClass="col-6 businessOwner" label="chủ doanh nghiệp" value=instance.businessOwner)
+          +regionInput(wrapperClass="col-6 companyPhone" label="số điện thoại" value=instance.companyPhone)
         .region-row
-          +regionInput(wrapperClass="col-12 companyAddress" label="địa chỉ")
+          +regionInput(wrapperClass="col-12 companyAddress" label="địa chỉ" value=instance.companyAddress)
         .commands-wrapper
           .commands
             .command.extract-event thêm sự kiện
             .command.update-customer.icon-ok-circled2 lưu
 
+    .section
       .region
         .title
           span Danh sách nhân viên chăm sóc,
           span.sub-title  một khách hàng có thể được chăm sóc bởi nhiều nhân viên.
+        .commands-wrapper
+          .commands
+            .command.cancel-add-careStaff hủy
+            .command.accept-add-careStaff.icon-ok-circled2 lưu
+
+    .section
+      .region
+        .title
+          span Lịch sử giao dịch,
+          span.sub-title  được tính theo quý III.
