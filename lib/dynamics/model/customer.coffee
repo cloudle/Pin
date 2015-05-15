@@ -1,5 +1,26 @@
 Wings.Document.register 'customers', 'Customer', class Customer
   @transform: (doc) ->
+    doc.update = (option, callback) ->
+      return unless typeof option is "object"
+
+      updateCustomer = {}
+      if option.businessOwner and option.businessOwner isnt doc.businessOwner
+        updateCustomer.$set = {businessOwner: option.businessOwner}
+      else if option.businessOwner is ""
+        updateCustomer.$unset = {businessOwner: ""}
+
+      if option.companyPhone and option.companyPhone isnt doc.companyPhone
+        updateCustomer.$set = {companyPhone: option.companyPhone}
+      else if option.companyPhone is ""
+        updateCustomer.$unset = {companyPhone: ""}
+
+      if option.companyAddress and option.companyAddress isnt doc.companyAddress
+        updateCustomer.$set = {companyAddress: option.companyAddress}
+      else if option.companyAddress is ""
+        updateCustomer.$unset = {companyAddress: ""}
+
+      Document.Customer.update doc._id, updateCustomer, callback
+
 
 Document.Customer.attachSchema new SimpleSchema
   companyName:

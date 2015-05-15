@@ -1,3 +1,10 @@
+recalculationOrder = (orderId) ->
+  importFound = Document.Order.findOne(orderId)
+  totalPrice = 0
+  (totalPrice += detail.quality * detail.price) for detail in importFound.details
+  finalPrice = totalPrice - importFound.discountCash
+  Document.Order.update importFound._id, $set:{totalPrice: totalPrice, finalPrice: finalPrice}
+
 Wings.Document.register 'orders', 'Order', class Order
   @transform: (doc) ->
     doc.updateOrder = (option, callback) ->
@@ -19,10 +26,110 @@ Wings.Document.register 'orders', 'Order', class Order
       if option.depositCash and option.depositCash isnt doc.depositCash
         updateOrder.$set = {depositCash: option.depositCash}
 
-      Document.Import.update doc._id, updateOrder, callback
-    doc.addDetail = () ->
-    doc.editDetail = () ->
-    doc.removeDetail = () ->
+      Document.Order.update doc._id, updateOrder, callback
+
+    doc.addDetail = (productUnitId, quality, price) ->
+      return console.log('Order không tồn tại.') if (!self = Document.Order.findOne doc._id)
+
+      product = Document.Product.findOne({'units._id': productUnitId})
+      return console.log('Khong tim thay Product') if !product
+      productUnit = _.findWhere(product.units, {_id: productUnitId})
+      return console.log('Khong tim thay ProductUnit') if !productUnit
+
+      if product and quality > 0 and price >= 0
+        detailFindQuery = {product: product._id, productUnit: productUnitId, price: price}
+        detailFound = _.findWhere(self.details, detailFindQuery)
+        console.log doc.details, detailFindQuery, detailFound
+
+        if detailFound
+          detailIndex = _.indexOf(self.details, detailFound)
+          updateQuery = {$inc:{}}
+          updateQuery.$inc['details.'+detailIndex+'.quality'] = quality
+          recalculationOrder(self._id) if Document.Order.update(self._id, updateQuery, callback)
+
+        else
+          detailFindQuery.quality = quality
+          recalculationOrder(self._id) if Document.Order.update(self._id, { $push: {details: detailFindQuery} }, callback)
+
+    doc.editDetail = (detailId, quality, price) ->
+      return console.log('Order không tồn tại.') if (!self = Document.Order.findOne doc._id)
+
+      detailFound = _.findWhere(self.details, {_id: detailId})
+      return console.log('Thong tin detail sai') if !detailFound
+      return console.log('Thong tin sai') if !quality or quality < 0 or !price  or price < 0
+
+      detailIndex = _.indexOf(self.details, detailFound)
+      updateDetail = {$set:{}}
+      updateDetail.$set['details.'+detailIndex+'.quality'] = quality
+      updateDetail.$set['details.'+detailIndex+'.price'] = price
+      recalculationOrder(self._id) if Document.Order.update(self._id, updateDetail, callback)
+
+    doc.removeDetail = (detailId) ->
+      return console.log('Order không tồn tại.') if (!self = Document.Order.findOne doc._id)
+      return console.log('OrderDetail không tồn tại.') if (!detailFound = _.findWhere(self.details, {_id: detailId}))
+      detailIndex = _.indexOf(self.details, detailFound)
+      removeDetailQuery = { $pull:{} }
+      removeDetailQuery.$pull.details = self.details[detailIndex]
+      recalculationOrder(self._id) if Document.Order.update(self._id, removeDetailQuery, callbac)
+
+    doc.submit = ->
+      return console.log('Order không tồn tại.') if (!self = Document.Order.findOne doc._id)
+      return console.log('Order đã Submit') if self.orderType isnt Enum.orderType.created
+
+      for detail, detailIndex in self.details
+        product = Document.Product.findOne({'units._id': detail.productUnit})
+        return console.log('Khong tim thay Product') if !product
+        productUnit = _.findWhere(product.units, {_id: detail.productUnit})
+        return console.log('Khong tim thay ProductUnit') if !productUnit
+      Meteor.call 'orderSubmit', self._id
+
+    doc.addDelivery = (option, callback) ->
+      return console.log('Order không tồn tại.') if (!self = Document.Order.findOne doc._id)
+      return console.log('Customer không tồn tại.') if (!customer = Document.Customer.findOne(self.buyer))
+      return console.log('Delivery tồn tại.') if self.deliveryStatus
+
+      addDeliver = {$push: {}}
+      addDeliver.description        = option.description if Math.check(option.deliveryDate, String)
+      addDeliver.deliveryDate       = option.deliveryDate if Math.check(option.deliveryDate, Date)
+      addDeliver.contactName        = option.contactName ? customer.companyName
+      addDeliver.contactPhone       = option.contactPhone ? customer.companyPhone
+      addDeliver.deliveryAddress    = option.deliveryAddress ? customer.companyAddress
+      addDeliver.transportationFee  = 0
+      addDeliver.createdAt          = new Date()
+
+      Document.Order.update self._id, addDeliver, callback
+
+    doc.deliveryReceipt = (staffId = Meteor.userId(), callback)->
+      return console.log('Order không tồn tại.') if (!self = Document.Order.findOne doc._id)
+      return console.log('Delivery tồn tại.') unless self.deliveryStatus
+      return console.log('Delivery đang được giao.') if self.deliveryStatus isnt Enum.created
+      return console.log('Staff không tồn tại.') if !@Meteor.users.findOne(staffId)
+
+      deliveryLastIndex = self.deliveries.length - 1
+      deliveryReceiptUpdate = {$set:{}}
+      deliveryReceiptUpdate.$set['deliveries.'+deliveryLastIndex +'.shipper'] = staffId
+      Document.Order.update self._id, deliveryReceiptUpdate, callback
+
+    doc.deliverySucceed = (staffId = Meteor.userId(), callback)->
+      deliveryLastIndex = self.deliveries.length - 1
+      deliveryReceiptUpdate = {$unset:{}}
+      deliveryReceiptUpdate.$unset['deliveries.'+deliveryLastIndex +'.shipper'] = ""
+      Document.Order.update self._id, deliveryReceiptUpdate, callback
+
+
+
+
+
+
+Module "Enum",
+  orderType:
+    created   : 0
+    submitted : 1
+
+  deliveryStatus:
+    created  : 0
+    delivered: 1
+    succeed  : 2
 
 
 
@@ -45,12 +152,9 @@ Document.Order.attachSchema new SimpleSchema
 
   orderType:
     type: Number
-    defaultValue: 0
+    defaultValue: Enum.orderType.created
 
-  returns:
-    type: [String]
-    optional: true
-
+  returns     : type: [String],  optional: true
   discountCash: type: Number , defaultValue: 0
   depositCash : type: Number , defaultValue: 0
   totalPrice  : type: Number , defaultValue: 0
@@ -66,17 +170,19 @@ Document.Order.attachSchema new SimpleSchema
   'details.$.productUnit'  : type: String
   'details.$.quality'      : type: Number
   'details.$.price'        : type: Number
-  'details.$.returnQuality': type: Number
+  'details.$.returnQuality': Schema.defaultNumber()
 
 
-  deliveries                    : type: [Object], defaultValue: []
-  'deliveries.$.shipper'        : type: String, optional: true
-  'deliveries.$.buyer'          : type: String, optional: true
-  'deliveries.$.deliveryCode'   : type: String, optional: true
-  'deliveries.$.contactName'    : type: String, optional: true
-  'deliveries.$.description'    : type: String, optional: true
-  'deliveries.$.contactPhone'   : type: String, optional: true
-  'deliveries.$.deliveryAddress': type: String, optional: true
-  'deliveries.$.deliveryDate'   : type: String, optional: true
-  'deliveries.$.createdAt'      : type: Date  , optional: true
+  deliveryStatus                  : type: Number  , optional: true
+  deliveries                      : type: [Object], defaultValue: []
+  'deliveries.$.shipper'          : type: String  , optional: true
+  'deliveries.$.buyer'            : type: String  , optional: true
+  'deliveries.$.deliveryCode'     : type: String  , optional: true
+  'deliveries.$.contactName'      : type: String  , optional: true
+  'deliveries.$.description'      : type: String  , optional: true
+  'deliveries.$.contactPhone'     : type: String  , optional: true
+  'deliveries.$.deliveryAddress'  : type: String  , optional: true
+  'deliveries.$.deliveryDate'     : type: String  , optional: true
+  'deliveries.$.transportationFee': type: Number  , optional: true
+  'deliveries.$.createdAt'        : type: Date    , optional: true
 
