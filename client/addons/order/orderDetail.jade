@@ -6,14 +6,19 @@ template(name="orderDetail")
           span Thêm sản phẩm
           span.sub-title cho khách hàng AAAAAA
         .region-row
-          +regionInput(wrapperClass="baseUnitName col-4" value=instance.baseUnitName label="sản phẩm")
+          +wingsSelect(options=productSelectOptions width="200px")
+          +regionInput(wrapperClass="importPrice col-2" prefix="VNĐ" type="number" label="số lượng")
+          +regionInput(wrapperClass="importPrice col-2" prefix="VNĐ" type="number" label="giá nhập")
+
+
 
 
         .region-row
           table(style="width:100%")
             tr
               th(style="width:auto; text-align: left") SẢN PHẨM
-              th(style="width:80px; text-align: right") SỐ LƯỢNG
+              th(style="width:80px; text-align: right") ĐƠN VỊ
+              th(style="width:150px; text-align: right") SỐ LƯỢNG
               th(style="width:150px; text-align: right") GIÁ BÁN
 
             each instance.details
@@ -21,9 +26,3 @@ template(name="orderDetail")
                 td {{productName}}
                 td {{quality}}
                 td {{price}}
-
-
-        .commands-wrapper
-          .commands
-            .command.remove-order hủy
-            .command.submit-order.icon-ok-circled2 lưu

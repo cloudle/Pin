@@ -24,6 +24,8 @@ Wings.Document.register 'products', 'Product', class Product
         basePrice   = _.findWhere(listPrices, {unit: unit._id})
 
         doc.productUnits[index].unitIndex = index
+        doc.productUnits[index].unitName  = doc.productUnits[index].name
+        doc.productUnits[index].name      = doc.name
 
         if branchPrice
           doc.productUnits[index].priceId     = branchPrice._id

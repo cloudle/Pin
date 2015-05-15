@@ -1,35 +1,40 @@
+formatProductSearch = (item) -> "#{item.name} - #{item.unitName}" if item
+productUnits = ()->
+  units = []
+  for product in Document.Product.find().fetch()
+    units.push(product.productUnits)
+  _.flatten(units)
+
+
+
+productSelectOptions =
+  query: (query) -> query.callback
+    results: _.filter productUnits(), (item) ->
+      unsignedTerm = Wings.Helpers.Slugify(query.term)
+      unsignedName = Wings.Helpers.Slugify(item.name)
+      unsignedName.indexOf(unsignedTerm) > -1
+    text: 'name'
+  initSelection: (element, callback) -> callback(productUnits[0])
+  reactiveValueGetter: -> Session.get('currentOrder')?.buyer
+  formatSelection: formatProductSearch
+  formatResult: formatProductSearch
+  placeholder: 'CHỌN SẢN PHẨM'
+  changeAction: (e) -> console.log e
+
 Wings.defineWidget 'orderDetail',
   helpers:
+    productSelectOptions: productSelectOptions
+    products: -> Document.Product.find({})
+    hasProductUnits: -> @productUnits?.length > 0
+
     productName: ->
       product = Document.Product.findOne()
       productUnit = _.findWhere(product.units, {_id: @productUnit})
       product.name + (productUnit.name)
 
+  rendered: -> Session.set("currentProduct", Document.Product.findOne({}))
   events:
-    "click .customer-image": (event, template) -> template.find(".customer-image-input").click()
-    "change .customer-image-input": (event, template) ->
-      instance = @instance
-      files = event.target.files
-      if files.length > 0
-        Storage.CustomerImage.insert files[0], (error, fileObj) ->
-          if error
-            console.log 'avatar image upload error', error
-          else
-            Storage.CustomerImage.findOne(instance.image)?.remove()
-            Document.Customer.update instance._id, $set: {image: fileObj._id}
-    "click .customer-image .clear": (event, template) ->
-      Storage.CustomerImage.findOne(@instance.image)?.remove()
-      Document.Customer.update @instance._id, $unset: {image: ""}
-      event.stopPropagation()
-
-    "click .update-customer": (event, template) ->
-      businessOwner  = $(template.find(".businessOwner input")).val()
-      companyPhone   = $(template.find(".companyPhone input")).val()
-      companyAddress = $(template.find(".companyAddress input")).val()
-
-      updateCustomer = {}
-      updateCustomer.businessOwner  = businessOwner if @instance.businessOwner isnt businessOwner
-      updateCustomer.companyPhone   = companyPhone if @instance.companyPhone isnt companyPhone
-      updateCustomer.companyAddress = companyAddress if @instance.companyAddress isnt companyAddress
-
-      @instance.update(updateCustomer)
+    "change .selectProduct" : (event, template) ->
+      productId = template.find('.selectProduct').value
+      product
+      Session.set "currentProduct", Document.Product.findOne(productId)
