@@ -6,7 +6,7 @@ template(name="orderDetail")
           span Thêm sản phẩm
           span.sub-title cho khách hàng AAAAAA
         .region-row
-          +wingsSelect(options=productSelectOptions width="200px")
+          +wingsSelect(wrapperClass="col-4" options=productSelectOptions)
           +regionInput(wrapperClass="importPrice col-2" prefix="VNĐ" type="number" label="số lượng")
           +regionInput(wrapperClass="importPrice col-2" prefix="VNĐ" type="number" label="giá nhập")
 

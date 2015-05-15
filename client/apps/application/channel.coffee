@@ -16,16 +16,12 @@ Wings.defineHyper 'channel',
   events:
     "click .channel-item": (event, template) ->
       data = template.data
+      homePath = Router.routes['home'].path()
+      homePath += if @profile then "@#{@slug}" else @slug
+      homePath += "/#{data.sub}" if data.sub
+#      homePath += "/#{data.subslug}" if data.sub and data.subslug
 
-      if @profile
-        homePath = Router.routes['home'].path()
-        homePath += "@#{@slug}"
-        homePath += "/#{data.sub}" if data.sub
-        homePath += "/#{data.subslug}" if data.sub and data.subslug
-
-        Router.go homePath
-      else
-        Router.go 'home', {slug: @slug, sub:data.sub, subslug:data.subslug}
+      Router.go homePath
 
     "click .user-configs": (event, template) ->
       Wings.showPopup template.ui.$userConfigMenu, event
