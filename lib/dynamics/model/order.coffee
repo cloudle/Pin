@@ -30,12 +30,12 @@ Wings.Document.register 'orders', 'Order', class Order
 
       Document.Order.update doc._id, updateOrder, callback
 
-    doc.addDetail = (productUnitId, quality, price) ->
+    doc.addDetail = (productUnitId, quality, price, callback) ->
       return console.log('Order không tồn tại.') if (!self = Document.Order.findOne doc._id)
 
       product = Document.Product.findOne({'units._id': productUnitId})
       return console.log('Khong tim thay Product') if !product
-      productUnit = _.findWhere(product.units, {_id: productUnitId})
+      productUnit = _.findWhere(product.productUnits, {_id: productUnitId})
       return console.log('Khong tim thay ProductUnit') if !productUnit
 
       if product and quality > 0 and price >= 0
@@ -43,6 +43,7 @@ Wings.Document.register 'orders', 'Order', class Order
         detailFound = _.findWhere(self.details, detailFindQuery)
         console.log doc.details, detailFindQuery, detailFound
 
+        console.log 'ok'
         if detailFound
           detailIndex = _.indexOf(self.details, detailFound)
           updateQuery = {$inc:{}}

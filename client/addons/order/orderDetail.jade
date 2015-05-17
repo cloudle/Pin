@@ -7,9 +7,18 @@ template(name="orderDetail")
           span.sub-title cho khách hàng AAAAAA
         .region-row
           +wingsSelect(wrapperClass="col-4" options=productSelectOptions)
-          +regionInput(wrapperClass="importPrice col-2" prefix="VNĐ" type="number" label="số lượng")
-          +regionInput(wrapperClass="importPrice col-2" prefix="VNĐ" type="number" label="giá nhập")
+          +regionInput(wrapperClass="productQuality col-2" type="number" label="số lượng")
+          +regionInput(wrapperClass="unitPrice col-2" prefix="VNĐ" type="number" label="giá nhập")
 
+        .commands-wrapper
+          .commands
+            .command.add-order-detail.icon-ok-circled2 thêm
+              
+    .section
+      .region
+        .title
+          span Danh sách sản phẩm
+          
         .region-row.grid
           table(style="width:100%")
             tr.grid-header
@@ -18,6 +27,7 @@ template(name="orderDetail")
               th.number(style="width:50px") SL
               th.number(style="width:80px") ĐƠN VỊ
               th.number(style="width:140px") TỔNG
+
 
             each instance.details
               tr.detail-row
