@@ -26,8 +26,8 @@ Router.route '/:slug?/:sub?/:subslug?/:action?',
   onBeforeAction: ->
     if Wings.Router.isValid(@)
       Meteor.subscribe("topDocuments", @params.sub.toCapitalize())
+      Meteor.subscribe(@params.sub, @params.subslug) if @params.subslug
       Meteor.subscribe("sluggedDocument", @params.sub.toCapitalize(), @params.subslug) if @params.subslug
-
     Wings.Router.renderApplication(@)
     @next()
 

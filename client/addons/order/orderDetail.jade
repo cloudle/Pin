@@ -10,19 +10,52 @@ template(name="orderDetail")
           +regionInput(wrapperClass="importPrice col-2" prefix="VNĐ" type="number" label="số lượng")
           +regionInput(wrapperClass="importPrice col-2" prefix="VNĐ" type="number" label="giá nhập")
 
-
-
-
-        .region-row
+        .region-row.grid
           table(style="width:100%")
-            tr
-              th(style="width:auto; text-align: left") SẢN PHẨM
-              th(style="width:80px; text-align: right") ĐƠN VỊ
-              th(style="width:150px; text-align: right") SỐ LƯỢNG
-              th(style="width:150px; text-align: right") GIÁ BÁN
+            tr.grid-header
+              th.string(style="width:auto") SẢN PHẨM
+              th.number(style="width:100px") GIÁ BÁN
+              th.number(style="width:50px") SL
+              th.number(style="width:80px") ĐƠN VỊ
+              th.number(style="width:140px") TỔNG
 
             each instance.details
-              tr
-                td {{productName}}
-                td {{quality}}
-                td {{price}}
+              tr.detail-row
+                td.name
+                  | {{orderInfo.product.name}}
+                  .commands
+                    .remove.order-row.icon-minus-circled
+                td.number {{formatNumber price}}
+                td.number {{formatNumber quality}}
+                td.number {{orderInfo.unit.name}}
+                td.number.strong {{formatNumber finalPrice}}
+
+            tr.top-dashed
+              td(colspan="5")
+                input.description(type="text" placeholder="ghi chú đơn hàng...")
+
+            tr
+              td.center-align NGƯỜI NHẬN
+              td.number(colspan="2") TỔNG CỘNG
+              td.number.strong(colspan="2") {{formatNumber instance.finalPrice}}
+            tr
+              td
+              td.number(colspan="2") CHIẾT KHẤU
+              td.number(colspan="2") VNĐ
+            tr
+              td
+              td.number(colspan="2") TIỀN CŨ
+              td.number(colspan="2") VNĐ
+            tr
+              td
+              td.number(colspan="2") THANH TOÁN
+              td.number(colspan="2") VNĐ
+            tr.top-dashed
+              td.center-align.signature (Chữ ký và Họ Tên)
+              td.number(colspan="2") CÒN LẠI
+              td.number.strong(colspan="2") {{formatNumber instance.finalPrice}}
+
+        .region-row
+          h1 {{instance.buyerInstance.name}}
+          each getProducts
+            span {{{name}}}

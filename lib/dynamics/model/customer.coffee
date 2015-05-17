@@ -9,21 +9,21 @@ Wings.Document.register 'customers', 'Customer', class Customer
       else if option.businessOwner is ""
         updateCustomer.$unset = {businessOwner: ""}
 
-      if option.companyPhone and option.companyPhone isnt doc.companyPhone
-        updateCustomer.$set = {companyPhone: option.companyPhone}
-      else if option.companyPhone is ""
-        updateCustomer.$unset = {companyPhone: ""}
+      if option.phone and option.phone isnt doc.phone
+        updateCustomer.$set = {phone: option.phone}
+      else if option.phone is ""
+        updateCustomer.$unset = {phone: ""}
 
-      if option.companyAddress and option.companyAddress isnt doc.companyAddress
-        updateCustomer.$set = {companyAddress: option.companyAddress}
-      else if option.companyAddress is ""
-        updateCustomer.$unset = {companyAddress: ""}
+      if option.address and option.address isnt doc.address
+        updateCustomer.$set = {address: option.address}
+      else if option.address is ""
+        updateCustomer.$unset = {address: ""}
 
       Document.Customer.update doc._id, updateCustomer, callback
 
 
 Document.Customer.attachSchema new SimpleSchema
-  companyName:
+  name:
     type: String
     index: 1
     unique: true
@@ -32,11 +32,11 @@ Document.Customer.attachSchema new SimpleSchema
     type: String
     optional: true
 
-  companyAddress:
+  address:
     type: String
     optional: true
 
-  companyPhone:
+  phone:
     type: String
     optional: true
 
@@ -61,5 +61,5 @@ Document.Customer.attachSchema new SimpleSchema
 
 
   creator   : Schema.creator
-  slug      : Schema.slugify('Customer', 'companyName')
+  slug      : Schema.slugify('Customer', 'name')
   version   : { type: Schema.version }

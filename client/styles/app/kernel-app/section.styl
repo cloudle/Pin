@@ -1,0 +1,65 @@
+@require '../../wings.import.styl'
+
+.kernel-detail .section
+  margin 0 !important
+  border none !important
+
+  .region
+    margin 0 !important
+
+  .region-row
+    margin 0 !important
+
+    &.grid
+      table
+        border-spacing 0
+        border-collapse collapse
+        font-size 15px
+
+        tr.detail-row
+          cursor pointer
+          &:hover {background-color:#c9eaff; border-color:transparent}
+          &:not(:nth-child(2))
+            border-top dashed 1px #eee
+          /*td:first-child*/
+            /*border-left solid 3px #f39c12*/
+
+        tr
+          td, th
+            &:first-child
+              padding-left 10px
+            &:last-child
+              padding-right 10px
+          td, th
+            padding-top 5px; padding-bottom 5px
+          &:first-child
+            border-bottom 1px dashed #b0b0b0
+            border-top none
+          &.top-dashed
+            border-top 1px dashed #b0b0b0
+
+.grid
+  .number, .right-align
+    text-align right
+  .string, .left-align
+    text-align left
+  .center-align
+    text-align center
+  .strong
+    font-weight 600
+
+  .detail-row
+    .name
+      position relative
+      padding-right 30px
+      .commands
+        font-size 21px; color #2e8bcc
+        absolute top 0 right 0
+
+  .signature
+    color #7B7B7B
+    font-size 13px; font-style italic
+  .description
+    font-size 15px; color #909090
+    border none; border-bottom 1px dashed orange
+    padding 0 5px 2px 5px; width 100%

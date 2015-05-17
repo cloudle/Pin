@@ -3,10 +3,10 @@ template(name="customerDetail")
     input.hide.customer-image-input(type="file")
     .section.avatar
       .avatar-wrapper: .avatar-image.editable.customer-image(class="{{missingImageClass instance.image}}" style="background-image:url('{{customerImageSrc instance.image}}')"
-        wings-tip="ảnh đại diện sản phẩm") {{avatarLetter instance.companyName}}
+        wings-tip="ảnh đại diện sản phẩm") {{avatarLetter instance.name}}
         .clear.icon-close-circle
       .headers
-        +wingsEditable(model=instance field="companyName" style="heading" label="tên công ty" placeholder="Tên công ty")
+        +wingsEditable(model=instance field="name" style="heading" label="tên công ty" placeholder="Tên công ty")
 
     .section
       +wingsEditor(model=instance field="description" style="s5" placeholder="Ghi chú chung...")
@@ -17,9 +17,9 @@ template(name="customerDetail")
           span Thông tin cơ bản.
         .region-row
           +regionInput(wrapperClass="col-6 businessOwner" label="chủ doanh nghiệp" value=instance.businessOwner)
-          +regionInput(wrapperClass="col-6 companyPhone" label="số điện thoại" value=instance.companyPhone)
+          +regionInput(wrapperClass="col-6 phone" label="số điện thoại" value=instance.phone)
         .region-row
-          +regionInput(wrapperClass="col-12 companyAddress" label="địa chỉ" value=instance.companyAddress)
+          +regionInput(wrapperClass="col-12 address" label="địa chỉ" value=instance.address)
         .commands-wrapper
           .commands
             .command.extract-event thêm sự kiện

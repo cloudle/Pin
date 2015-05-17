@@ -21,8 +21,8 @@ template(name="customerList")
     each documents
       .doc-item
         .avatar-wrapper: .avatar-image(class="{{missingImageClass image}}"
-        style="background-image:url('{{productImageSrc image}}')") {{avatarLetter companyName}}
+        style="background-image:url('{{productImageSrc image}}')") {{avatarLetter name}}
         .doc-info
-          .title {{companyName}} <br/>
-          .sub-title {{companyAddress}}
+          .title {{name}} <br/>
+          .sub-title {{address}}
         .time-stamp.icon-clock {{standardDate version.createdAt}}

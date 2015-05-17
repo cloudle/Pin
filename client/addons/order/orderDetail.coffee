@@ -5,8 +5,6 @@ productUnits = ()->
     units.push(product.productUnits)
   _.flatten(units)
 
-
-
 productSelectOptions =
   query: (query) -> query.callback
     results: _.filter productUnits(), (item) ->
@@ -14,6 +12,7 @@ productSelectOptions =
       unsignedName = Wings.Helpers.Slugify(item.name)
       unsignedName.indexOf(unsignedTerm) > -1
     text: 'name'
+
   initSelection: (element, callback) -> callback(productUnits[0])
   reactiveValueGetter: -> Session.get('currentOrder')?.buyer
   formatSelection: formatProductSearch
@@ -24,13 +23,19 @@ productSelectOptions =
 Wings.defineWidget 'orderDetail',
   helpers:
     productSelectOptions: productSelectOptions
-    products: -> Document.Product.find({})
     hasProductUnits: -> @productUnits?.length > 0
-
-    productName: ->
-      product = Document.Product.findOne()
+    finalPrice: -> @price * @quality
+    orderInfo: ->
+      product = Document.Product.findOne({"units._id": @productUnit})
+      return {} if !product
       productUnit = _.findWhere(product.units, {_id: @productUnit})
-      product.name + (productUnit.name)
+      product: product
+      unit: productUnit
+
+#    getProducts: ->
+#      ProductSearch.getData
+#        transform: (matchText, regExp) -> matchText.replace(regExp, "<b>$&</b>")
+#        sort: {isoScore: -1}
 
   rendered: -> Session.set("currentProduct", Document.Product.findOne({}))
   events:
@@ -38,3 +43,6 @@ Wings.defineWidget 'orderDetail',
       productId = template.find('.selectProduct').value
       product
       Session.set "currentProduct", Document.Product.findOne(productId)
+    "click .remove.order-row": (event, template) ->
+      order = template.data.instance
+      order.removeDetail(@_id)

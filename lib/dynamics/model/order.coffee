@@ -7,7 +7,8 @@ recalculationOrder = (orderId) ->
 
 Wings.Document.register 'orders', 'Order', class Order
   @transform: (doc) ->
-    doc.customer = Document.Customer.findOne({})
+    doc.buyerInstance = -> Document.Customer.findOne(doc.buyer)
+
     doc.updateOrder = (option, callback) ->
       return unless typeof option is "object"
 
@@ -65,13 +66,13 @@ Wings.Document.register 'orders', 'Order', class Order
       updateDetail.$set['details.'+detailIndex+'.price'] = price
       recalculationOrder(self._id) if Document.Order.update(self._id, updateDetail, callback)
 
-    doc.removeDetail = (detailId) ->
+    doc.removeDetail = (detailId, callback) ->
       return console.log('Order không tồn tại.') if (!self = Document.Order.findOne doc._id)
       return console.log('OrderDetail không tồn tại.') if (!detailFound = _.findWhere(self.details, {_id: detailId}))
       detailIndex = _.indexOf(self.details, detailFound)
       removeDetailQuery = { $pull:{} }
       removeDetailQuery.$pull.details = self.details[detailIndex]
-      recalculationOrder(self._id) if Document.Order.update(self._id, removeDetailQuery, callbac)
+      recalculationOrder(self._id) if Document.Order.update(self._id, removeDetailQuery, callback)
 
     doc.submit = ->
       return console.log('Order không tồn tại.') if (!self = Document.Order.findOne doc._id)
@@ -92,9 +93,9 @@ Wings.Document.register 'orders', 'Order', class Order
       addDeliver = {$push: {}}
       addDeliver.description        = option.description if Math.check(option.deliveryDate, String)
       addDeliver.deliveryDate       = option.deliveryDate if Math.check(option.deliveryDate, Date)
-      addDeliver.contactName        = option.contactName ? customer.companyName
-      addDeliver.contactPhone       = option.contactPhone ? customer.companyPhone
-      addDeliver.deliveryAddress    = option.deliveryAddress ? customer.companyAddress
+      addDeliver.contactName        = option.name ? customer.name
+      addDeliver.contactPhone       = option.phone ? customer.phone
+      addDeliver.deliveryAddress    = option.address ? customer.address
       addDeliver.transportationFee  = 0
       addDeliver.createdAt          = new Date()
 
@@ -117,11 +118,6 @@ Wings.Document.register 'orders', 'Order', class Order
       deliveryReceiptUpdate.$unset['deliveries.'+deliveryLastIndex +'.shipper'] = ""
       Document.Order.update self._id, deliveryReceiptUpdate, callback
 
-
-
-
-
-
 Module "Enum",
   orderType:
     created   : 0
@@ -131,8 +127,6 @@ Module "Enum",
     created  : 0
     delivered: 1
     succeed  : 2
-
-
 
 Document.Order.attachSchema new SimpleSchema
   saleCode:
@@ -149,9 +143,9 @@ Document.Order.attachSchema new SimpleSchema
     type: String
     optional: true
 
-  buyerName:
+  orderName:
     type: String
-    defaultValue: 'Phiếu bán hàng'
+    defaultValue: 'NEW TAB'
 
   description:
     type: String

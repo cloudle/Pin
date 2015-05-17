@@ -18,12 +18,12 @@ Wings.defineWidget 'customerDetail',
 
     "click .update-customer": (event, template) ->
       businessOwner  = $(template.find(".businessOwner input")).val()
-      companyPhone   = $(template.find(".companyPhone input")).val()
-      companyAddress = $(template.find(".companyAddress input")).val()
+      phone   = $(template.find(".phone input")).val()
+      address = $(template.find(".address input")).val()
 
       updateCustomer = {}
       updateCustomer.businessOwner  = businessOwner if @instance.businessOwner isnt businessOwner
-      updateCustomer.companyPhone   = companyPhone if @instance.companyPhone isnt companyPhone
-      updateCustomer.companyAddress = companyAddress if @instance.companyAddress isnt companyAddress
+      updateCustomer.phone   = phone if @instance.phone isnt phone
+      updateCustomer.address = address if @instance.address isnt address
 
       @instance.update(updateCustomer)
