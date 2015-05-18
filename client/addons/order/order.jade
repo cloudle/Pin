@@ -5,6 +5,7 @@ template(name="order")
       +orderEmpty
     else
       +orderList
+  .addon-footer
 
 template(name="orderEmpty")
   .zero-state
@@ -20,9 +21,9 @@ template(name="orderList")
      each documents
       .doc-item
         .avatar-wrapper: .avatar-image(class="{{missingImageClass image}}"
-        style="background-image:url('{{productImageSrc image}}')") {{avatarLetter buyerName}}
+        style="background-image:url('{{productImageSrc image}}')") {{avatarLetter orderName}}
         .doc-info
-          .title {{buyerName}} <br/>
+          .title {{orderName}} <br/>
           .sub-title {{description}}
         .time-stamp.icon-clock {{standardDate version.createdAt}}
         .price-stamp.icon-ticket {{formatNumber finalPrice}} VNĐ

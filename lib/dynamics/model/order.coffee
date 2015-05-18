@@ -160,7 +160,7 @@ Document.Order.attachSchema new SimpleSchema
 
   orderName:
     type: String
-    defaultValue: 'NEW TAB'
+    defaultValue: 'ĐƠN HÀNG'
 
   description:
     type: String

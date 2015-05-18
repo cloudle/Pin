@@ -24,6 +24,7 @@ Module "Wings.Router",
       @renderAddonDefault(scope)
 
       if documentWantedAndExist(scope)
+        Session.set("activeDocumentSlug", scope.params.subslug)
         @renderAddonDetail(scope)
       else if documentWanted(scope)
         @renderAddonDocumentNotFound(scope)

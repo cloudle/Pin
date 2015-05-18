@@ -1,4 +1,4 @@
-Wings.defineWidget 'order',
+Wings.defineHyper 'order',
   helpers:
     products: -> Document.Order.find()
     zeroState: -> !Document.Order.findOne()
@@ -15,9 +15,9 @@ Wings.defineWidget 'order',
     "click .doc-item": -> Wings.go('order', @slug)
     "keyup input.insert": (event, template) ->
       if event.which is 13
-        Document.Order.insert {
-          creator    : Meteor.userId()
-        }, (error, result) ->
+        name = template.ui.$insertInput.val()
+        Document.Order.insert {orderName: name}, (error, result) ->
           (console.log error; return) if error
           newOrder = Document.Order.findOne(result)
           Wings.go 'order', newOrder.slug
+          template.ui.$insertInput.val('')

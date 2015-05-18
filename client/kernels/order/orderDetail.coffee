@@ -63,3 +63,8 @@ Wings.defineWidget 'orderDetail',
       window.preventResetEditing = true
       order = template.data.instance
       order.removeDetail(@_id)
+
+    "navigate .wings-tab": (event, template, instance) -> Wings.go('order', instance.slug)
+    "insert-command .wings-tab": (event, template) -> console.log 'insert command'
+    "remove-command .wings-tab": (event, template, instance) ->
+      console.log instance

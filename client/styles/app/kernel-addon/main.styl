@@ -5,13 +5,22 @@
     .kernel-addon
       position relative; z-index 2
       float right
-      width kernel-addon-size; height 100%; overflow hidden
+      width kernel-addon-size; height 100%
       margin-left -100%
       background-color kernel-addon-bg
       border-left kernel-addon-border
       box-shadow kernel-addon-shadow
 
 .dual-layout#home .kernel-addon
+  padding-bottom 122px
+
+  .addon-footer
+    background-color #ffffff
+    width kernel-addon-size; height 65px
+    box-shadow kernel-addon-shadow
+    border-top 1px solid #e8e8e8
+    absolute left 0 bottom 0
+
   .zero-state
     clearfix()
     position relative

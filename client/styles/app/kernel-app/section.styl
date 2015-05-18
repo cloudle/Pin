@@ -48,8 +48,11 @@
   .strong
     font-weight 600
 
+  .large-name
+    display none
+
   .detail-row
-    .name
+    .name, .small-name
       position relative
       padding-right 30px
       .commands
@@ -78,3 +81,12 @@
     font-size 15px; color #909090
     border none; border-bottom 1px dashed orange
     padding 0 5px 2px 5px; width 100%
+
+@media print and (max-width: 300px)
+/*@media(max-width: 1024px)*/
+  .grid
+    .large-name
+      display table-row
+      border-top-color #C7C7C7 !important
+    .small-name, .description, .signatures
+      display none

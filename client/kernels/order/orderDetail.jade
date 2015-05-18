@@ -1,5 +1,6 @@
 template(name="orderDetail")
   .nano.animated.fadeIn: .nano-content
+    +wingsTab(sources=documents caption="orderName" active="activeDocumentSlug")
     .section
       .region
         .title
@@ -13,16 +14,16 @@ template(name="orderDetail")
         .commands-wrapper
           .commands
             .command.add-order-detail.icon-ok-circled2 thêm
-              
-    .section
+
+    #order-app.section.printable-area
       .region
         .title
           h1 {{instance.buyerInstance.name}}
-          
+
         .region-row.grid
           table(style="width:100%")
             tr.grid-header
-              th.string(style="width:auto") SẢN PHẨM
+              th.string.small-name(style="width:auto") SẢN PHẨM
               th.number(style="width:100px") GIÁ BÁN
               th.number(style="width:50px") SL
               th.number(style="width:80px") ĐƠN VỊ
@@ -39,22 +40,22 @@ template(name="orderDetail")
                 input.description(type="text" placeholder="ghi chú đơn hàng...")
 
             tr
-              td.center-align NGƯỜI NHẬN
+              td.center-align.signatures NGƯỜI NHẬN
               td.number(colspan="2") TỔNG CỘNG
               td.number.strong(colspan="2") {{formatNumber instance.finalPrice}}
             tr
-              td
+              td.signatures
               td.number(colspan="2") CHIẾT KHẤU
-              td.number.strong(colspan="2") {{formatNumber instance.discountCash}}
+              td.number.strong.editable(colspan="2") {{formatNumber instance.discountCash}}
             tr
-              td
+              td.signatures
               td.number(colspan="2") TIỀN CŨ
               td.number.strong(colspan="2") 0
             tr
-              td
+              td.signatures
               td.number(colspan="2") THANH TOÁN
-              td.number.strong(colspan="2") {{formatNumber instance.depositCash}}
+              td.number.strong.editable(colspan="2") {{formatNumber instance.depositCash}}
             tr.top-dashed
-              td.center-align.signature (Chữ ký và Họ Tên)
+              td.center-align.signatures.signature (Chữ ký và Họ Tên)
               td.number(colspan="2") CÒN LẠI
               td.number.strong(colspan="2") {{formatNumber instance.finalPrice}}

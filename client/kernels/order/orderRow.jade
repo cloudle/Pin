@@ -10,8 +10,10 @@ template(name="orderRowEdit")
     td.number.strong {{formatNumber multipliedPrice}}
 
 template(name="orderRowDisplay")
+  tr.large-name.detail-row
+    td(colspan="5") {{orderInfo.product.name}}
   tr.detail-row
-    td.name
+    td.small-name
       | {{orderInfo.product.name}}
       .commands
         .remove.order-row.icon-minus-circled
