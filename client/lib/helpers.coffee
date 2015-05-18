@@ -11,3 +11,15 @@ Template.registerHelper 'avatarLetter', (source) -> source.substr(0, 1).toUpperC
 Template.registerHelper 'formatNumber', (source) -> accounting.format(source)
 
 Template.registerHelper 'standardDate', (source) -> moment(source).format("DD/MM/YYYY")
+
+
+
+Template.registerHelper 'isRowEditing', -> @_id is Session.get("editingId")
+
+Template.registerHelper 'multipliedPrice', -> @price * @quality
+Template.registerHelper 'orderInfo', ->
+  product = Document.Product.findOne({"units._id": @productUnit})
+  return {} if !product
+  productUnit = _.findWhere(product.units, {_id: @productUnit})
+  product : product
+  unit    : productUnit

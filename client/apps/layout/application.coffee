@@ -14,7 +14,7 @@ Wings.defineWidget "ApplicationLayout",
     "focus input[side-explain]": (event, template) ->
       $element = $(event.currentTarget)
       Wings.SiderAlert.show $element, $element.attr('side-explain'), $element
-
+    "click": (event, template) -> Session.set("editingId")
 resizeAction = ->
   Wings.Component.arrangeLayout()
   $(".nano").nanoScroller()

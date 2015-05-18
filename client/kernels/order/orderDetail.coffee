@@ -32,12 +32,6 @@ Wings.defineWidget 'orderDetail',
     productSelectOptions: productSelectOptions
     hasProductUnits: -> @productUnits?.length > 0
     finalPrice: -> @price * @quality
-    orderInfo: ->
-      product = Document.Product.findOne({"units._id": @productUnit})
-      return {} if !product
-      productUnit = _.findWhere(product.units, {_id: @productUnit})
-      product: product
-      unit: productUnit
 
 #    getProducts: ->
 #      ProductSearch.getData
@@ -49,14 +43,23 @@ Wings.defineWidget 'orderDetail',
 #    "wings-change .productQuality": (event, template, value) ->
 #      $salePrice = $(template.find(".unitPrice input"))
 #      $salePrice.val(accounting.format(Session.get('currentProductUnit').price * value))
+    "keyup": (event, template) ->
+      details = Template.currentData().instance.details
+      editingId = Session.get("editingId")
+      if event.which is 27
+        Session.set("editingId")
 
     "click .add-order-detail" : (event, template) ->
       unitId      = Session.get('currentProductUnit')._id
       unitQuality = accounting.parse $(template.find(".productQuality input")).val()
       unitPrice   = accounting.parse $(template.find(".unitPrice input")).val()
-
-      console.log unitId, unitQuality, unitPrice
       @instance.addDetail(unitId, unitQuality, unitPrice)
+
+    "click .detail-row": (event, template) ->
+      Session.set("editingId", @_id)
+      event.stopPropagation()
+
     "click .remove.order-row": (event, template) ->
+      window.preventResetEditing = true
       order = template.data.instance
       order.removeDetail(@_id)

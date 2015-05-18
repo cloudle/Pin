@@ -14,7 +14,7 @@ Module 'Wings.Component',
 
   customBinding: (uiOptions, context) ->
     context.ui = {}
-    context.ui[name] = context.find(value) for name, value of uiOptions when typeof value is 'string'
+    context.ui[name] = $(context.find(value)) for name, value of uiOptions when typeof value is 'string'
 
   autoBinding: (context) ->
     context.ui = context.ui ? {}

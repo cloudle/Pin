@@ -17,7 +17,7 @@ template(name="orderDetail")
     .section
       .region
         .title
-          span Danh sách sản phẩm
+          h1 {{instance.buyerInstance.name}}
           
         .region-row.grid
           table(style="width:100%")
@@ -26,19 +26,13 @@ template(name="orderDetail")
               th.number(style="width:100px") GIÁ BÁN
               th.number(style="width:50px") SL
               th.number(style="width:80px") ĐƠN VỊ
-              th.number(style="width:140px") TỔNG
-
+              th.number(style="width:140px") THÀNH TIỀN
 
             each instance.details
-              tr.detail-row
-                td.name
-                  | {{orderInfo.product.name}}
-                  .commands
-                    .remove.order-row.icon-minus-circled
-                td.number {{formatNumber price}}
-                td.number {{formatNumber quality}}
-                td.number {{orderInfo.unit.name}}
-                td.number.strong {{formatNumber finalPrice}}
+              if isRowEditing
+                +orderRowEdit
+              else
+                +orderRowDisplay
 
             tr.top-dashed
               td(colspan="5")
@@ -51,21 +45,16 @@ template(name="orderDetail")
             tr
               td
               td.number(colspan="2") CHIẾT KHẤU
-              td.number(colspan="2") VNĐ
+              td.number.strong(colspan="2") {{formatNumber instance.discountCash}}
             tr
               td
               td.number(colspan="2") TIỀN CŨ
-              td.number(colspan="2") VNĐ
+              td.number.strong(colspan="2") 0
             tr
               td
               td.number(colspan="2") THANH TOÁN
-              td.number(colspan="2") VNĐ
+              td.number.strong(colspan="2") {{formatNumber instance.depositCash}}
             tr.top-dashed
               td.center-align.signature (Chữ ký và Họ Tên)
               td.number(colspan="2") CÒN LẠI
               td.number.strong(colspan="2") {{formatNumber instance.finalPrice}}
-
-        .region-row
-          h1 {{instance.buyerInstance.name}}
-          each getProducts
-            span {{{name}}}

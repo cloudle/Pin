@@ -9,6 +9,17 @@ Wings.Document.register 'orders', 'Order', class Order
   @transform: (doc) ->
     doc.buyerInstance = -> Document.Customer.findOne(doc.buyer)
 
+    doc.recalculatePrices = (newId, newQuality, newPrice) ->
+      totalPrice = 0
+      for detail in @details
+        if detail._id is newId
+          totalPrice += newQuality * newPrice
+        else
+          totalPrice += detail.quality * detail.price
+
+      totalPrice: totalPrice
+      finalPrice: totalPrice - @discountCash
+
     doc.updateOrder = (option, callback) ->
       return unless typeof option is "object"
 
@@ -54,18 +65,21 @@ Wings.Document.register 'orders', 'Order', class Order
           detailFindQuery.quality = quality
           recalculationOrder(self._id) if Document.Order.update(self._id, { $push: {details: detailFindQuery} }, callback)
 
-    doc.editDetail = (detailId, quality, price) ->
-      return console.log('Order không tồn tại.') if (!self = Document.Order.findOne doc._id)
+    doc.editDetail = (detailId, quality, price, callback) ->
+      for instance, i in @details
+        if instance._id is detailId
+          updateIndex = i
+          updateInstance = instance
+      return console.log 'OrderDetailRow not found..' if !updateInstance
 
-      detailFound = _.findWhere(self.details, {_id: detailId})
-      return console.log('Thong tin detail sai') if !detailFound
-      return console.log('Thong tin sai') if !quality or quality < 0 or !price  or price < 0
+      newSummary = @recalculatePrices(detailId, quality, price)
 
-      detailIndex = _.indexOf(self.details, detailFound)
-      updateDetail = {$set:{}}
-      updateDetail.$set['details.'+detailIndex+'.quality'] = quality
-      updateDetail.$set['details.'+detailIndex+'.price'] = price
-      recalculationOrder(self._id) if Document.Order.update(self._id, updateDetail, callback)
+      predicate = $set:{}
+      predicate.$set["totalPrice"] = newSummary.totalPrice
+      predicate.$set["finalPrice"] = newSummary.finalPrice
+      predicate.$set["details.#{updateIndex}.quality"] = quality
+      predicate.$set["details.#{updateIndex}.price"] = price
+      Document.Order.update @_id, predicate, callback
 
     doc.removeDetail = (detailId, callback) ->
       return console.log('Order không tồn tại.') if (!self = Document.Order.findOne doc._id)
@@ -174,8 +188,8 @@ Document.Order.attachSchema new SimpleSchema
   'details.$._id'          : Schema.uniqueId
   'details.$.product'      : type: String
   'details.$.productUnit'  : type: String
-  'details.$.quality'      : type: Number
-  'details.$.price'        : type: Number
+  'details.$.quality'      : {type: Number, min: 0}
+  'details.$.price'        : {type: Number, min: 0}
   'details.$.returnQuality': Schema.defaultNumber()
 
 
