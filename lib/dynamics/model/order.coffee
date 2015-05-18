@@ -150,9 +150,11 @@ Module "Enum",
 Document.Order.attachSchema new SimpleSchema
   saleCode:
     type: String
-    defaultValue: Random.id()
     index: 1
     unique: true
+    autoValue: ->
+      return Random.id() unless @isSet
+      return
 
   branch:
     type: String
