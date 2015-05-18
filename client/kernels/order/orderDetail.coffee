@@ -77,5 +77,6 @@ Wings.defineWidget 'orderDetail',
 
     "navigate .wings-tab": (event, template, instance) -> Wings.go('order', instance.slug)
     "insert-command .wings-tab": (event, template) -> console.log 'insert command'
-    "remove-command .wings-tab": (event, template, instance) ->
-      console.log instance
+    "remove-command .wings-tab": (event, template, meta) ->
+      Document.Order.remove meta.instance._id
+      Wings.go('order', meta.next.slug) if meta.next

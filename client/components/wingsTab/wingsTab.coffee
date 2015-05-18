@@ -10,5 +10,7 @@ Wings.defineWidget 'wingsTab',
     "click .tab-item": (event, template) -> template.ui.$component.trigger('navigate', @)
     "click .insert-command": (event, template) -> template.ui.$component.trigger('insert-command')
     "dblclick .remove-command": (event, template) ->
-      template.ui.$component.trigger('remove-command', @)
+      sources = template.data.sources.fetch()
+      next = sources.getNextBy("_id", @_id) ? sources.getPreviousBy("_id", @_id)
+      template.ui.$component.trigger('remove-command', {instance: @, next: next})
       event.stopPropagation()
