@@ -1,22 +1,33 @@
-formatProductSearch = (item) -> "#{item.name} - #{item.unitName}" if item
-productUnits = ()->
-  units = []; units.push(product.productUnits) for product in Document.Product.find().fetch()
-  _.flatten(units)
+formatProductSearch = (smartUnit) -> "#{smartUnit.productName} - #{smartUnit.name}" if smartUnit
+allProducts = ()->
+  smartUnits = []
+  for product in Document.Product.find().fetch()
+    for unit, i in product.units
+      currentUnitAndPrice = _.clone(unit)
+      currentUnitAndPrice.productName = product.name
+      for price, i in product.prices
+        if price.unit is unit._id
+          currentUnitAndPrice.salePrice   = price.sale
+          currentUnitAndPrice.importPrice = price.import
+          break
+      smartUnits.push(currentUnitAndPrice)
+
+  return smartUnits
 
 getSalePrice = (productUnitId) ->
   product = Document.Product.findOne({'units._id': productUnitId})
-  productUnit = _.findWhere(product.productUnits, {_id: productUnitId})
+  productUnit = _.findWhere(product.smartUnits, {_id: productUnitId})
   productUnit.salePrice
 
 productSelectOptions =
   query: (query) -> query.callback
-    results: _.filter productUnits(), (item) ->
+    results: _.filter allProducts(), (item) ->
       unsignedTerm = Wings.Helpers.Slugify(query.term)
-      unsignedName = Wings.Helpers.Slugify(item.name)
+      unsignedName = Wings.Helpers.Slugify(item.productName)
       unsignedName.indexOf(unsignedTerm) > -1
     text: 'name'
 
-  initSelection: (element, callback) -> callback(productUnits[0])
+  initSelection: (element, callback) -> callback(smartUnits[0])
   reactiveValueGetter: -> Session.get('currentOrder')?.buyer
   formatSelection: formatProductSearch
   formatResult: formatProductSearch
@@ -30,7 +41,7 @@ productSelectOptions =
 Wings.defineWidget 'orderDetail',
   helpers:
     productSelectOptions: productSelectOptions
-    hasProductUnits: -> @productUnits?.length > 0
+    hasProductUnits: -> @smartUnits?.length > 0
     finalPrice: -> @price * @quality
 
 #    getProducts: ->

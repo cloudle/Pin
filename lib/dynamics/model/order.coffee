@@ -46,7 +46,7 @@ Wings.Document.register 'orders', 'Order', class Order
 
       product = Document.Product.findOne({'units._id': productUnitId})
       return console.log('Khong tim thay Product') if !product
-      productUnit = _.findWhere(product.productUnits, {_id: productUnitId})
+      productUnit = _.findWhere(product.smartUnits, {_id: productUnitId})
       return console.log('Khong tim thay ProductUnit') if !productUnit
 
       if product and quality > 0 and price >= 0
@@ -54,15 +54,17 @@ Wings.Document.register 'orders', 'Order', class Order
         detailFound = _.findWhere(self.details, detailFindQuery)
         console.log doc.details, detailFindQuery, detailFound
 
-        console.log 'ok'
+        console.log productUnit.conversion
         if detailFound
           detailIndex = _.indexOf(self.details, detailFound)
           updateQuery = {$inc:{}}
-          updateQuery.$inc['details.'+detailIndex+'.quality'] = quality
+          updateQuery.$inc["details.#{detailIndex}.quality"] = quality
+          updateQuery.$inc["details.#{detailIndex}.basicQuality"] = quality * productUnit.conversion
           recalculationOrder(self._id) if Document.Order.update(self._id, updateQuery, callback)
 
         else
           detailFindQuery.quality = quality
+          detailFindQuery.basicQuality = quality * productUnit.conversion
           recalculationOrder(self._id) if Document.Order.update(self._id, { $push: {details: detailFindQuery} }, callback)
 
     doc.editDetail = (detailId, quality, price, callback) ->
@@ -70,6 +72,7 @@ Wings.Document.register 'orders', 'Order', class Order
         if instance._id is detailId
           updateIndex = i
           updateInstance = instance
+          conversionUnit = updateInstance.basicQuality/updateInstance.quality
       return console.log 'OrderDetailRow not found..' if !updateInstance
 
       newSummary = @recalculatePrices(detailId, quality, price)
@@ -78,6 +81,7 @@ Wings.Document.register 'orders', 'Order', class Order
       predicate.$set["totalPrice"] = newSummary.totalPrice
       predicate.$set["finalPrice"] = newSummary.finalPrice
       predicate.$set["details.#{updateIndex}.quality"] = quality
+      predicate.$set["details.#{updateIndex}.basicQuality"] = quality * conversionUnit
       predicate.$set["details.#{updateIndex}.price"] = price
       Document.Order.update @_id, predicate, callback
 
@@ -190,6 +194,7 @@ Document.Order.attachSchema new SimpleSchema
   'details.$.productUnit'  : type: String
   'details.$.quality'      : {type: Number, min: 0}
   'details.$.price'        : {type: Number, min: 0}
+  'details.$.basicQuality' : {type: Number, min: 0}
   'details.$.returnQuality': Schema.defaultNumber()
 
 

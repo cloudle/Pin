@@ -27,8 +27,6 @@ Wings.defineWidget 'productDetail',
       if !template.data.instance.useAdvancePrice and !baseUnit
         $baseUnitInput.focus()
         Wings.SiderAlert.show $baseUnit, "Bạn phải <b>xác định đơn vị tính cơ bản</b> để thêm mới đơn vị tính <b>mở rộng</b>!", $baseUnitInput
-      else if !template.data.instance.useAdvancePrice
-  #        Document.Product.update(@instance._id, {$set: {useAdvancePrice: true, baseUnit: baseUnit}})
       else
         Session.set("showProductUnitCreatePane", true)
 
@@ -37,15 +35,16 @@ Wings.defineWidget 'productDetail',
       salePrice    = accounting.parse $(template.find(".salePrice input")).val()
       importPrice  = accounting.parse $(template.find(".importPrice input")).val()
 
-      updateOption = {}
-      updateOption.name        = baseUnitName if @instance.baseUnitName isnt baseUnitName
-      updateOption.salePrice   = salePrice if @instance.salePrice isnt salePrice
-      updateOption.importPrice = importPrice if @instance.importPrice isnt importPrice
+      baseUnit = {}
+      baseUnit.name        = baseUnitName if @instance.baseUnitName isnt baseUnitName
+      baseUnit.salePrice   = salePrice if @instance.salePrice isnt salePrice
+      baseUnit.importPrice = importPrice if @instance.importPrice isnt importPrice
 
       if @instance.baseUnit
-        @instance.updateBaseUnit updateOption
+        baseUnit.id = @instance.baseUnit
+        @instance.updateUnit baseUnit
       else
-        @instance.insertBaseUnit updateOption
+        @instance.insertUnit baseUnit
 
 #-------------------------------------------------------------------------
     "click .cancel-add-unit": (event, template) -> Session.set("showProductUnitCreatePane")
@@ -64,7 +63,7 @@ Wings.defineWidget 'productDetail',
       newUnit.conversion = accounting.parse $conversionInput.val()
       newUnit.salePrice  = accounting.parse $salePriceInput.val()
 
-      if !_.contains(_.pluck(template.data.instance.units, 'name'), newUnit.name)
+      if template.data.instance.unitNameIsNotExist(newUnit.name)
         template.data.instance.insertUnit(newUnit)
         Session.set('showProductUnitCreatePane')
       else
@@ -87,7 +86,7 @@ Wings.defineWidget 'productDetail',
 
       return if _.keys(updateUnit).length < 2
 
-      if unitFound = _.findWhere(template.data.instance.productUnits, {_id: updateUnit.id})
+      if unitFound = _.findWhere(template.data.instance.smartUnits, {_id: updateUnit.id})
         nameLists = _.pluck(template.data.instance.units, 'name')
         nameLists = _.without(nameLists, unitFound.name)
 
@@ -106,4 +105,4 @@ Wings.defineHyper 'productPriceBasic',
     unitLists: ->
       return [] unless @instance or @instance.baseUnit
       product = @instance
-      _.reject(product.productUnits, (num)-> num._id is product.baseUnit)
+      _.reject(product.smartUnits, (num)-> num._id is product.baseUnit)

@@ -1,110 +1,88 @@
+addPriceInSmartUnit = (prices, smartUnitId, index, doc)->
+  listPrices = _.where(prices, {unit: smartUnitId})
+  branchPrice = _.findWhere(listPrices, {unit: smartUnitId}) #them id cua Branch
+  basePrice   = _.findWhere(listPrices, {unit: smartUnitId})
+  (currentPrice = branchPrice ? basePrice) if branchPrice or basePrice
+
+  if currentPrice
+    doc.smartUnits[index].priceId     = currentPrice._id
+    doc.smartUnits[index].priceIndex  = _.indexOf(prices, currentPrice)
+    doc.smartUnits[index].salePrice   = currentPrice.sale
+    doc.smartUnits[index].importPrice = currentPrice.import
+
+setBaseUnitAndPrice = (unit, index, doc)->
+  doc.baseUnit     = unit._id
+  doc.baseUnitName = unit.name
+  doc.barcode      = unit.barcode
+  doc.unitIndex    = index
+  doc.priceIndex   = doc.smartUnits[index].priceIndex
+  doc.salePrice    = doc.smartUnits[index].salePrice
+  doc.importPrice  = doc.smartUnits[index].importPrice
+
+
 Wings.Document.register 'products', 'Product', class Product
   @insert: (doc, callback) -> @document.insert doc, callback
+
   @transform: (doc) ->
-    return unless typeof doc.units is "object" or typeof doc.prices is "object"
+    doc.generateUnit = (unitName, conversion = 1, isBase) ->
+      _id        : Random.id()
+      name       : unitName
+      conversion : if isBase then 1 else conversion
+      isBase     : isBase
+      allowDelete: !isBase
 
-    if doc.units.length is 0
-      doc.insertBaseUnit = (option, callback) ->
-        return unless typeof option is "object"
-        if option.name
-          unit  = {_id: Random.id(), name: option.name, conversion: 1, isBase: true, allowDelete: false}
+    doc.generatePrice = (unitId, salePrice = 0, importPrice = 0, isBase) ->
+      unit   : unitId
+      sale   : salePrice
+      import : importPrice
+      isBase : isBase
 
-          price = { unit: unit._id, isBase: true}
-          price.sale   = option.salePrice if option.salePrice > 0
-          price.import = option.importPrice if option.importPrice > 0
+    doc.priceIsNotExist = (price) -> price >= 0 if price
+    doc.unitNameIsNotExist = (unitName) ->
+      return true if unit.name is unitName for unit in @units
+      return false
 
-          Document.Product.update doc._id, {$push: {units: unit, prices: price}}, callback
-    else
-      doc.useAdvancePrice = true
-      doc.productUnits = []
+    if doc.units?.length > 0
+      doc.useAdvancePrice = true; doc.smartUnits = []
       for unit, index in doc.units
-        doc.productUnits.push(_.clone(unit))
-        listPrices = _.where(doc.prices, {unit: unit._id})
-        branchPrice = _.findWhere(listPrices, {unit: unit._id}) #them id cua Branch
-        basePrice   = _.findWhere(listPrices, {unit: unit._id})
+        doc.smartUnits.push(_.clone(unit))
+        doc.smartUnits[index].unitIndex   = index
+        doc.smartUnits[index].unitName    = doc.smartUnits[index].name
+        doc.smartUnits[index].productName = doc.name
 
-        doc.productUnits[index].unitIndex = index
-        doc.productUnits[index].unitName  = doc.productUnits[index].name
-        doc.productUnits[index].name      = doc.name
-
-        if branchPrice
-          doc.productUnits[index].priceId     = branchPrice._id
-          doc.productUnits[index].priceIndex  = _.indexOf(doc.prices, branchPrice)
-          doc.productUnits[index].salePrice   = branchPrice.sale
-          doc.productUnits[index].importPrice = branchPrice.import
-        else if basePrice
-          doc.productUnits[index].priceId     = basePrice._id
-          doc.productUnits[index].priceIndex  = _.indexOf(doc.prices, basePrice)
-          doc.productUnits[index].salePrice   = basePrice.sale
-          doc.productUnits[index].importPrice = basePrice.import
-
-        if unit.isBase
-          doc.unitIndex    = index
-          doc.priceIndex   = index
-          doc.baseUnit     = unit._id
-          doc.baseUnitName = unit.name
-          doc.barcode      = unit.barcode
-          doc.salePrice    = doc.productUnits[index].salePrice
-          doc.importPrice  = doc.productUnits[index].importPrice
-
-          if branchPrice then doc.priceIndex = _.indexOf(doc.prices, branchPrice)
-          else if basePrice then doc.priceIndex = _.indexOf(doc.prices, basePrice)
-      productUnit.baseUnitName = doc.baseUnitName for productUnit, index in doc.productUnits
-
-
-      doc.updateBaseUnit = (option, callback) ->
-        return unless typeof option is "object"
-        updateBaseUnitQuery = {$set:{}}
-
-        if option.name and !_.contains(_.pluck(doc.units, 'name'), option.name)
-          updateBaseUnitQuery.$set["units."+doc.unitIndex+".name"] = option.name
-
-        if (option.salePrice and option.salePrice >= 0) or (option.importPrice and option.importPrice >= 0)
-          updateBaseUnitQuery.$set["prices."+doc.priceIndex+".sale"]   = option.salePrice
-          updateBaseUnitQuery.$set["prices."+doc.priceIndex+".import"] = option.importPrice
-
-        Document.Product.update(doc._id, updateBaseUnitQuery, callback) unless _.isEmpty(updateBaseUnitQuery.$set)
-
-      doc.insertUnit = (option, callback) ->
-        return unless typeof option is "object"
-        if option.name and !_.contains(_.pluck(doc.units, 'name'), option.name)
-          unit            = {_id: Random.id(), name: option.name, conversion: 1}
-          unit.conversion = option.conversion if option.conversion > 1
-
-          price = { unit: unit._id}
-          price.sale   = option.salePrice if option.salePrice > 0
-          price.import = option.importPrice if option.importPrice > 0
-
-          console.log price
-
-          Document.Product.update doc._id, {$push: {units: unit, prices: price}}, callback
+        addPriceInSmartUnit(doc.prices, unit._id, index, doc)
+        setBaseUnitAndPrice(unit, index, doc) if unit.isBase
 
       doc.updateUnit = (option, callback) ->
         return unless typeof option is "object"
-        return unless unitFound = _.findWhere(doc.productUnits, {_id: option.id})
+        ((unitIndex = i; break) if unit._id is option.id) for unit, i in @units
+        ((priceIndex = i; break) if price.unit is option.id) for price, i in @prices if unitIndex >= 0
 
-        updateBaseUnitQuery = {$set:{}}
-        nameLists = _.pluck(doc.units, 'name')
-        nameLists = _.without(nameLists, unitFound.name)
+        updateUnitAndPrice = {$set:{}}
+        if @unitNameIsNotExist(option.name)
+          updateUnitAndPrice.$set["units."+unitIndex+".name"] = option.name
+        if @priceIsNotExist(option.salePrice)
+          updateUnitAndPrice.$set["prices."+priceIndex+".sale"] = option.salePrice
+        if @priceIsNotExist(option.importPrice)
+          updateUnitAndPrice.$set["prices."+priceIndex+".import"] = option.importPrice
 
-        if option.name and !_.contains(nameLists, option.name)
-          updateBaseUnitQuery.$set["units."+unitFound.unitIndex+".name"] = option.name
-          Document.Product.update doc._id, updateBaseUnitQuery, callback
+        Document.Product.update(@_id, updateUnitAndPrice, callback) unless _.isEmpty(updateUnitAndPrice.$set)
 
-        if (option.salePrice and option.salePrice >= 0) or (option.importPrice and option.importPrice >= 0)
-          updateBaseUnitQuery.$set["prices."+unitFound.priceIndex+".sale"]   = option.salePrice
-          updateBaseUnitQuery.$set["prices."+unitFound.priceIndex+".import"] = option.importPrice
+      doc.removeUnit = (unitId, callback) ->
+        return unless typeof unitId is "string"
+        ((unitIndex = i; break) if unit._id is unitId) for unit, i in @units
+        ((priceIndex = i; break) if price.unit is unitId) for price, i in @prices if unitIndex
 
-        Document.Product.update(doc._id, updateBaseUnitQuery, callback) unless _.isEmpty(updateBaseUnitQuery.$set)
+        if @units[unitIndex].allowDelete
+          removeUnitQuery = { $pull:{ units: @units[unitIndex], prices: @prices[priceIndex] } }
+          Document.Product.update(@_id, removeUnitQuery, callback)
 
-      doc.removeUnit = (id, callback) ->
-        return unless typeof id is "string"
-        unitFound = _.findWhere(doc.productUnits, {_id: id})
-        if unitFound.allowDelete
-          removeUnitQuery = {$pull:{}}
-          removeUnitQuery.$pull.units  = doc.units[unitFound.unitIndex]
-          removeUnitQuery.$pull.prices = doc.prices[unitFound.priceIndex]
-          Document.Product.update(doc._id, removeUnitQuery, callback)
+    doc.insertUnit = (option, callback) ->
+      if @unitNameIsNotExist(option.name)
+        isBase = if @units.length is 0 then true else false
+        unit  = @generateUnit(option.name, option.conversion, isBase)
+        price = @generatePrice(unit._id, option.salePrice, option.importPrice, isBase)
+        Document.Product.update @_id, {$push: {units: unit, prices: price}}, callback
 
 Document.Product.attachSchema new SimpleSchema
   name:
@@ -139,7 +117,7 @@ Document.Product.attachSchema new SimpleSchema
 
 
   units: type: [Object], defaultValue: []
-  'units.$._id'        : Schema.uniqueId
+  'units.$._id'        : type: String
   'units.$.barcode'    : Schema.barcode
   'units.$.name'       : type: String
   'units.$.conversion' : type: Number
@@ -186,82 +164,3 @@ Document.Product.attachSchema new SimpleSchema
   'qualities.$.returnSaleQuality'  : Schema.defaultNumber()
   'qualities.$.importQuality'      : Schema.defaultNumber()
   'qualities.$.returnImportQuality': Schema.defaultNumber()
-
-#
-#  useVariant:
-#    type: Boolean
-#    defaultValue: false
-#
-#  variantChoices:
-#    type: [Schema.productVariantChoices]
-#    optional: true
-#
-#  extracts:
-#    type: [Schema.productExtract]
-#    optional: true
-
-#Module "Schema",
-#  productUnit: new SimpleSchema
-#    _id         : Schema.uniqueId
-#    barcode     : Schema.barcode
-#    name        : type: String
-#    conversion  : type: Number
-#    isBase      : Schema.defaultBoolean()
-#    allowDelete : Schema.defaultBoolean(true)
-#    createdAt   :
-#      type: Date
-#      autoValue: ->
-#        return new Date unless @isSet
-#        return
-#
-#  productPrice: new SimpleSchema
-#    branch:
-#      type: String
-#      optional: true
-#    _id   : Schema.uniqueId
-#    unit  : type: String
-#    isBase: Schema.defaultBoolean()
-#    sale  : Schema.defaultNumber()
-#    import: Schema.defaultNumber()
-#
-#  productQuality: new SimpleSchema
-#    branch: type: String
-#    availableQuality   : Schema.defaultNumber()
-#    inOderQuality      : Schema.defaultNumber()
-#    inStockQuality     : Schema.defaultNumber()
-#    saleQuality        : Schema.defaultNumber()
-#    returnSaleQuality  : Schema.defaultNumber()
-#    importQuality      : Schema.defaultNumber()
-#    returnImportQuality: Schema.defaultNumber()
-
-#  productVariantChoices: new SimpleSchema
-#    name:
-#      type: String
-#
-#    options:
-#      type: [String]
-#
-#  productVariant: new SimpleSchema
-#    option:
-#      type: String
-#
-#    optionValue:
-#      type: String
-#
-#  productExtract: new SimpleSchema
-#    barcode: Schema.barcode
-#
-#    unit:
-#      type: String
-#
-#    allowDelete:
-#      type: Boolean
-#      defaultValue: true
-#
-#    variants:
-#      type: [@productVariant]
-#      optional: true
-#
-#    price:
-#      type: Number
-#      defaultValue: 0
