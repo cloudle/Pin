@@ -155,7 +155,7 @@ Document.Product.attachSchema new SimpleSchema
   'nameHistories.$.content'     : type: String , optional: true
 
 
-  qualities                        : type: [Object], defaultValue: []
+  qualities                        : type: [Object], defaultValue: [{}]
   'qualities.$.branch'             : type: String  , optional: true
   'qualities.$.availableQuality'   : Schema.defaultNumber()
   'qualities.$.inOderQuality'      : Schema.defaultNumber()
