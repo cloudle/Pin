@@ -13,16 +13,28 @@ list-border-radius = 3px
   border 1px solid #e0e0e0
   border-left none
   border-radius right list-border-radius
+  user-select none
   .doc-item
     position relative; cursor pointer
     background-color #ffffff
-    border-bottom 1px dashed #DFDFDF
+    border-bottom 1px solid #F4F4F4
     &:hover { background-color: #FAFAFA }
     &:first-child
       border-radius top right list-border-radius
     &:last-child
       border-radius bottom right list-border-radius
       border-bottom none
+    .avatar-wrapper
+      left 3px
+    &.selection-source
+      .avatar-wrapper
+        left 20px
+      .doc-info
+        margin-left 70px
+      .add-icon
+        color #9EC9F4
+        absolute left -7px top 5px
+        font-size 25px
 
 .kernel-addon .doc-item
   .description
@@ -44,7 +56,6 @@ list-border-radius = 3px
     padding 4px 10px 4px 0
     min-height 46px
     .title
-      font-weight 600
       overflow ellipsis
     .sub-title
       color #BABABA

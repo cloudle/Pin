@@ -7,4 +7,5 @@ Wings.defineHyper 'user',
         Meteor.call "createAccount", {username: $insertField.val(), password: "12345"}, (error, result) ->
           (console.log error; return) if error
           newUser = Meteor.users.findOne(result)
-          Wings.go 'user', newUser.profile.slug
+          Wings.go 'user', newUser.slug
+          $insertField.val('')

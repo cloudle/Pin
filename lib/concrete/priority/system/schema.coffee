@@ -25,7 +25,10 @@ Module "Schema",
       return num unless @isSet
       return
 
-
+  clone: (field) ->
+    type: String
+    autoValue: ->
+      return @field(field).value if @field(field).isSet
 
   creator:
     type: String
@@ -61,6 +64,11 @@ Module "Schema",
 
       denyInsert: true
       optional: true
+
+  searchSource: (field) ->
+    type: String
+    autoValue: ->
+      return Wings.Helpers.Searchify(@field(field).value) if @field(field).isSet
 
   slugify: (source, field = 'name') ->
     type: String

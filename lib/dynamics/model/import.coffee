@@ -24,28 +24,26 @@ Wings.Document.register 'imports', 'Import', class Import
 
       Document.Import.update doc._id, updateImport, callback
 
-    doc.addDetail = (productUnitId, quality = 1, price = 0, callback) ->
-      return console.log('Import không tồn tại.') if (!self = Document.Import.findOne doc._id)
+    doc.addDetail = (productUnitId, quality = 1, price, callback) ->
+      return console.log('Khong tim thay Product') if !product = Document.Product.findOne({'units._id': productUnitId})
+      return console.log('Khong tim thay ProductUnit') if !productUnit = _.findWhere(product.units, {_id: productUnitId})
+      return console.log('Price not found..') if !price = price ? product.searchPrice(productUnitId)?.import
+      return console.log("Price invalid (#{price})") if price < 0
+      return console.log("Quality invalid (#{quality})") if quality < 1
 
-      product = Document.Product.findOne({'units._id': productUnitId})
-      return console.log('Khong tim thay Product') if !product
-      productUnit = _.findWhere(product.units, {_id: productUnitId})
-      return console.log('Khong tim thay ProductUnit') if !productUnit
+      detailFindQuery = {product: product._id, productUnit: productUnitId, price: price}
+      detailFound = _.findWhere(@details, detailFindQuery)
+      console.log doc.details, detailFindQuery, detailFound
 
-      if product and quality > 0 and price >= 0
-        detailFindQuery = {product: product._id, productUnit: productUnitId, price: price}
-        detailFound = _.findWhere(self.details, detailFindQuery)
-        console.log doc.details, detailFindQuery, detailFound
+      if detailFound
+        detailIndex = _.indexOf(@details, detailFound)
+        updateQuery = {$inc:{}}
+        updateQuery.$inc['details.'+detailIndex+'.quality'] = quality
+        recalculationImport(@_id) if Document.Import.update(@_id, updateQuery, callback)
 
-        if detailFound
-          detailIndex = _.indexOf(self.details, detailFound)
-          updateQuery = {$inc:{}}
-          updateQuery.$inc['details.'+detailIndex+'.quality'] = quality
-          recalculationImport(self._id) if Document.Import.update(self._id, updateQuery, callback)
-
-        else
-          detailFindQuery.quality = quality
-          recalculationImport(self._id) if Document.Import.update(self._id, { $push: {details: detailFindQuery} }, callback)
+      else
+        detailFindQuery.quality = quality
+        recalculationImport(@_id) if Document.Import.update(@_id, { $push: {details: detailFindQuery} }, callback)
 
     doc.editDetail = (detailId, quality = null, price = null, callback)->
       return console.log('Import không tồn tại.') if (!self = Document.Import.findOne doc._id)
@@ -88,6 +86,12 @@ Module "Enum",
 
 
 Document.Import.attachSchema new SimpleSchema
+  importCode:
+    type: String
+    index: 1
+    unique: true
+    autoValue: -> return Random.id() if @isInsert
+
   branch:
     type: String
     optional: true
@@ -96,13 +100,13 @@ Document.Import.attachSchema new SimpleSchema
     type: String
     optional: true
 
-  importCode:
+  importName:
     type: String
-    optional: true
+    defaultValue: "NHẬP KHO"
 
   description:
     type: String
-    unique: true
+    optional: true
 
   importType:
     type: Number
@@ -120,10 +124,9 @@ Document.Import.attachSchema new SimpleSchema
   depositCash : Schema.defaultNumber()
   totalPrice  : Schema.defaultNumber()
   finalPrice  : Schema.defaultNumber()
+  slug        : Schema.clone('importCode')
   creator     : Schema.creator
-  slug        : Schema.slugify('Import', 'description')
   version     : { type: Schema.version }
-
 
   details: type: [Object], defaultValue: []
   'details.$._id'                : Schema.uniqueId

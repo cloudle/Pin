@@ -1,27 +1,10 @@
 template(name="orderDetail")
   .kernel-content.animated.fadeIn
     .nano: .nano-content
-      .section
-        .region
-          .title
-            span Thêm sản phẩm
-            span.sub-title cho khách hàng AAAAAA
-          .region-row
-            +wingsSelect(wrapperClass="col-4" options=productSelectOptions)
-            +regionInput(wrapperClass="productQuality col-2" type="number" label="số lượng")
-            +regionInput(wrapperClass="unitPrice col-2" prefix="VNĐ" type="number" label="giá nhập")
-
-          .commands-wrapper
-            .commands
-              .command.add-order-detail.icon-ok-circled2 thêm
-
       #order-app.section.printable-area
         .region
-          .title
-            h1 {{instance.buyerInstance.name}}
-
           .region-row.grid
-            table(style="width:100%")
+            table
               tr.grid-header
                 th.string.small-name(style="width:auto") SẢN PHẨM
                 th.number(style="width:100px") GIÁ BÁN
@@ -59,6 +42,7 @@ template(name="orderDetail")
                 td.center-align.signatures.signature (Chữ ký và Họ Tên)
                 td.number(colspan="2") CÒN LẠI
                 td.number.strong(colspan="2") {{formatNumber instance.finalPrice}}
+          h1 {{instance.buyerInstance.name}}
 
   .kernel-footer.full
     +wingsTab(sources=documents caption="orderName" active="activeDocumentSlug")

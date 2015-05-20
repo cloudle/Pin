@@ -41,31 +41,29 @@ Wings.Document.register 'orders', 'Order', class Order
 
       Document.Order.update doc._id, updateOrder, callback
 
-    doc.addDetail = (productUnitId, quality, price, callback) ->
-      return console.log('Order không tồn tại.') if (!self = Document.Order.findOne doc._id)
+    doc.addDetail = (productUnitId, quality = 1, price, callback) ->
+      return console.log('Khong tim thay Product') if !product = Document.Product.findOne({'units._id': productUnitId})
+      return console.log('Khong tim thay ProductUnit') if !productUnit = _.findWhere(product.smartUnits, {_id: productUnitId})
+      return console.log('Price not found..') if !price = price ? product.searchPrice(productUnitId)?.sale
+      return console.log("Price invalid (#{price})") if price < 0
+      return console.log("Quality invalid (#{quality})") if quality < 1
 
-      product = Document.Product.findOne({'units._id': productUnitId})
-      return console.log('Khong tim thay Product') if !product
-      productUnit = _.findWhere(product.smartUnits, {_id: productUnitId})
-      return console.log('Khong tim thay ProductUnit') if !productUnit
+      detailFindQuery = {product: product._id, productUnit: productUnitId, price: price}
+      detailFound = _.findWhere(@details, detailFindQuery)
+      console.log doc.details, detailFindQuery, detailFound
 
-      if product and quality > 0 and price >= 0
-        detailFindQuery = {product: product._id, productUnit: productUnitId, price: price}
-        detailFound = _.findWhere(self.details, detailFindQuery)
-        console.log doc.details, detailFindQuery, detailFound
+      console.log productUnit.conversion
+      if detailFound
+        detailIndex = _.indexOf(@details, detailFound)
+        updateQuery = {$inc:{}}
+        updateQuery.$inc["details.#{detailIndex}.quality"] = quality
+        updateQuery.$inc["details.#{detailIndex}.basicQuality"] = quality * productUnit.conversion
+        recalculationOrder(@_id) if Document.Order.update(@_id, updateQuery, callback)
 
-        console.log productUnit.conversion
-        if detailFound
-          detailIndex = _.indexOf(self.details, detailFound)
-          updateQuery = {$inc:{}}
-          updateQuery.$inc["details.#{detailIndex}.quality"] = quality
-          updateQuery.$inc["details.#{detailIndex}.basicQuality"] = quality * productUnit.conversion
-          recalculationOrder(self._id) if Document.Order.update(self._id, updateQuery, callback)
-
-        else
-          detailFindQuery.quality = quality
-          detailFindQuery.basicQuality = quality * productUnit.conversion
-          recalculationOrder(self._id) if Document.Order.update(self._id, { $push: {details: detailFindQuery} }, callback)
+      else
+        detailFindQuery.quality = quality
+        detailFindQuery.basicQuality = quality * productUnit.conversion
+        recalculationOrder(@_id) if Document.Order.update(@_id, { $push: {details: detailFindQuery} }, callback)
 
     doc.editDetail = (detailId, quality, price, callback) ->
       for instance, i in @details
@@ -152,9 +150,7 @@ Document.Order.attachSchema new SimpleSchema
     type: String
     index: 1
     unique: true
-    autoValue: ->
-      return Random.id() unless @isSet
-      return
+    autoValue: -> return Random.id() if @isInsert
 
   branch:
     type: String
@@ -177,7 +173,7 @@ Document.Order.attachSchema new SimpleSchema
     defaultValue: Enum.orderType.created
 
   creator   : Schema.creator
-  slug      : Schema.slugify('Order', 'saleCode')
+  slug      : Schema.clone('saleCode')
   version   : { type: Schema.version }
 
   returns     : type: [String],  optional: true
@@ -186,9 +182,6 @@ Document.Order.attachSchema new SimpleSchema
   totalPrice  : type: Number , defaultValue: 0
   finalPrice  : type: Number , defaultValue: 0
   allowDelete : type: Boolean, defaultValue: true
-  creator     : Schema.creator
-  version     : type: Schema.version
-
 
   details: type: [Object], defaultValue: []
   'details.$._id'          : Schema.uniqueId

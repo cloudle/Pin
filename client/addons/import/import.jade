@@ -1,30 +1,35 @@
 template(name="import")
-  .insert-wrapper: input.wings-field.insert(name="insertInput" placeholder="ghi chú nhập kho..")
+  .insert-wrapper: input.wings-field.productSearch(name="productSearch" placeholder="tìm kiếm...")
   .nano.animated.fadeIn: .nano-content
     unless getPublishedCount 'import'
       +importEmpty
     else
-      +importList
+      unless getPublishedCount 'product'
+        +orderProductEmpty
+      else
+        unless subslug
+          +importList
+        else
+          if productSearches
+            +productSearches(type='import')
 
 template(name="importEmpty")
   .zero-state
     .cog-icon.icon-appbar-cog.animate-spin
     .header.insert
-      span tạo nhập kho mới tại đây
-      .insert-arrow-icon.icon-back
+      span Tạo nhập kho mới tại đây
     .sub-header chưa có lịch sử nhập kho
     img.cover-icon(src="/images/svg/stock.svg")
-    a.peter-river.button.create-command Tải nhập kho từ file
+    a.peter-river.button.create-command Tạo nhập kho
 
 template(name="importList")
   .list
     each documents
-      .doc-item
-        .description {{description}}
-        //.avatar-wrapper: .avatar-image(class="{{missingImageClass image}}"
-        //style="background-image:url('{{productImageSrc image}}')") {{avatarLetter name}}
-        //.doc-info
-        //  .title {{description}} <br/>
-        //  .sub-title {{description}}
-        //.time-stamp.icon-clock {{standardDate version.createdAt}}
-        //.price-stamp.icon-ticket {{formatNumber price}} VNĐ
+      .doc-item.import-item
+        .avatar-wrapper: .avatar-image(style="background-image:url('{{userAvatarSrcById creator}}')")
+          | {{userAvatarLetterById creator}}
+        .doc-info
+          .title {{importName}} <br/>
+          .sub-title {{userNameById creator}}
+        .time-stamp.icon-clock {{standardDate version.createdAt}}
+        .price-stamp.icon-ticket {{formatNumber finalPrice}} VNĐ

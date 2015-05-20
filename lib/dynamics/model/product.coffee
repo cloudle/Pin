@@ -37,6 +37,11 @@ Wings.Document.register 'products', 'Product', class Product
       import : importPrice
       isBase : isBase
 
+    doc.searchPrice = (unitId) ->
+      for price in @prices
+        return price if price.unit is unitId
+      return null
+
     doc.priceIsNotExist = (price) -> price >= 0 if price
     doc.unitNameIsNotExist = (unitName) ->
       return true if unit.name is unitName for unit in @units
@@ -89,6 +94,8 @@ Document.Product.attachSchema new SimpleSchema
     type: String
     index: 1
     unique: true
+
+  nameSearch: Schema.searchSource('name')
 
   description:
     type: String

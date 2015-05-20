@@ -34,7 +34,7 @@ template(name="channel")
     +userConfigMenu
     input.hide.avatar-image-input(type="file")
     .menu-icon.icon-exapnd2
-    .avatar.change-avatar(style="background-image:url({{avatarImgSrc}})")
+    .avatar.change-avatar(style="background-image:url('{{avatarImgSrc}}')")
     .info
       .name {{me.profile.name}}
       .online-status(class="{{myOnlineClass}}") {{myOnlineStatus}}

@@ -14,3 +14,4 @@ Wings.defineWidget 'customer',
           (console.log error; return) if error
           newCustomer = Document.Customer.findOne(result)
           Wings.go 'customer', newCustomer.slug
+          $name.val('')
