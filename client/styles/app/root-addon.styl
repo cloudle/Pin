@@ -4,8 +4,7 @@ user-config-size = 65px
 #root-addon
   padding-bottom user-config-size
   background-color root-addon-bg
-  color #7A7B86
-  box-shadow root-addon-shadow
+  color root-addon-color
 
   .channel-wrapper
     margin-top 20px
@@ -19,15 +18,14 @@ user-config-size = 65px
 
       .channel-item
         cursor pointer
-        padding-left 10px; line-height 25px
-        width (root-addon-size - 15)
-        border-radius right 4px
+        padding-left 5px; line-height 25px
+        border-radius 4px; margin 0 15px 0 10px
         font-weight 600
         position relative
         &:hover
-          background-color darken(root-addon-bg, 4)
+          background-color root-addon-bg-dark
         &.active
-          background-color #479ccf
+          background-color theme-color
         &.active, &:hover
           color #fff
           &:before {color:#C8C8C8}
@@ -86,7 +84,7 @@ user-config-size = 65px
 
 #root-addon .user-configs
   height user-config-size
-  background-color darken(root-addon-bg, 4)
+  background-color root-addon-bg-dark
   position relative
   cursor pointer; user-select none
   .menu-icon

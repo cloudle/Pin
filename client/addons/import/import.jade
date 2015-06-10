@@ -26,6 +26,7 @@ template(name="importList")
   .list
     each documents
       .doc-item.import-item
+        .style-icon.icon-play.list
         .avatar-wrapper: .avatar-image(style="background-image:url('{{userAvatarSrcById creator}}')")
           | {{userAvatarLetterById creator}}
         .doc-info

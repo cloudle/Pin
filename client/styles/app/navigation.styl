@@ -2,15 +2,14 @@
 
 nav .branding
   width root-addon-size
-  background-color darken(root-addon-bg, 4)
+  background-color root-addon-bg-dark
   color #fff
   height 50px
-  box-shadow root-addon-shadow
 
   .logo-img
     border-radius 50%
-    width 40px; height @width
-    absolute top 5px left 10px
+    width 30px; height @width
+    absolute top 10px left 15px
     background-size cover
   .logo-text
     float left
@@ -32,7 +31,6 @@ nav .branding
   background-color #ffffff
   /*background-color lighten(kernel-addon-bg, 2)*/
   padding-left 7px
-  box-shadow kernel-addon-shadow
   border-left kernel-addon-border
   border-bottom 1px solid #e8e8e8
 
@@ -75,7 +73,7 @@ nav .branding
       background-color #fff
       font-size 16px
       padding 6px 3px
-      &:hover { color: #479ccf }
+      &:hover { color: theme-color }
       &.home  { padding: 6px }
       &:first-child
         border-radius left 3px

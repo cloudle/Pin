@@ -50,7 +50,7 @@
           border-top none; color #9d9d9d
           font-size 14px
           &:hover
-            color #fff; background-color #479ccf
+            color #fff; background-color theme-color
           &:before
             margin-left -2px
             margin-right 5px
@@ -68,17 +68,17 @@
         &:nth-child(odd)
           border-radius left 3px
           &.active
-            border-right-color lighten(#479ccf, 15)
+            border-right-color lighten(theme-color, 15)
         &:nth-child(even)
           border-radius right 3px
           border-left-color transparent
           &.active
-            border-left-color lighten(#479ccf, 15)
+            border-left-color lighten(theme-color, 15)
     .region-row
       clearfix(); margin 20px 5px 5px 5px
       .field-wrapper
         &:not(:first-child) { border-left-color: transparent }
-        &.active { border-left-color: #479ccf }
+        &.active { border-left-color: theme-color }
         &:first-child
           border-radius left 3px
         &:last-child
@@ -97,15 +97,15 @@
         border-radius top 3px
         absolute top -13px left 10px
         font-size 12px; line-height 12px
-        background-color #479ccf; color #fff
+        background-color theme-color; color #fff
         padding 0 5px;
       &.rlb, &.number
         .ilabel {right: 10px; left auto}
       &.llb .ilabel {left: 10px; right auto}
       &.active
-        border-color #479ccf
+        border-color theme-color
         .prefix-text
-          color #479ccf
+          color theme-color
 
       &.number input { text-align: right }
 
